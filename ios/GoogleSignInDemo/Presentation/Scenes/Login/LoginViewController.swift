@@ -1,38 +1,26 @@
 import UIKit
 import GoogleSignIn
 import SnapKit
+import Combine
 
-// MARK: - Helpers
+final class LoginViewController: UIViewController {
 
-private extension UIColor {
-    convenience init(hex: UInt32, alpha: CGFloat = 1) {
-        self.init(
-            red:   CGFloat((hex >> 16) & 0xFF) / 255,
-            green: CGFloat((hex >> 8)  & 0xFF) / 255,
-            blue:  CGFloat( hex        & 0xFF) / 255,
-            alpha: alpha
-        )
+    // MARK: - Dependencies
+
+    private let viewModel: AuthViewModel
+    private let coordinator: AppCoordinator
+    private var cancellables = Set<AnyCancellable>()
+
+    init(viewModel: AuthViewModel, coordinator: AppCoordinator) {
+        self.viewModel = viewModel
+        self.coordinator = coordinator
+        super.init(nibName: nil, bundle: nil)
     }
-}
 
-private final class PaddedLabel: UILabel {
-    var insets: UIEdgeInsets = .zero
-    override func drawText(in rect: CGRect) { super.drawText(in: rect.inset(by: insets)) }
-    override var intrinsicContentSize: CGSize {
-        let s = super.intrinsicContentSize
-        return CGSize(width: s.width + insets.left + insets.right,
-                      height: s.height + insets.top + insets.bottom)
-    }
-}
+    required init?(coder: NSCoder) { fatalError("Use init(viewModel:coordinator:)") }
 
-// MARK: - ViewController
+    // MARK: - Background
 
-class ViewController: UIViewController {
-
-    // MARK: Config
-    private let backendAuthURL = URL(string: "http://localhost:8000/auth/google")!
-
-    // MARK: Background
     private let gradientLayer: CAGradientLayer = {
         let l = CAGradientLayer()
         l.colors = [UIColor(hex: 0xE9F7FF).cgColor,
@@ -46,11 +34,12 @@ class ViewController: UIViewController {
     private lazy var orbA = makeOrb(size: 200, color: UIColor(hex: 0xCCE9FF, alpha: 0.55))
     private lazy var orbB = makeOrb(size: 220, color: UIColor(hex: 0xD8EEFF, alpha: 0.55))
 
-    // MARK: Panel
+    // MARK: - Panel
+
     private let panelView: UIView = {
         let v = UIView()
-        v.backgroundColor = .white
-        v.layer.cornerRadius = 24
+        v.backgroundColor     = .white
+        v.layer.cornerRadius  = 24
         v.layer.shadowColor   = UIColor(hex: 0x31668C, alpha: 0.16).cgColor
         v.layer.shadowOffset  = CGSize(width: 0, height: 18)
         v.layer.shadowRadius  = 30
@@ -60,10 +49,10 @@ class ViewController: UIViewController {
 
     private let tagLabel: PaddedLabel = {
         let l = PaddedLabel()
-        l.text            = "GOOGLE SIGN-IN"
-        l.font            = .systemFont(ofSize: 12, weight: .semibold)
-        l.textColor       = UIColor(hex: 0x1B6DB8)
-        l.backgroundColor = UIColor(hex: 0xE8F3FF)
+        l.text                = "GOOGLE SIGN-IN"
+        l.font                = .systemFont(ofSize: 12, weight: .semibold)
+        l.textColor           = UIColor(hex: 0x1B6DB8)
+        l.backgroundColor     = UIColor(hex: 0xE8F3FF)
         l.layer.cornerRadius  = 13
         l.layer.masksToBounds = true
         l.insets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
@@ -88,7 +77,6 @@ class ViewController: UIViewController {
         return l
     }()
 
-    // Shadow wrapper + button
     private let googleButtonWrapper: UIView = {
         let v = UIView()
         v.backgroundColor     = .white
@@ -138,13 +126,14 @@ class ViewController: UIViewController {
         return l
     }()
 
-    // MARK: Lifecycle
+    // MARK: - Lifecycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
         setupPanel()
         animatePanelEntrance()
+        bindViewModel()
         restorePreviousSignIn()
     }
 
@@ -153,11 +142,36 @@ class ViewController: UIViewController {
         gradientLayer.frame = view.bounds
     }
 
-    // MARK: Layout
+    // MARK: - Binding
+
+    private func bindViewModel() {
+        viewModel.$viewState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in self?.render($0) }
+            .store(in: &cancellables)
+    }
+
+    private func render(_ state: AuthViewState) {
+        switch state {
+        case .idle:
+            statusLabel.text         = "选择 Google 账号后可继续。"
+            googleSignInButton.isEnabled = true
+        case .loading:
+            statusLabel.text         = "正在登录…"
+            googleSignInButton.isEnabled = false
+        case .success(let isNewUser):
+            statusLabel.text = isNewUser ? "注册成功，欢迎加入！" : "登录成功，欢迎回来！"
+            coordinator.showHome()
+        case .failure(let message):
+            statusLabel.text         = message
+            googleSignInButton.isEnabled = true
+        }
+    }
+
+    // MARK: - Layout
 
     private func setupBackground() {
         view.layer.insertSublayer(gradientLayer, at: 0)
-
         view.addSubview(orbA)
         view.addSubview(orbB)
 
@@ -180,11 +194,9 @@ class ViewController: UIViewController {
             make.centerY.equalToSuperview()
         }
 
-        // Google button
         googleButtonWrapper.addSubview(googleSignInButton)
         googleSignInButton.snp.makeConstraints { make in make.edges.equalToSuperview() }
 
-        // Status
         statusWrapper.addSubview(statusLabel)
         statusLabel.snp.makeConstraints { make in
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 12, left: 14, bottom: 12, right: 14))
@@ -228,79 +240,31 @@ class ViewController: UIViewController {
         }
     }
 
-    // MARK: Sign-In
+    // MARK: - Sign-In
 
     private func restorePreviousSignIn() {
         GIDSignIn.sharedInstance.restorePreviousSignIn { [weak self] user, _ in
-            guard let self, let user else { return }
-            DispatchQueue.main.async {
-                self.setStatus("正在恢复登录状态…")
-                self.sendTokenToBackend(user: user)
-            }
+            guard let idToken = user?.idToken?.tokenString else { return }
+            self?.viewModel.signIn(idToken: idToken)
         }
     }
 
     @objc private func handleSignIn() {
-        googleSignInButton.isEnabled = false
-        setStatus("正在登录…")
-
         GIDSignIn.sharedInstance.signIn(withPresenting: self) { [weak self] result, error in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                if let error = error {
-                    self.googleSignInButton.isEnabled = true
-                    self.setStatus("登录失败，请重试。")
-                    print("Sign-in error: \(error.localizedDescription)")
-                    return
-                }
-                guard let user = result?.user else { return }
-                self.sendTokenToBackend(user: user)
+            if let error {
+                print("Google sign-in error: \(error.localizedDescription)")
+                return
             }
+            guard let idToken = result?.user.idToken?.tokenString else { return }
+            self?.viewModel.signIn(idToken: idToken)
         }
     }
 
-    private func sendTokenToBackend(user: GIDGoogleUser) {
-        guard let idToken = user.idToken?.tokenString else {
-            setStatus("无法获取 Token，请重试。")
-            googleSignInButton.isEnabled = true
-            return
-        }
-
-        var request = URLRequest(url: backendAuthURL)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpBody = try? JSONEncoder().encode(["id_token": idToken])
-
-        URLSession.shared.dataTask(with: request) { [weak self] data, _, error in
-            guard let self else { return }
-            DispatchQueue.main.async {
-                self.googleSignInButton.isEnabled = true
-                if let error = error {
-                    self.setStatus("网络错误，请重试。")
-                    print("Backend error: \(error)")
-                    return
-                }
-                guard let data,
-                      let resp = try? JSONDecoder().decode(AuthResponse.self, from: data) else {
-                    self.setStatus("服务器响应异常，请重试。")
-                    return
-                }
-                UserDefaults.standard.set(resp.accessToken, forKey: "access_token")
-                self.setStatus(resp.isNewUser ? "注册成功，欢迎加入！" : "登录成功，欢迎回来！")
-                // TODO: navigate to HomeViewController
-            }
-        }.resume()
-    }
-
-    private func setStatus(_ text: String) {
-        statusLabel.text = text
-    }
-
-    // MARK: Helpers
+    // MARK: - Helpers
 
     private func makeOrb(size: CGFloat, color: UIColor) -> UIView {
         let v = UIView()
-        v.backgroundColor = color
+        v.backgroundColor    = color
         v.layer.cornerRadius = size / 2
         return v
     }
@@ -321,24 +285,5 @@ class ViewController: UIViewController {
                 UIRectFill(rect)
             }
         }
-    }
-}
-
-// MARK: - AuthResponse
-
-private struct AuthResponse: Decodable {
-    let accessToken: String
-    let isNewUser: Bool
-    let userId: Int
-    let name: String?
-    let email: String
-    let avatarUrl: String?
-
-    enum CodingKeys: String, CodingKey {
-        case accessToken = "access_token"
-        case isNewUser   = "is_new_user"
-        case userId      = "user_id"
-        case name, email
-        case avatarUrl   = "avatar_url"
     }
 }
