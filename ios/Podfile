@@ -1,0 +1,7 @@
+platform :ios, '16.0'
+use_frameworks!
+
+target 'GoogleSignInDemo' do
+  pod 'GoogleSignIn', '~> 7.1'
+  pod 'SnapKit', '~> 5.7'
+end

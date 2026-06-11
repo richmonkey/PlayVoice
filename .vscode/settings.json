@@ -1,0 +1,13 @@
+{
+    "python.defaultInterpreterPath": "/Users/houxh/workspace/google-sign-in/backend/.venv/bin/python",
+    "python.testing.cwd": "${workspaceFolder}/backend",
+    "python.testing.pytestArgs": [
+        "tests",
+        "-s"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/backend"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
+}
