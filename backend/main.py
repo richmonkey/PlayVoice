@@ -4,6 +4,9 @@ from fastapi import FastAPI
 
 from models import db, User, Channel, Follow
 from routers.auth import router as auth_router
+from routers.channel import router as channel_router
+from routers.user import router as user_router
+from routers.follow import router as follow_router
 
 
 @asynccontextmanager
@@ -18,6 +21,9 @@ async def lifespan(app: FastAPI):
 app = FastAPI(title="Google Sign-In Backend", lifespan=lifespan)
 
 app.include_router(auth_router)
+app.include_router(channel_router)
+app.include_router(user_router)
+app.include_router(follow_router)
 
 
 @app.get("/health")

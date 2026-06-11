@@ -1,6 +1,6 @@
 import dataclasses
 
-from models import db, User, Channel, _utcnow
+from models import db, User, Channel, Follow, _utcnow
 
 
 @dataclasses.dataclass
@@ -42,3 +42,44 @@ def get_or_create_user(
         avatar_url=user.avatar_url,
         is_new_user=is_new_user,
     )
+
+
+@dataclasses.dataclass
+class UserSearchItem:
+    user_id: int
+    name: str | None
+    avatar_url: str | None
+    channel_name: str | None
+    is_followed: bool
+
+
+def search_users(keyword: str, current_user_id: int) -> list[UserSearchItem]:
+    keyword = keyword.strip()
+    if not keyword:
+        return []
+
+    followed_ids = {
+        f.followee_id
+        for f in Follow.select(Follow.followee).where(Follow.follower == current_user_id)
+    }
+
+    rows = (
+        Channel
+        .select(Channel, User)
+        .join(User)
+        .where(
+            (User.id != current_user_id) &
+            (User.name.contains(keyword) | Channel.channel_name.contains(keyword))
+        )
+    )
+
+    return [
+        UserSearchItem(
+            user_id=row.owner.id,
+            name=row.owner.name,
+            avatar_url=row.owner.avatar_url,
+            channel_name=row.channel_name,
+            is_followed=row.owner.id in followed_ids,
+        )
+        for row in rows
+    ]
