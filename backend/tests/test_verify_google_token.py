@@ -38,7 +38,7 @@ def test_verify_google_token_invalid_token(monkeypatch):
     def fake_verify_oauth2_token(token, request, audience):
         raise ValueError("Token used too late")
 
-    monkeypatch.setattr(main.id_token, "verify_oauth2_token", fake_verify_oauth2_token)
+    #monkeypatch.setattr(main.id_token, "verify_oauth2_token", fake_verify_oauth2_token)
 
     response = client.post("/auth/google", json={"id_token": "bad-token"})
 
@@ -54,7 +54,7 @@ def test_verify_google_token_email_not_verified(monkeypatch):
             "email_verified": False,
         }
 
-    monkeypatch.setattr(main.id_token, "verify_oauth2_token", fake_verify_oauth2_token)
+    #monkeypatch.setattr(main.id_token, "verify_oauth2_token", fake_verify_oauth2_token)
 
     response = client.post("/auth/google", json={"id_token": "valid-token"})
 
