@@ -48,6 +48,7 @@
 		BB265BB52FDB0B8A008FB219 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA52FDB0B8A008FB219 /* ProfileViewModel.swift */; };
 		BB265BB62FDB0B8A008FB219 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA62FDB0B8A008FB219 /* SearchViewModel.swift */; };
 		BB265BB72FDB0B8A008FB219 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA72FDB0B8A008FB219 /* ProfileViewController.swift */; };
+		BB265BCD2FDB0B8A008FB219 /* EditChannelNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BCC2FDB0B8A008FB219 /* EditChannelNameViewController.swift */; };
 		BB265BB82FDB0B8A008FB219 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA82FDB0B8A008FB219 /* SearchResultCell.swift */; };
 		BB265BB92FDB0B8A008FB219 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA92FDB0B8A008FB219 /* SearchViewController.swift */; };
 		CC265BB12FDB0B8A008FB219 /* RoomMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC265BA12FDB0B8A008FB219 /* RoomMember.swift */; };
@@ -118,6 +119,7 @@
 		BB265BA52FDB0B8A008FB219 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
 		BB265BA62FDB0B8A008FB219 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		BB265BA72FDB0B8A008FB219 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BB265BCC2FDB0B8A008FB219 /* EditChannelNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelNameViewController.swift; sourceTree = "<group>"; };
 		BB265BA82FDB0B8A008FB219 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		BB265BA92FDB0B8A008FB219 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
 		C96D822873AEBEAD1323C722 /* Pods_GoogleSignInDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoogleSignInDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -370,6 +372,7 @@
 			isa = PBXGroup;
 			children = (
 				BB265BA72FDB0B8A008FB219 /* ProfileViewController.swift */,
+				BB265BCC2FDB0B8A008FB219 /* EditChannelNameViewController.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -567,6 +570,7 @@
 				BB265BB52FDB0B8A008FB219 /* ProfileViewModel.swift in Sources */,
 				BB265BB62FDB0B8A008FB219 /* SearchViewModel.swift in Sources */,
 				BB265BB72FDB0B8A008FB219 /* ProfileViewController.swift in Sources */,
+				BB265BCD2FDB0B8A008FB219 /* EditChannelNameViewController.swift in Sources */,
 				BB265BB82FDB0B8A008FB219 /* SearchResultCell.swift in Sources */,
 				BB265BB92FDB0B8A008FB219 /* SearchViewController.swift in Sources */,
 				CC265BB12FDB0B8A008FB219 /* RoomMember.swift in Sources */,

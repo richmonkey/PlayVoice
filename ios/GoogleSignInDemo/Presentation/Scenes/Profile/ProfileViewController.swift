@@ -11,27 +11,22 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - UI
 
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
+    private let tableView = UITableView(frame: .zero, style: .insetGrouped)
+    private let loadingIndicator = UIActivityIndicatorView(style: .medium)
 
-    // Hero
+    // Header
     private let heroCard = UIView()
     private let avatarView = UIView()
     private let avatarLabel = UILabel()
-    private let nameLabel = UILabel()
-    private let subtitleLabel = UILabel()
+    private let heroNameLabel = UILabel()
+    private let heroSubtitleLabel = UILabel()
     private var avatarGradient: CAGradientLayer?
 
-    // Basic info card
-    private let basicCard = UIView()
-    private let nameValueLabel = UILabel()
-    private let emailValueLabel = UILabel()
-
-    // Channel card
-    private let channelCard = UIView()
-    private let channelNameValueLabel = UILabel()
-
-    private let loadingIndicator = UIActivityIndicatorView(style: .medium)
+    // Data
+    private var displayName = ""
+    private var email = ""
+    private var channelName = ""
+    private var currentChannel: Channel?
 
     // MARK: - Init
 
@@ -46,9 +41,10 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
-        setupBackground()
-        setupLayout()
+        title = "个人主页"
+        view.backgroundColor = UIColor(hex: 0xF2F7FC)
+        setupTableView()
+        setupLoadingIndicator()
         bindViewModel()
         viewModel.load()
     }
@@ -56,58 +52,37 @@ final class ProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         avatarGradient?.frame = avatarView.bounds
+        sizeHeaderToFit()
     }
 
     // MARK: - Setup
 
-    private func setupNavigationBar() {
-        title = "个人主页"
+    private func setupTableView() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        tableView.backgroundColor = UIColor(hex: 0xF2F7FC)
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        setupHeroHeader()
     }
 
-    private func setupBackground() {
-        view.backgroundColor = UIColor(hex: 0xF8FCFF)
-    }
+    private func setupHeroHeader() {
+        let header = UIView()
 
-    private func setupLayout() {
-        view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        view.addSubview(loadingIndicator)
-
-        scrollView.snp.makeConstraints { make in
-            make.edges.equalTo(view.safeAreaLayoutGuide)
-        }
-        contentView.snp.makeConstraints { make in
-            make.edges.equalToSuperview()
-            make.width.equalTo(scrollView)
-        }
-        loadingIndicator.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        loadingIndicator.hidesWhenStopped = true
-
-        setupHeroCard()
-        setupBasicCard()
-        setupChannelCard()
-
-        channelCard.snp.makeConstraints { make in
-            make.bottom.equalToSuperview().inset(32)
-        }
-    }
-
-    private func setupHeroCard() {
-        heroCard.backgroundColor = UIColor.white.withAlphaComponent(0.88)
-        heroCard.layer.cornerRadius = 20
+        heroCard.backgroundColor = .white
+        heroCard.layer.cornerRadius = 16
+        heroCard.layer.cornerCurve = .continuous
         heroCard.layer.borderWidth = 1
         heroCard.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
         heroCard.layer.shadowColor = UIColor(hex: 0x1B8AD6).cgColor
-        heroCard.layer.shadowOffset = CGSize(width: 0, height: 6)
-        heroCard.layer.shadowRadius = 12
+        heroCard.layer.shadowOffset = CGSize(width: 0, height: 4)
+        heroCard.layer.shadowRadius = 10
         heroCard.layer.shadowOpacity = 0.08
         heroCard.layer.masksToBounds = false
-        contentView.addSubview(heroCard)
+        header.addSubview(heroCard)
 
-        // Avatar circle
-        avatarView.layer.cornerRadius = 39
+        avatarView.layer.cornerRadius = 30
         avatarView.clipsToBounds = true
         heroCard.addSubview(avatarView)
 
@@ -115,172 +90,66 @@ final class ProfileViewController: UIViewController {
         g.colors = [UIColor(hex: 0x1A92FF).cgColor, UIColor(hex: 0x43C6FF).cgColor]
         g.startPoint = CGPoint(x: 0, y: 0)
         g.endPoint = CGPoint(x: 1, y: 1)
-        g.cornerRadius = 39
+        g.cornerRadius = 30
         avatarView.layer.insertSublayer(g, at: 0)
         avatarGradient = g
 
-        avatarLabel.font = .systemFont(ofSize: 24, weight: .bold)
+        avatarLabel.font = .systemFont(ofSize: 20, weight: .bold)
         avatarLabel.textColor = .white
         avatarLabel.textAlignment = .center
         avatarView.addSubview(avatarLabel)
+        avatarLabel.snp.makeConstraints { $0.center.equalToSuperview() }
 
-        nameLabel.font = .systemFont(ofSize: 26, weight: .bold)
-        nameLabel.textColor = UIColor(hex: 0x172839)
-        heroCard.addSubview(nameLabel)
+        heroNameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
+        heroNameLabel.textColor = UIColor(hex: 0x172839)
+        heroCard.addSubview(heroNameLabel)
 
-        subtitleLabel.font = .systemFont(ofSize: 13)
-        subtitleLabel.textColor = UIColor(hex: 0x667B8F)
-        heroCard.addSubview(subtitleLabel)
+        heroSubtitleLabel.font = .systemFont(ofSize: 13)
+        heroSubtitleLabel.textColor = UIColor(hex: 0x667B8F)
+        heroCard.addSubview(heroSubtitleLabel)
 
         heroCard.snp.makeConstraints { make in
-            make.top.equalToSuperview().offset(16)
+            make.top.equalToSuperview().offset(8)
             make.leading.trailing.equalToSuperview().inset(16)
+            make.bottom.equalToSuperview().offset(-4)
         }
         avatarView.snp.makeConstraints { make in
-            make.leading.equalToSuperview().offset(18)
+            make.leading.equalToSuperview().offset(16)
             make.centerY.equalToSuperview()
-            make.width.height.equalTo(78)
+            make.width.height.equalTo(60)
         }
-        avatarLabel.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
-        nameLabel.snp.makeConstraints { make in
+        heroNameLabel.snp.makeConstraints { make in
             make.leading.equalTo(avatarView.snp.trailing).offset(14)
-            make.trailing.equalToSuperview().inset(18)
-            make.top.equalToSuperview().offset(22)
+            make.trailing.equalToSuperview().inset(16)
+            make.top.equalToSuperview().offset(20)
         }
-        subtitleLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalTo(nameLabel)
-            make.top.equalTo(nameLabel.snp.bottom).offset(6)
-            make.bottom.equalToSuperview().inset(22)
+        heroSubtitleLabel.snp.makeConstraints { make in
+            make.leading.trailing.equalTo(heroNameLabel)
+            make.top.equalTo(heroNameLabel.snp.bottom).offset(5)
+            make.bottom.equalToSuperview().inset(20)
         }
+
+        tableView.tableHeaderView = header
     }
 
-    private func setupBasicCard() {
-        setupCard(basicCard, after: heroCard, title: "基本信息")
-
-        let nameRow = makeInfoRow(label: "昵称", valueLabel: nameValueLabel)
-        let emailRow = makeInfoRow(label: "邮箱", valueLabel: emailValueLabel)
-
-        basicCard.addSubview(nameRow)
-        basicCard.addSubview(emailRow)
-
-        let titleLabel = basicCard.subviews.first as! UILabel
-        nameRow.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview().inset(14)
-        }
-        emailRow.snp.makeConstraints { make in
-            make.top.equalTo(nameRow.snp.bottom).offset(10)
-            make.leading.trailing.equalToSuperview().inset(14)
-            make.bottom.equalToSuperview().inset(14)
-        }
+    private func sizeHeaderToFit() {
+        guard let header = tableView.tableHeaderView else { return }
+        let targetSize = CGSize(width: tableView.bounds.width,
+                                height: UIView.layoutFittingCompressedSize.height)
+        let height = header.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        ).height
+        guard abs(header.frame.height - height) > 1 else { return }
+        header.frame.size.height = height
+        tableView.tableHeaderView = header
     }
 
-    private func setupChannelCard() {
-        setupCard(channelCard, after: basicCard, title: "频道设置")
-
-        let nameRow = makeInfoRow(label: "频道名称", valueLabel: channelNameValueLabel)
-
-        let hintLabel = UILabel()
-        hintLabel.text = "频道名称将展示在首页「我的频道」和他人搜索结果中。"
-        hintLabel.font = .systemFont(ofSize: 12)
-        hintLabel.textColor = UIColor(hex: 0x7B8EA1)
-        hintLabel.numberOfLines = 0
-
-        let editBtn = UIButton(type: .system)
-        editBtn.setTitle("修改频道名称", for: .normal)
-        editBtn.setTitleColor(UIColor(hex: 0x1C5F95), for: .normal)
-        editBtn.titleLabel?.font = .systemFont(ofSize: 14, weight: .semibold)
-        editBtn.layer.cornerRadius = 12
-        editBtn.layer.borderWidth = 1
-        editBtn.layer.borderColor = UIColor(hex: 0xB7D8F2).cgColor
-        editBtn.backgroundColor = .white
-        editBtn.contentEdgeInsets = UIEdgeInsets(top: 8, left: 14, bottom: 8, right: 14)
-        editBtn.addTarget(self, action: #selector(editChannelNameTapped), for: .touchUpInside)
-
-        channelCard.addSubview(nameRow)
-        channelCard.addSubview(hintLabel)
-        channelCard.addSubview(editBtn)
-
-        let titleLabel = channelCard.subviews.first as! UILabel
-        nameRow.snp.makeConstraints { make in
-            make.top.equalTo(titleLabel.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview().inset(14)
-        }
-        hintLabel.snp.makeConstraints { make in
-            make.top.equalTo(nameRow.snp.bottom).offset(8)
-            make.leading.trailing.equalToSuperview().inset(14)
-        }
-        editBtn.snp.makeConstraints { make in
-            make.top.equalTo(hintLabel.snp.bottom).offset(14)
-            make.leading.equalToSuperview().inset(14)
-            make.bottom.equalToSuperview().inset(14)
-        }
-    }
-
-    private func setupCard(_ card: UIView, after previous: UIView, title: String) {
-        card.backgroundColor = .white
-        card.layer.cornerRadius = 16
-        card.layer.borderWidth = 1
-        card.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
-        contentView.addSubview(card)
-
-        let titleLabel = UILabel()
-        titleLabel.text = title
-        titleLabel.font = .systemFont(ofSize: 17, weight: .semibold)
-        titleLabel.textColor = UIColor(hex: 0x172839)
-        card.addSubview(titleLabel)
-
-        card.snp.makeConstraints { make in
-            make.top.equalTo(previous.snp.bottom).offset(12)
-            make.leading.trailing.equalToSuperview().inset(16)
-        }
-        titleLabel.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(14)
-        }
-    }
-
-    private func makeInfoRow(label: String, valueLabel: UILabel) -> UIView {
-        let row = UIView()
-
-        let keyLabel = UILabel()
-        keyLabel.text = label
-        keyLabel.font = .systemFont(ofSize: 13)
-        keyLabel.textColor = UIColor(hex: 0x506477)
-        keyLabel.setContentHuggingPriority(.defaultHigh, for: .horizontal)
-        keyLabel.setContentCompressionResistancePriority(.defaultHigh, for: .horizontal)
-        row.addSubview(keyLabel)
-
-        let valueContainer = UIView()
-        valueContainer.backgroundColor = UIColor(hex: 0xF9FCFF)
-        valueContainer.layer.cornerRadius = 12
-        valueContainer.layer.borderWidth = 1
-        valueContainer.layer.borderColor = UIColor(hex: 0xDEEBF4).cgColor
-        row.addSubview(valueContainer)
-
-        valueLabel.font = .systemFont(ofSize: 14)
-        valueLabel.textColor = UIColor(hex: 0x1D3145)
-        valueLabel.text = "—"
-        valueContainer.addSubview(valueLabel)
-
-        keyLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.centerY.equalToSuperview()
-            make.width.equalTo(80)
-        }
-        valueContainer.snp.makeConstraints { make in
-            make.leading.equalTo(keyLabel.snp.trailing).offset(10)
-            make.trailing.equalToSuperview()
-            make.top.bottom.equalToSuperview()
-            make.height.equalTo(40)
-        }
-        valueLabel.snp.makeConstraints { make in
-            make.leading.trailing.equalToSuperview().inset(12)
-            make.centerY.equalToSuperview()
-        }
-
-        return row
+    private func setupLoadingIndicator() {
+        loadingIndicator.hidesWhenStopped = true
+        view.addSubview(loadingIndicator)
+        loadingIndicator.snp.makeConstraints { $0.center.equalToSuperview() }
     }
 
     // MARK: - Binding
@@ -296,52 +165,29 @@ final class ProfileViewController: UIViewController {
         switch state {
         case .loading:
             loadingIndicator.startAnimating()
-            scrollView.isHidden = true
+            tableView.isHidden = true
 
         case .loaded(let channel, let userName, let email, _):
             loadingIndicator.stopAnimating()
-            scrollView.isHidden = false
+            tableView.isHidden = false
+            currentChannel = channel
+            displayName = userName
+            self.email = email
+            channelName = channel.channelName
             avatarLabel.text = initials(from: userName)
-            nameLabel.text = userName.isEmpty ? "未设置昵称" : userName
-            subtitleLabel.text = "Google 账号已绑定"
-            nameValueLabel.text = userName.isEmpty ? "—" : userName
-            emailValueLabel.text = email.isEmpty ? "—" : email
-            channelNameValueLabel.text = channel.channelName
+            heroNameLabel.text = userName.isEmpty ? "未设置昵称" : userName
+            heroSubtitleLabel.text = email
+            tableView.reloadData()
 
         case .failure(let msg):
             loadingIndicator.stopAnimating()
-            scrollView.isHidden = false
+            tableView.isHidden = false
             let alert = UIAlertController(title: "加载失败", message: msg, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "重试", style: .default) { [weak self] _ in
                 self?.viewModel.load()
             })
             present(alert, animated: true)
         }
-    }
-
-    // MARK: - Actions
-
-    @objc private func editChannelNameTapped() {
-        guard case .loaded(let channel, _, _, _) = viewModel.viewState else { return }
-
-        let alert = UIAlertController(title: "修改频道名称", message: "2-30 个字符", preferredStyle: .alert)
-        alert.addTextField { tf in
-            tf.text = channel.channelName
-            tf.clearButtonMode = .whileEditing
-            tf.autocorrectionType = .no
-        }
-        alert.addAction(UIAlertAction(title: "取消", style: .cancel))
-        alert.addAction(UIAlertAction(title: "保存", style: .default) { [weak self, weak alert] _ in
-            guard let self, let name = alert?.textFields?.first?.text else { return }
-            self.viewModel.updateChannelName(name) { success, errorMsg in
-                if !success {
-                    let err = UIAlertController(title: "保存失败", message: errorMsg, preferredStyle: .alert)
-                    err.addAction(UIAlertAction(title: "好的", style: .default))
-                    self.present(err, animated: true)
-                }
-            }
-        })
-        present(alert, animated: true)
     }
 
     // MARK: - Helpers
@@ -352,5 +198,60 @@ final class ProfileViewController: UIViewController {
             return (String(words[0].prefix(1)) + String(words[1].prefix(1))).uppercased()
         }
         return String(name.prefix(2)).uppercased()
+    }
+}
+
+// MARK: - UITableViewDataSource & Delegate
+
+extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func numberOfSections(in tableView: UITableView) -> Int { 2 }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        section == 0 ? 2 : 1
+    }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        section == 0 ? "基本信息" : "频道设置"
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        var config = cell.defaultContentConfiguration()
+        config.prefersSideBySideTextAndSecondaryText = true
+        config.secondaryTextProperties.color = .secondaryLabel
+
+        switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            config.text = "昵称"
+            config.secondaryText = displayName.isEmpty ? "—" : displayName
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+        case (0, _):
+            config.text = "邮箱"
+            config.secondaryText = email.isEmpty ? "—" : email
+            cell.accessoryType = .none
+            cell.selectionStyle = .none
+        default:
+            config.text = "频道名称"
+            config.secondaryText = channelName.isEmpty ? "—" : channelName
+            cell.accessoryType = .disclosureIndicator
+            cell.selectionStyle = .default
+        }
+
+        cell.contentConfiguration = config
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        guard indexPath.section == 1, let channel = currentChannel else { return }
+
+        let editVC = EditChannelNameViewController(
+            currentName: channel.channelName
+        ) { [weak self] newName, completion in
+            self?.viewModel.updateChannelName(newName, completion: completion)
+        }
+        navigationController?.pushViewController(editVC, animated: true)
     }
 }
