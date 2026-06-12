@@ -1,5 +1,9 @@
 import Foundation
 
+extension Notification.Name {
+    static let unauthorized = Notification.Name("com.app.unauthorized")
+}
+
 final class APIClient {
     static let shared = APIClient()
 
@@ -24,6 +28,9 @@ final class APIClient {
             throw AppError.invalidResponse
         }
         guard (200..<300).contains(http.statusCode) else {
+            if http.statusCode == 401 {
+                NotificationCenter.default.post(name: .unauthorized, object: nil)
+            }
             throw AppError.httpError(statusCode: http.statusCode)
         }
         do {
@@ -45,6 +52,9 @@ final class APIClient {
             throw AppError.invalidResponse
         }
         guard (200..<300).contains(http.statusCode) else {
+            if http.statusCode == 401 {
+                NotificationCenter.default.post(name: .unauthorized, object: nil)
+            }
             throw AppError.httpError(statusCode: http.statusCode)
         }
     }

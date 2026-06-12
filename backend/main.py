@@ -42,7 +42,7 @@ class LoggingMiddleware(BaseHTTPMiddleware):
         response = await call_next(request)
 
         resp_body = b""
-        async for chunk in response.body_iterator:
+        async for chunk in response.body_iterator: # type: ignore
             resp_body += chunk
 
         elapsed = (time.time() - start) * 1000
@@ -71,7 +71,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(title="Google Sign-In Backend", lifespan=lifespan)
-app.add_middleware(LoggingMiddleware)
+
+#app.add_middleware(LoggingMiddleware)
 
 app.include_router(auth_router)
 app.include_router(channel_router)

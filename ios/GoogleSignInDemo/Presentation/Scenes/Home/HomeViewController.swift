@@ -83,6 +83,10 @@ final class HomeViewController: UIViewController {
         setupTopBar()
         setupContent()
         bindViewModel()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         viewModel.load()
     }
 

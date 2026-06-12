@@ -10,7 +10,30 @@ final class AppCoordinator {
 
     func start() {
         window.overrideUserInterfaceStyle = .light
-        showLogin()
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(handleUnauthorized),
+            name: .unauthorized,
+            object: nil
+        )
+        let hasToken = !(UserDefaults.standard.string(forKey: "access_token") ?? "").isEmpty
+        if hasToken {
+            showHome()
+        } else {
+            showLogin()
+        }
+    }
+
+    @objc private func handleUnauthorized() {
+        let ud = UserDefaults.standard
+        ud.removeObject(forKey: "access_token")
+        ud.removeObject(forKey: "user_id")
+        ud.removeObject(forKey: "user_name")
+        ud.removeObject(forKey: "user_email")
+        ud.removeObject(forKey: "user_avatar_url")
+        DispatchQueue.main.async {
+            self.showLogin()
+        }
     }
 
     func showLogin() {
@@ -27,6 +50,7 @@ final class AppCoordinator {
         nav.navigationBar.tintColor = UIColor(hex: 0x0B84FF)
         navigationController = nav
         window.rootViewController = nav
+        window.makeKeyAndVisible()
     }
 
     func showSearch() {
