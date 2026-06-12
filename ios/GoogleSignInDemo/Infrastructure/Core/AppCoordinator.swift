@@ -16,12 +16,13 @@ final class AppCoordinator {
             name: .unauthorized,
             object: nil
         )
-        let hasToken = !(UserDefaults.standard.string(forKey: "access_token") ?? "").isEmpty
-        if hasToken {
-            showHome()
-        } else {
-            showLogin()
-        }
+        showLogin()
+//        let hasToken = !(UserDefaults.standard.string(forKey: "access_token") ?? "").isEmpty
+//        if hasToken {
+//            showHome()
+//        } else {
+//            showLogin()
+//        }
     }
 
     @objc private func handleUnauthorized() {

@@ -18,6 +18,7 @@ final class ProfileViewController: UIViewController {
     private let heroCard = UIView()
     private let avatarView = UIView()
     private let avatarLabel = UILabel()
+    private let avatarImageView = UIImageView()
     private let heroNameLabel = UILabel()
     private let heroSubtitleLabel = UILabel()
     private var avatarGradient: CAGradientLayer?
@@ -45,6 +46,7 @@ final class ProfileViewController: UIViewController {
         view.backgroundColor = UIColor(hex: 0xF2F7FC)
         setupTableView()
         setupLoadingIndicator()
+        loadHeroFromCache()
         bindViewModel()
         viewModel.load()
     }
@@ -100,6 +102,12 @@ final class ProfileViewController: UIViewController {
         avatarView.addSubview(avatarLabel)
         avatarLabel.snp.makeConstraints { $0.center.equalToSuperview() }
 
+        avatarImageView.contentMode = .scaleAspectFill
+        avatarImageView.clipsToBounds = true
+        avatarImageView.isHidden = true
+        avatarView.addSubview(avatarImageView)
+        avatarImageView.snp.makeConstraints { $0.edges.equalToSuperview() }
+
         heroNameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
         heroNameLabel.textColor = UIColor(hex: 0x172839)
         heroCard.addSubview(heroNameLabel)
@@ -110,8 +118,9 @@ final class ProfileViewController: UIViewController {
 
         heroCard.snp.makeConstraints { make in
             make.top.equalToSuperview().offset(8)
-            make.leading.trailing.equalToSuperview().inset(16)
-            make.bottom.equalToSuperview().offset(-4)
+            make.leading.equalToSuperview().inset(16).priority(.high)
+            make.trailing.equalToSuperview().inset(16).priority(.high)
+            make.bottom.equalToSuperview().offset(-4).priority(.high)
         }
         avatarView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
@@ -146,6 +155,32 @@ final class ProfileViewController: UIViewController {
         tableView.tableHeaderView = header
     }
 
+    private func loadHeroFromCache() {
+        let ud = UserDefaults.standard
+        let name = ud.string(forKey: "user_name") ?? ""
+        displayName = name
+        email = ud.string(forKey: "user_email") ?? ""
+        avatarLabel.text = initials(from: name)
+        heroNameLabel.text = name.isEmpty ? "未设置昵称" : name
+        heroSubtitleLabel.text = email
+        loadAvatarImage(from: ud.string(forKey: "user_avatar_url").flatMap(URL.init))
+    }
+
+    private func loadAvatarImage(from url: URL?) {
+        guard let url else {
+            avatarImageView.isHidden = true
+            return
+        }
+        Task {
+            guard let (data, _) = try? await URLSession.shared.data(from: url),
+                  let image = UIImage(data: data) else { return }
+            await MainActor.run {
+                self.avatarImageView.image = image
+                self.avatarImageView.isHidden = false
+            }
+        }
+    }
+
     private func setupLoadingIndicator() {
         loadingIndicator.hidesWhenStopped = true
         view.addSubview(loadingIndicator)
@@ -165,11 +200,9 @@ final class ProfileViewController: UIViewController {
         switch state {
         case .loading:
             loadingIndicator.startAnimating()
-            tableView.isHidden = true
 
-        case .loaded(let channel, let userName, let email, _):
+        case .loaded(let channel, let userName, let email, let avatarURL):
             loadingIndicator.stopAnimating()
-            tableView.isHidden = false
             currentChannel = channel
             displayName = userName
             self.email = email
@@ -177,11 +210,11 @@ final class ProfileViewController: UIViewController {
             avatarLabel.text = initials(from: userName)
             heroNameLabel.text = userName.isEmpty ? "未设置昵称" : userName
             heroSubtitleLabel.text = email
+            loadAvatarImage(from: avatarURL)
             tableView.reloadData()
 
         case .failure(let msg):
             loadingIndicator.stopAnimating()
-            tableView.isHidden = false
             let alert = UIAlertController(title: "加载失败", message: msg, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "重试", style: .default) { [weak self] _ in
                 self?.viewModel.load()
