@@ -4,10 +4,28 @@ final class AppDI {
     private lazy var apiClient = APIClient.shared
 
     private lazy var authRepository: AuthRepositoryProtocol = AuthRepository(apiClient: apiClient)
+    private lazy var channelRepository: ChannelRepositoryProtocol = ChannelRepository(apiClient: apiClient)
+    private lazy var userRepository: UserRepositoryProtocol = UserRepository(apiClient: apiClient)
 
     private lazy var loginUseCase = LoginUseCase(repository: authRepository)
 
     func makeAuthViewModel() -> AuthViewModel {
         AuthViewModel(loginUseCase: loginUseCase)
+    }
+
+    func makeHomeViewModel() -> HomeViewModel {
+        HomeViewModel(channelRepository: channelRepository)
+    }
+
+    func makeProfileViewModel() -> ProfileViewModel {
+        ProfileViewModel(channelRepository: channelRepository)
+    }
+
+    func makeSearchViewModel() -> SearchViewModel {
+        SearchViewModel(userRepository: userRepository)
+    }
+
+    func makeVoiceRoomViewModel(channel: Channel) -> VoiceRoomViewModel {
+        VoiceRoomViewModel(channel: channel)
     }
 }

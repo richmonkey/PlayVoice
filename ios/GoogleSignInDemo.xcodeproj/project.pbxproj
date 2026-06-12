@@ -23,9 +23,51 @@
 		6D265B4A2FDB0B8A008FB219 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B322FDB0B8A008FB219 /* APIClient.swift */; };
 		6D265B4B2FDB0B8A008FB219 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B2C2FDB0B8A008FB219 /* UIColor+Hex.swift */; };
 		6D265B4C2FDB0B8A008FB219 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B332FDB0B8A008FB219 /* Endpoint.swift */; };
+		6D265B652FDB5726008FB219 /* WebRTCVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B632FDB5726008FB219 /* WebRTCVideoView.m */; };
+		6D265B662FDB5726008FB219 /* ARDCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B5F2FDB5726008FB219 /* ARDCaptureController.m */; };
+		6D265B672FDB5726008FB219 /* RoomClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B612FDB5726008FB219 /* RoomClient.m */; };
+		6D265B6B2FDB574B008FB219 /* protooclient.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D265B682FDB574B008FB219 /* protooclient.xcframework */; };
+		6D265B6C2FDB575A008FB219 /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6D265B692FDB574B008FB219 /* WebRTC.xcframework */; };
+		6D265B6D2FDB575A008FB219 /* WebRTC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6D265B692FDB574B008FB219 /* WebRTC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		AA123456000000000000000F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA123456000000000000000E /* AppDelegate.swift */; };
 		AA1234560000000000000016 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA1234560000000000000015 /* Assets.xcassets */; };
+		AA265BB12FDB0B8A008FB219 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA12FDB0B8A008FB219 /* Channel.swift */; };
+		AA265BB22FDB0B8A008FB219 /* ChannelRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA22FDB0B8A008FB219 /* ChannelRepositoryProtocol.swift */; };
+		AA265BB32FDB0B8A008FB219 /* FetchFollowedChannelsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA32FDB0B8A008FB219 /* FetchFollowedChannelsUseCase.swift */; };
+		AA265BB42FDB0B8A008FB219 /* ChannelDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA42FDB0B8A008FB219 /* ChannelDTO.swift */; };
+		AA265BB52FDB0B8A008FB219 /* ChannelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA52FDB0B8A008FB219 /* ChannelMapper.swift */; };
+		AA265BB62FDB0B8A008FB219 /* ChannelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA62FDB0B8A008FB219 /* ChannelRepository.swift */; };
+		AA265BB72FDB0B8A008FB219 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA72FDB0B8A008FB219 /* HomeViewModel.swift */; };
+		AA265BB82FDB0B8A008FB219 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA82FDB0B8A008FB219 /* HomeViewController.swift */; };
+		AA265BB92FDB0B8A008FB219 /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA265BA92FDB0B8A008FB219 /* ChannelCell.swift */; };
+		BB265BB12FDB0B8A008FB219 /* SearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA12FDB0B8A008FB219 /* SearchUser.swift */; };
+		BB265BB22FDB0B8A008FB219 /* UserRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA22FDB0B8A008FB219 /* UserRepositoryProtocol.swift */; };
+		BB265BB32FDB0B8A008FB219 /* UserSearchDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA32FDB0B8A008FB219 /* UserSearchDTO.swift */; };
+		BB265BB42FDB0B8A008FB219 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA42FDB0B8A008FB219 /* UserRepository.swift */; };
+		BB265BB52FDB0B8A008FB219 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA52FDB0B8A008FB219 /* ProfileViewModel.swift */; };
+		BB265BB62FDB0B8A008FB219 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA62FDB0B8A008FB219 /* SearchViewModel.swift */; };
+		BB265BB72FDB0B8A008FB219 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA72FDB0B8A008FB219 /* ProfileViewController.swift */; };
+		BB265BB82FDB0B8A008FB219 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA82FDB0B8A008FB219 /* SearchResultCell.swift */; };
+		BB265BB92FDB0B8A008FB219 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB265BA92FDB0B8A008FB219 /* SearchViewController.swift */; };
+		CC265BB12FDB0B8A008FB219 /* RoomMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC265BA12FDB0B8A008FB219 /* RoomMember.swift */; };
+		CC265BB22FDB0B8A008FB219 /* VoiceRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC265BA22FDB0B8A008FB219 /* VoiceRoomViewModel.swift */; };
+		CC265BB32FDB0B8A008FB219 /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC265BA32FDB0B8A008FB219 /* MemberCell.swift */; };
+		CC265BB42FDB0B8A008FB219 /* VoiceRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC265BA42FDB0B8A008FB219 /* VoiceRoomViewController.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6D265B6E2FDB575A008FB219 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				6D265B6D2FDB575A008FB219 /* WebRTC.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		4B3EF4A431FE29EEC6581EED /* Pods-GoogleSignInDemo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleSignInDemo.release.xcconfig"; path = "Target Support Files/Pods-GoogleSignInDemo/Pods-GoogleSignInDemo.release.xcconfig"; sourceTree = "<group>"; };
@@ -44,12 +86,43 @@
 		6D265B362FDB0B8A008FB219 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
 		6D265B382FDB0B8A008FB219 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		6D265B3B2FDB0B8A008FB219 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		6D265B5E2FDB5726008FB219 /* ARDCaptureController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARDCaptureController.h; sourceTree = "<group>"; };
+		6D265B5F2FDB5726008FB219 /* ARDCaptureController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARDCaptureController.m; sourceTree = "<group>"; };
+		6D265B602FDB5726008FB219 /* RoomClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoomClient.h; sourceTree = "<group>"; };
+		6D265B612FDB5726008FB219 /* RoomClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoomClient.m; sourceTree = "<group>"; };
+		6D265B622FDB5726008FB219 /* WebRTCVideoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebRTCVideoView.h; sourceTree = "<group>"; };
+		6D265B632FDB5726008FB219 /* WebRTCVideoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebRTCVideoView.m; sourceTree = "<group>"; };
+		6D265B682FDB574B008FB219 /* protooclient.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = protooclient.xcframework; sourceTree = "<group>"; };
+		6D265B692FDB574B008FB219 /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = WebRTC.xcframework; sourceTree = "<group>"; };
 		8AED80EBC7B984D264C86979 /* Pods-GoogleSignIn.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleSignIn.release.xcconfig"; path = "Target Support Files/Pods-GoogleSignIn/Pods-GoogleSignIn.release.xcconfig"; sourceTree = "<group>"; };
 		A4BACAEAEDB0E68B4D908FA5 /* Pods-GoogleSignIn.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleSignIn.debug.xcconfig"; path = "Target Support Files/Pods-GoogleSignIn/Pods-GoogleSignIn.debug.xcconfig"; sourceTree = "<group>"; };
 		AA123456000000000000000E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AA1234560000000000000012 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		AA1234560000000000000013 /* GoogleSignInDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = GoogleSignInDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA1234560000000000000015 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		AA265BA12FDB0B8A008FB219 /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		AA265BA22FDB0B8A008FB219 /* ChannelRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRepositoryProtocol.swift; sourceTree = "<group>"; };
+		AA265BA32FDB0B8A008FB219 /* FetchFollowedChannelsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFollowedChannelsUseCase.swift; sourceTree = "<group>"; };
+		AA265BA42FDB0B8A008FB219 /* ChannelDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDTO.swift; sourceTree = "<group>"; };
+		AA265BA52FDB0B8A008FB219 /* ChannelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMapper.swift; sourceTree = "<group>"; };
+		AA265BA62FDB0B8A008FB219 /* ChannelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRepository.swift; sourceTree = "<group>"; };
+		AA265BA72FDB0B8A008FB219 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		AA265BA82FDB0B8A008FB219 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		AA265BA92FDB0B8A008FB219 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
+		BB265BA12FDB0B8A008FB219 /* SearchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUser.swift; sourceTree = "<group>"; };
+		BB265BA22FDB0B8A008FB219 /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
+		BB265BA32FDB0B8A008FB219 /* UserSearchDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchDTO.swift; sourceTree = "<group>"; };
+		BB265BA42FDB0B8A008FB219 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		BB265BA52FDB0B8A008FB219 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		BB265BA62FDB0B8A008FB219 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		BB265BA72FDB0B8A008FB219 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		BB265BA82FDB0B8A008FB219 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		BB265BA92FDB0B8A008FB219 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		CC265BA02FDB0B8A008FB219 /* GoogleSignInDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GoogleSignInDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		CC265BA12FDB0B8A008FB219 /* RoomMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMember.swift; sourceTree = "<group>"; };
+		CC265BA22FDB0B8A008FB219 /* VoiceRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewModel.swift; sourceTree = "<group>"; };
+		CC265BA32FDB0B8A008FB219 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
+		CC265BA42FDB0B8A008FB219 /* VoiceRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewController.swift; sourceTree = "<group>"; };
 		C96D822873AEBEAD1323C722 /* Pods_GoogleSignInDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoogleSignInDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D68DE4C07EA55F7D3099C6AB /* Pods-GoogleSignInDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleSignInDemo.debug.xcconfig"; path = "Target Support Files/Pods-GoogleSignInDemo/Pods-GoogleSignInDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -60,6 +133,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				0D71BA3DD53AEEB02BC8D8D5 /* Pods_GoogleSignInDemo.framework in Frameworks */,
+				6D265B6B2FDB574B008FB219 /* protooclient.xcframework in Frameworks */,
+				6D265B6C2FDB575A008FB219 /* WebRTC.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,6 +145,8 @@
 			isa = PBXGroup;
 			children = (
 				6D265B1E2FDB0B8A008FB219 /* AuthDTO.swift */,
+				AA265BA42FDB0B8A008FB219 /* ChannelDTO.swift */,
+				BB265BA32FDB0B8A008FB219 /* UserSearchDTO.swift */,
 			);
 			path = DTOs;
 			sourceTree = "<group>";
@@ -78,6 +155,7 @@
 			isa = PBXGroup;
 			children = (
 				6D265B202FDB0B8A008FB219 /* AuthMapper.swift */,
+				AA265BA52FDB0B8A008FB219 /* ChannelMapper.swift */,
 			);
 			path = Mappers;
 			sourceTree = "<group>";
@@ -86,6 +164,8 @@
 			isa = PBXGroup;
 			children = (
 				6D265B222FDB0B8A008FB219 /* AuthRepository.swift */,
+				AA265BA62FDB0B8A008FB219 /* ChannelRepository.swift */,
+				BB265BA42FDB0B8A008FB219 /* UserRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -104,6 +184,9 @@
 			isa = PBXGroup;
 			children = (
 				6D265B252FDB0B8A008FB219 /* Session.swift */,
+				AA265BA12FDB0B8A008FB219 /* Channel.swift */,
+				BB265BA12FDB0B8A008FB219 /* SearchUser.swift */,
+				CC265BA12FDB0B8A008FB219 /* RoomMember.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -112,6 +195,8 @@
 			isa = PBXGroup;
 			children = (
 				6D265B272FDB0B8A008FB219 /* AuthRepositoryProtocol.swift */,
+				AA265BA22FDB0B8A008FB219 /* ChannelRepositoryProtocol.swift */,
+				BB265BA22FDB0B8A008FB219 /* UserRepositoryProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -120,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				6D265B292FDB0B8A008FB219 /* LoginUseCase.swift */,
+				AA265BA32FDB0B8A008FB219 /* FetchFollowedChannelsUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -165,6 +251,7 @@
 		6D265B352FDB0B8A008FB219 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				6D265B642FDB5726008FB219 /* Room */,
 				6D265B312FDB0B8A008FB219 /* Core */,
 				6D265B342FDB0B8A008FB219 /* Network */,
 			);
@@ -187,10 +274,23 @@
 			path = Login;
 			sourceTree = "<group>";
 		};
+		CC265BAA2FDB0B8A008FB219 /* VoiceRoom */ = {
+			isa = PBXGroup;
+			children = (
+				CC265BA32FDB0B8A008FB219 /* MemberCell.swift */,
+				CC265BA42FDB0B8A008FB219 /* VoiceRoomViewController.swift */,
+			);
+			path = VoiceRoom;
+			sourceTree = "<group>";
+		};
 		6D265B3A2FDB0B8A008FB219 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
 				6D265B392FDB0B8A008FB219 /* Login */,
+				AA265BAA2FDB0B8A008FB219 /* Home */,
+				BB265BAA2FDB0B8A008FB219 /* Profile */,
+				BB265BAB2FDB0B8A008FB219 /* Search */,
+				CC265BAA2FDB0B8A008FB219 /* VoiceRoom */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -199,6 +299,10 @@
 			isa = PBXGroup;
 			children = (
 				6D265B3B2FDB0B8A008FB219 /* AuthViewModel.swift */,
+				AA265BA72FDB0B8A008FB219 /* HomeViewModel.swift */,
+				BB265BA52FDB0B8A008FB219 /* ProfileViewModel.swift */,
+				BB265BA62FDB0B8A008FB219 /* SearchViewModel.swift */,
+				CC265BA22FDB0B8A008FB219 /* VoiceRoomViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -211,6 +315,19 @@
 				6D265B3C2FDB0B8A008FB219 /* ViewModels */,
 			);
 			path = Presentation;
+			sourceTree = "<group>";
+		};
+		6D265B642FDB5726008FB219 /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				6D265B5E2FDB5726008FB219 /* ARDCaptureController.h */,
+				6D265B5F2FDB5726008FB219 /* ARDCaptureController.m */,
+				6D265B602FDB5726008FB219 /* RoomClient.h */,
+				6D265B612FDB5726008FB219 /* RoomClient.m */,
+				6D265B622FDB5726008FB219 /* WebRTCVideoView.h */,
+				6D265B632FDB5726008FB219 /* WebRTCVideoView.m */,
+			);
+			path = Room;
 			sourceTree = "<group>";
 		};
 		AA1234560000000000000002 = {
@@ -241,8 +358,35 @@
 				AA123456000000000000000E /* AppDelegate.swift */,
 				AA1234560000000000000015 /* Assets.xcassets */,
 				AA1234560000000000000012 /* Info.plist */,
+				CC265BA02FDB0B8A008FB219 /* GoogleSignInDemo-Bridging-Header.h */,
 			);
 			path = GoogleSignInDemo;
+			sourceTree = "<group>";
+		};
+		AA265BAA2FDB0B8A008FB219 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				AA265BA82FDB0B8A008FB219 /* HomeViewController.swift */,
+				AA265BA92FDB0B8A008FB219 /* ChannelCell.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		BB265BAA2FDB0B8A008FB219 /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				BB265BA72FDB0B8A008FB219 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		BB265BAB2FDB0B8A008FB219 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				BB265BA82FDB0B8A008FB219 /* SearchResultCell.swift */,
+				BB265BA92FDB0B8A008FB219 /* SearchViewController.swift */,
+			);
+			path = Search;
 			sourceTree = "<group>";
 		};
 		CC1F73108A35CEC3AB4254BB /* Pods */ = {
@@ -259,6 +403,8 @@
 		CD76EDB1121BFEF1FFDE229A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				6D265B682FDB574B008FB219 /* protooclient.xcframework */,
+				6D265B692FDB574B008FB219 /* WebRTC.xcframework */,
 				C96D822873AEBEAD1323C722 /* Pods_GoogleSignInDemo.framework */,
 			);
 			name = Frameworks;
@@ -276,6 +422,7 @@
 				AA123456000000000000000C /* Frameworks */,
 				AA123456000000000000000D /* Resources */,
 				174E43BBBF2303006D1C39A2 /* [CP] Embed Pods Frameworks */,
+				6D265B6E2FDB575A008FB219 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -395,8 +542,33 @@
 				6D265B482FDB0B8A008FB219 /* AppDI.swift in Sources */,
 				6D265B492FDB0B8A008FB219 /* LoginUseCase.swift in Sources */,
 				6D265B4A2FDB0B8A008FB219 /* APIClient.swift in Sources */,
+				6D265B652FDB5726008FB219 /* WebRTCVideoView.m in Sources */,
+				6D265B662FDB5726008FB219 /* ARDCaptureController.m in Sources */,
+				6D265B672FDB5726008FB219 /* RoomClient.m in Sources */,
 				6D265B4B2FDB0B8A008FB219 /* UIColor+Hex.swift in Sources */,
 				6D265B4C2FDB0B8A008FB219 /* Endpoint.swift in Sources */,
+				AA265BB12FDB0B8A008FB219 /* Channel.swift in Sources */,
+				AA265BB22FDB0B8A008FB219 /* ChannelRepositoryProtocol.swift in Sources */,
+				AA265BB32FDB0B8A008FB219 /* FetchFollowedChannelsUseCase.swift in Sources */,
+				AA265BB42FDB0B8A008FB219 /* ChannelDTO.swift in Sources */,
+				AA265BB52FDB0B8A008FB219 /* ChannelMapper.swift in Sources */,
+				AA265BB62FDB0B8A008FB219 /* ChannelRepository.swift in Sources */,
+				AA265BB72FDB0B8A008FB219 /* HomeViewModel.swift in Sources */,
+				AA265BB82FDB0B8A008FB219 /* HomeViewController.swift in Sources */,
+				AA265BB92FDB0B8A008FB219 /* ChannelCell.swift in Sources */,
+				BB265BB12FDB0B8A008FB219 /* SearchUser.swift in Sources */,
+				BB265BB22FDB0B8A008FB219 /* UserRepositoryProtocol.swift in Sources */,
+				BB265BB32FDB0B8A008FB219 /* UserSearchDTO.swift in Sources */,
+				BB265BB42FDB0B8A008FB219 /* UserRepository.swift in Sources */,
+				BB265BB52FDB0B8A008FB219 /* ProfileViewModel.swift in Sources */,
+				BB265BB62FDB0B8A008FB219 /* SearchViewModel.swift in Sources */,
+				BB265BB72FDB0B8A008FB219 /* ProfileViewController.swift in Sources */,
+				BB265BB82FDB0B8A008FB219 /* SearchResultCell.swift in Sources */,
+				BB265BB92FDB0B8A008FB219 /* SearchViewController.swift in Sources */,
+				CC265BB12FDB0B8A008FB219 /* RoomMember.swift in Sources */,
+				CC265BB22FDB0B8A008FB219 /* VoiceRoomViewModel.swift in Sources */,
+				CC265BB32FDB0B8A008FB219 /* MemberCell.swift in Sources */,
+				CC265BB42FDB0B8A008FB219 /* VoiceRoomViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -529,6 +701,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.gobelieve.googlesignin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = GoogleSignInDemo/GoogleSignInDemo-Bridging-Header.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -554,6 +727,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.gobelieve.googlesignin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = GoogleSignInDemo/GoogleSignInDemo-Bridging-Header.h;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

@@ -9,18 +9,45 @@ enum HTTPMethod: String {
 
 enum Endpoint {
     case googleAuth(idToken: String)
+    case followedChannels
+    case myChannel
+    case updateChannelName(name: String)
+    case searchUsers(query: String)
+    case followUser(userId: Int)
+    case unfollowUser(userId: Int)
 }
 
 extension Endpoint {
     var path: String {
         switch self {
-        case .googleAuth: return "auth/google"
+        case .googleAuth:              return "auth/google"
+        case .followedChannels:        return "channels/followed"
+        case .myChannel:               return "channels/me"
+        case .updateChannelName:       return "channels/me/name"
+        case .searchUsers:             return "users/search"
+        case .followUser(let id):      return "follows/\(id)"
+        case .unfollowUser(let id):    return "follows/\(id)"
         }
     }
 
     var method: HTTPMethod {
         switch self {
-        case .googleAuth: return .post
+        case .googleAuth:        return .post
+        case .followedChannels:  return .get
+        case .myChannel:         return .get
+        case .updateChannelName: return .patch
+        case .searchUsers:       return .get
+        case .followUser:        return .post
+        case .unfollowUser:      return .delete
+        }
+    }
+
+    var queryItems: [URLQueryItem]? {
+        switch self {
+        case .searchUsers(let query):
+            return [URLQueryItem(name: "q", value: query)]
+        default:
+            return nil
         }
     }
 
@@ -28,6 +55,10 @@ extension Endpoint {
         switch self {
         case .googleAuth(let idToken):
             return try JSONEncoder().encode(["id_token": idToken])
+        case .updateChannelName(let name):
+            return try JSONEncoder().encode(["channel_name": name])
+        default:
+            return nil
         }
     }
 }

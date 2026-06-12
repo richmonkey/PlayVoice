@@ -10,9 +10,13 @@ final class AuthRepository: AuthRepositoryProtocol {
     func login(idToken: String) async throws -> Session {
         let dto: AuthResponseDTO = try await apiClient.request(.googleAuth(idToken: idToken))
         let session = AuthMapper.toEntity(dto)
-        // TODO: move to KeychainService
         await MainActor.run {
-            UserDefaults.standard.set(session.accessToken, forKey: "access_token")
+            let ud = UserDefaults.standard
+            ud.set(session.accessToken, forKey: "access_token")
+            ud.set(session.name, forKey: "user_name")
+            ud.set(session.email, forKey: "user_email")
+            ud.set(session.userId, forKey: "user_id")
+            ud.set(session.avatarURL?.absoluteString, forKey: "user_avatar_url")
         }
         return session
     }
