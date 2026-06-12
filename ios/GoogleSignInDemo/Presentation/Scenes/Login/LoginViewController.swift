@@ -244,8 +244,10 @@ final class LoginViewController: UIViewController {
 
     private func restorePreviousSignIn() {
         GIDSignIn.sharedInstance.restorePreviousSignIn { [weak self] user, _ in
-            guard let idToken = user?.idToken?.tokenString else { return }
-            self?.viewModel.signIn(idToken: idToken)
+            guard let user, let idToken = user.idToken?.tokenString else { return }
+            self?.viewModel.signIn(idToken: idToken,
+                                   name: user.profile?.name,
+                                   avatarURL: user.profile?.imageURL(withDimension: 256)?.absoluteString)
         }
     }
 
@@ -255,8 +257,10 @@ final class LoginViewController: UIViewController {
                 print("Google sign-in error: \(error.localizedDescription)")
                 return
             }
-            guard let idToken = result?.user.idToken?.tokenString else { return }
-            self?.viewModel.signIn(idToken: idToken)
+            guard let user = result?.user, let idToken = user.idToken?.tokenString else { return }
+            self?.viewModel.signIn(idToken: idToken,
+                                   name: user.profile?.name,
+                                   avatarURL: user.profile?.imageURL(withDimension: 256)?.absoluteString)
         }
     }
 

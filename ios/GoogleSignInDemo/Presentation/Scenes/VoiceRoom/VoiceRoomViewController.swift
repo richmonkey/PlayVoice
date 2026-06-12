@@ -55,8 +55,8 @@ final class VoiceRoomViewController: UIViewController {
         viewModel.start()
     }
 
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
         if isMovingFromParent {
             viewModel.stop()
         }
@@ -198,7 +198,7 @@ final class VoiceRoomViewController: UIViewController {
             statusLabel.text = "已断开"
             statusLabel.textColor = UIColor(hex: 0x607286)
             //连接被动断开后，自动重连
-            self.viewModel.reconnect()
+            //self.viewModel.reconnect()
         case .failed(let msg):
             statusDot.backgroundColor = UIColor(hex: 0xD0381E)
             statusLabel.text = "连接失败"

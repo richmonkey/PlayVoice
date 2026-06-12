@@ -16,11 +16,11 @@ final class AuthViewModel: ObservableObject {
         self.loginUseCase = loginUseCase
     }
 
-    func signIn(idToken: String) {
+    func signIn(idToken: String, name: String? = nil, avatarURL: String? = nil) {
         viewState = .loading
         Task {
             do {
-                let session = try await loginUseCase.execute(idToken: idToken)
+                let session = try await loginUseCase.execute(idToken: idToken, name: name, avatarURL: avatarURL)
                 await MainActor.run {
                     viewState = .success(isNewUser: session.isNewUser)
                 }

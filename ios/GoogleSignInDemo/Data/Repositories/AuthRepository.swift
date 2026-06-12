@@ -7,8 +7,8 @@ final class AuthRepository: AuthRepositoryProtocol {
         self.apiClient = apiClient
     }
 
-    func login(idToken: String) async throws -> Session {
-        let dto: AuthResponseDTO = try await apiClient.request(.googleAuth(idToken: idToken))
+    func login(idToken: String, name: String?, avatarURL: String?) async throws -> Session {
+        let dto: AuthResponseDTO = try await apiClient.request(.googleAuth(idToken: idToken, name: name, avatarURL: avatarURL))
         let session = AuthMapper.toEntity(dto)
         await MainActor.run {
             let ud = UserDefaults.standard

@@ -138,10 +138,15 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
 
 -(void)stop {
     [self.peerClient close];
+    self.peerClient = nil;
+    
     [self.captureController stopCapture];
     [self.sendTransport close];
     [self.recvTransport close];
     self.captureController = nil;
+    self.sendTransport = nil;
+    self.recvTransport = nil;
+    
     self.localVideoTrack = nil;
     self.videoSource = nil;
     self.videoProducer = nil;
@@ -624,13 +629,10 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
 
 #pragma mark ProtooclientPeerListener
 - (void)onClose {
-    dispatch_async(dispatch_get_main_queue(), ^{
-        if ([self.delegate respondsToSelector:@selector(roomClientDidDisconnect:)]) {
-            [self.delegate roomClientDidDisconnect:self];
-        }
-    });
+    NSLog(@"protoo closed");
 }
 - (void)onDisconnected {
+    NSLog(@"protoo disconnected");
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(roomClientDidDisconnect:)]) {
             [self.delegate roomClientDidDisconnect:self];
@@ -638,6 +640,7 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
     });
 }
 - (void)onFailed {
+    NSLog(@"protoo connect failed");
     dispatch_async(dispatch_get_main_queue(), ^{
         if ([self.delegate respondsToSelector:@selector(roomClientDidFail:)]) {
             [self.delegate roomClientDidFail:self];
@@ -658,7 +661,7 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
         });
     } else if ([method isEqualToString:@"peerClosed"]) {
         NSDictionary *object = [[self class] JSONStringToObject:p0.data];
-        NSString *closedPeerId = [object objectForKey:@"id"];
+        NSString *closedPeerId = [object objectForKey:@"peerId"];
         dispatch_async(dispatch_get_main_queue(), ^{
             if ([self.delegate respondsToSelector:@selector(roomClient:peerLeft:)]) {
                 [self.delegate roomClient:self peerLeft:closedPeerId];

@@ -5,7 +5,7 @@ final class LoginUseCase {
         self.repository = repository
     }
 
-    func execute(idToken: String) async throws -> Session {
-        try await repository.login(idToken: idToken)
+    func execute(idToken: String, name: String?, avatarURL: String?) async throws -> Session {
+        try await repository.login(idToken: idToken, name: name, avatarURL: avatarURL)
     }
 }

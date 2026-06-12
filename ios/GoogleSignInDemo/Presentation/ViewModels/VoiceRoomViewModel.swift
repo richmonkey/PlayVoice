@@ -88,11 +88,12 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
     }
 
     func reconnect() {
-        connectionState = .connecting
-        roomClient.stop()
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
-            self?.roomClient.start()
-        }
+        //不需要做任何动作，RoomClient会自动重连
+//        connectionState = .connecting
+//        roomClient.stop()
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
+//            self?.roomClient.start()
+//        }
     }
 
     private func mutateMember(id: String, _ mutate: (inout RoomMember) -> Void) {

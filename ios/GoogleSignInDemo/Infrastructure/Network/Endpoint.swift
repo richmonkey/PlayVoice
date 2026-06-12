@@ -8,7 +8,7 @@ enum HTTPMethod: String {
 }
 
 enum Endpoint {
-    case googleAuth(idToken: String)
+    case googleAuth(idToken: String, name: String?, avatarURL: String?)
     case followedChannels
     case myChannel
     case updateChannelName(name: String)
@@ -53,8 +53,11 @@ extension Endpoint {
 
     func encodeBody() throws -> Data? {
         switch self {
-        case .googleAuth(let idToken):
-            return try JSONEncoder().encode(["id_token": idToken])
+        case .googleAuth(let idToken, let name, let avatarURL):
+            var body: [String: String] = ["id_token": idToken]
+            if let name { body["name"] = name }
+            if let avatarURL { body["avatar_url"] = avatarURL }
+            return try JSONEncoder().encode(body)
         case .updateChannelName(let name):
             return try JSONEncoder().encode(["channel_name": name])
         default:

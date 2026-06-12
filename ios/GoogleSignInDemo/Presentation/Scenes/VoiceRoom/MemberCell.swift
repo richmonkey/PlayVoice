@@ -64,6 +64,10 @@ final class MemberCell: UICollectionViewCell {
         avatarLabel.font = .systemFont(ofSize: 24, weight: .bold)
         avatarLabel.textColor = .white
         avatarLabel.textAlignment = .center
+        avatarLabel.layer.shadowColor = UIColor.black.cgColor
+        avatarLabel.layer.shadowOffset = .zero
+        avatarLabel.layer.shadowRadius = 4
+        avatarLabel.layer.shadowOpacity = 0.35
         avatarClipView.addSubview(avatarLabel)
         avatarLabel.snp.makeConstraints { $0.center.equalToSuperview() }
 
@@ -138,6 +142,7 @@ final class MemberCell: UICollectionViewCell {
         avatarGradient?.colors = [c1.cgColor, c2.cgColor]
         avatarLabel.text = member.initials
         nameLabel.text = member.displayName
+        nameLabel.textColor = UIColor(hex: 0x0F1F2E)
 
         // Speaking border
         avatarClipView.layer.borderColor = member.isSpeaking

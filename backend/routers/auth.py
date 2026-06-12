@@ -1,5 +1,6 @@
 import datetime
 
+import logging
 from fastapi import APIRouter, HTTPException, status
 from pydantic import BaseModel
 from google.oauth2 import id_token
@@ -15,6 +16,8 @@ router = APIRouter(prefix="/auth", tags=["auth"])
 
 class TokenRequest(BaseModel):
     id_token: str
+    name: str | None = None
+    avatar_url: str | None = None
 
 
 class AuthResponse(BaseModel):
@@ -45,12 +48,13 @@ def google_auth(body: TokenRequest):
 
     if not payload.get("email_verified"):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Email not verified by Google")
-
+    
+    logging.info("google auth success, payload: %s", payload)
     user = get_or_create_user(
         google_sub=payload["sub"],
         email=payload["email"],
-        name=payload.get("name"),
-        avatar_url=payload.get("picture"),
+        name=payload.get("name") or body.name,
+        avatar_url=payload.get("picture") or body.avatar_url,
     )
 
     return AuthResponse(

@@ -9,6 +9,7 @@ final class AppCoordinator {
     }
 
     func start() {
+        window.overrideUserInterfaceStyle = .light
         showLogin()
     }
 
