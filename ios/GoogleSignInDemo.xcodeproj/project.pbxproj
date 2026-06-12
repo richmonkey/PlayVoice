@@ -19,6 +19,7 @@
 		6D265B462FDB0B8A008FB219 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B3B2FDB0B8A008FB219 /* AuthViewModel.swift */; };
 		6D265B472FDB0B8A008FB219 /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B1E2FDB0B8A008FB219 /* AuthDTO.swift */; };
 		6D265B482FDB0B8A008FB219 /* AppDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B2F2FDB0B8A008FB219 /* AppDI.swift */; };
+		6D265BAB2FDB0B8A008FB219 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265BAA2FDB0B8A008FB219 /* AppConfig.swift */; };
 		6D265B492FDB0B8A008FB219 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B292FDB0B8A008FB219 /* LoginUseCase.swift */; };
 		6D265B4A2FDB0B8A008FB219 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B322FDB0B8A008FB219 /* APIClient.swift */; };
 		6D265B4B2FDB0B8A008FB219 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D265B2C2FDB0B8A008FB219 /* UIColor+Hex.swift */; };
@@ -81,6 +82,7 @@
 		6D265B2E2FDB0B8A008FB219 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
 		6D265B2F2FDB0B8A008FB219 /* AppDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDI.swift; sourceTree = "<group>"; };
 		6D265B302FDB0B8A008FB219 /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		6D265BAA2FDB0B8A008FB219 /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		6D265B322FDB0B8A008FB219 /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		6D265B332FDB0B8A008FB219 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		6D265B362FDB0B8A008FB219 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
@@ -118,12 +120,12 @@
 		BB265BA72FDB0B8A008FB219 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
 		BB265BA82FDB0B8A008FB219 /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
 		BB265BA92FDB0B8A008FB219 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		C96D822873AEBEAD1323C722 /* Pods_GoogleSignInDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoogleSignInDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CC265BA02FDB0B8A008FB219 /* GoogleSignInDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GoogleSignInDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		CC265BA12FDB0B8A008FB219 /* RoomMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMember.swift; sourceTree = "<group>"; };
 		CC265BA22FDB0B8A008FB219 /* VoiceRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewModel.swift; sourceTree = "<group>"; };
 		CC265BA32FDB0B8A008FB219 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
 		CC265BA42FDB0B8A008FB219 /* VoiceRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewController.swift; sourceTree = "<group>"; };
-		C96D822873AEBEAD1323C722 /* Pods_GoogleSignInDemo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GoogleSignInDemo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D68DE4C07EA55F7D3099C6AB /* Pods-GoogleSignInDemo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-GoogleSignInDemo.debug.xcconfig"; path = "Target Support Files/Pods-GoogleSignInDemo/Pods-GoogleSignInDemo.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -235,6 +237,7 @@
 				6D265B2E2FDB0B8A008FB219 /* AppCoordinator.swift */,
 				6D265B2F2FDB0B8A008FB219 /* AppDI.swift */,
 				6D265B302FDB0B8A008FB219 /* AppError.swift */,
+				6D265BAA2FDB0B8A008FB219 /* AppConfig.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -272,15 +275,6 @@
 				6D265B382FDB0B8A008FB219 /* LoginViewController.swift */,
 			);
 			path = Login;
-			sourceTree = "<group>";
-		};
-		CC265BAA2FDB0B8A008FB219 /* VoiceRoom */ = {
-			isa = PBXGroup;
-			children = (
-				CC265BA32FDB0B8A008FB219 /* MemberCell.swift */,
-				CC265BA42FDB0B8A008FB219 /* VoiceRoomViewController.swift */,
-			);
-			path = VoiceRoom;
 			sourceTree = "<group>";
 		};
 		6D265B3A2FDB0B8A008FB219 /* Scenes */ = {
@@ -398,6 +392,15 @@
 				4B3EF4A431FE29EEC6581EED /* Pods-GoogleSignInDemo.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		CC265BAA2FDB0B8A008FB219 /* VoiceRoom */ = {
+			isa = PBXGroup;
+			children = (
+				CC265BA32FDB0B8A008FB219 /* MemberCell.swift */,
+				CC265BA42FDB0B8A008FB219 /* VoiceRoomViewController.swift */,
+			);
+			path = VoiceRoom;
 			sourceTree = "<group>";
 		};
 		CD76EDB1121BFEF1FFDE229A /* Frameworks */ = {
@@ -540,6 +543,7 @@
 				6D265B462FDB0B8A008FB219 /* AuthViewModel.swift in Sources */,
 				6D265B472FDB0B8A008FB219 /* AuthDTO.swift in Sources */,
 				6D265B482FDB0B8A008FB219 /* AppDI.swift in Sources */,
+				6D265BAB2FDB0B8A008FB219 /* AppConfig.swift in Sources */,
 				6D265B492FDB0B8A008FB219 /* LoginUseCase.swift in Sources */,
 				6D265B4A2FDB0B8A008FB219 /* APIClient.swift in Sources */,
 				6D265B652FDB5726008FB219 /* WebRTCVideoView.m in Sources */,
@@ -701,7 +705,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.gobelieve.googlesignin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = GoogleSignInDemo/GoogleSignInDemo-Bridging-Header.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "GoogleSignInDemo/GoogleSignInDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -727,7 +731,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = io.gobelieve.googlesignin;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OBJC_BRIDGING_HEADER = GoogleSignInDemo/GoogleSignInDemo-Bridging-Header.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "GoogleSignInDemo/GoogleSignInDemo-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

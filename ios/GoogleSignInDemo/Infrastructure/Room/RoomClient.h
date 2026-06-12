@@ -38,8 +38,9 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, copy) NSString *token;
 @property(nonatomic, copy, nullable) NSString *displayName;
 
-@property(nonatomic, assign) BOOL cameraOn;//default NO
+@property(nonatomic, assign) BOOL cameraOn;//default YES
 @property(nonatomic, assign) BOOL microphoneOn;//default YES
+@property(nonatomic, assign) BOOL muted;//default NO
 @property(nonatomic, nullable) ARDCaptureController *captureController;
 
 -(void)start;
@@ -48,7 +49,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)produceAudio;
 -(void)closeAudioProducer;
 -(void)closeVideoProducer;
--(void)setMuted:(BOOL)muted;
+-(void)applyMuted:(BOOL)muted;
 
 @end
 

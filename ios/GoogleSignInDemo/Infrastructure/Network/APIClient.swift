@@ -6,7 +6,7 @@ final class APIClient {
     private let baseURL: URL
     private let session: URLSession
 
-    init(baseURL: URL = URL(string: "http://localhost:8000")!,
+    init(baseURL: URL = URL(string: AppConfig.apiBaseURL)!,
          session: URLSession = .shared) {
         self.baseURL = baseURL
         self.session = session

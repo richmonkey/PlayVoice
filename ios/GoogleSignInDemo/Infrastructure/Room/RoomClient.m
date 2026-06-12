@@ -7,6 +7,7 @@
 //
 
 #import "RoomClient.h"
+#import "GoogleSignInDemo-Swift.h"
 #import <AVFAudio/AVFAudio.h>
 #import <AVFoundation/AVFoundation.h>
 #import <WebRTC/WebRTC.h>
@@ -105,7 +106,8 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
         NSLog(@"mediasoup client version:%@", [MSClient version]);
 
         self.microphoneOn = YES;
-        self.cameraOn = NO;
+        self.muted = NO;
+        self.cameraOn = YES;
         
         self.consumers = [NSMutableDictionary dictionary];
         self.pendingRequests = [NSMutableDictionary dictionary];
@@ -129,7 +131,7 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
 
 -(void)start {
     // be careful! golang code can't trigger network access to the system and get error:"no route to host".
-    NSString *url = [NSString stringWithFormat:@"ws://192.168.1.198:4444/?peerId=%lld&roomId=%@&mode=group", self.currentUID, self.channelID];
+    NSString *url = [NSString stringWithFormat:@"%@/?peerId=%lld&roomId=%@&mode=group", AppConfig.roomServerBaseURL, self.currentUID, self.channelID];
     self.peerClient = [[ProtooclientPeer alloc] init:url listener:self];
     [self.peerClient open];
 }
@@ -318,6 +320,10 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
     
 }
 
+-(void)leave {
+    
+}
+
 -(void)getStats {
     NSString *stats = [self.sendTransport getStats];
     NSString *videoProducerStats = [self.sendTransport getProducerStats:self.videoProducer.localId];
@@ -330,6 +336,10 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
     }
 }
 -(void)produceAudio {
+    if (!self.microphoneOn) {
+        NSLog(@"microphone is off");
+        return;
+    }
     if (![self.device canProduce:kRTCMediaStreamTrackKindAudio]) {
         NSLog(@"Device can't produce audio");
         return;
@@ -359,7 +369,8 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
     self.audioProducer = producer;
     self.audioSource = source;
     self.localAudioTrack = track;
-    
+    self.localAudioTrack.isEnabled = !self.muted;
+  
     NSLog(@"audio producer local id:%@", producer.localId);
     NSDictionary *data = @{
         @"transportId":self.sendTransport.transportId,
@@ -379,6 +390,10 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
 }
 
 -(void)produceVideo {
+    if (!self.cameraOn) {
+        NSLog(@"camera is off");
+        return;
+    }
     if (![self.device canProduce:kRTCMediaStreamTrackKindAudio]) {
         NSLog(@"Device can't produce audio");
         return;
@@ -695,8 +710,9 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
     });
 }
 
--(void)setMuted:(BOOL)muted {
+-(void)applyMuted:(BOOL)muted {
     self.localAudioTrack.isEnabled = !muted;
+    self.muted = muted;
 }
 
 - (void)onRequest:(ProtooclientRequest* _Nullable)p0 {

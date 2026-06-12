@@ -31,7 +31,9 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
         client.channelID = String(channel.channelId)
         client.token = UserDefaults.standard.string(forKey: "access_token") ?? ""
         client.displayName = UserDefaults.standard.string(forKey: "user_name") ?? ""
-        client.microphoneOn = false
+        client.microphoneOn = true
+        client.muted = true//same as isMuted
+        client.cameraOn = false
         roomClient = client
 
         let myId = UserDefaults.standard.integer(forKey: "user_id")
@@ -75,7 +77,7 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
 
     func toggleMute() {
         isMuted.toggle()
-        roomClient.setMuted(isMuted)
+        roomClient.applyMuted(isMuted)
         mutateMember(id: String(currentUserId)) { $0.isMuted = self.isMuted }
     }
 
@@ -152,6 +154,8 @@ extension VoiceRoomViewModel: RoomClientDelegate {
     }
 
     func roomClient(_ client: RoomClient, peerLeft peerId: String) {
+        print("peer left:\(peerId) \(members)")
         members.removeAll { $0.id == peerId }
+        print("members:\(members)")
     }
 }

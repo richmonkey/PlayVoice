@@ -31,7 +31,6 @@ final class VoiceRoomViewController: UIViewController {
     private let controlBar = UIView()
     private let muteButton = ControlButton()
     private let speakerButton = ControlButton()
-    private let reconnectButton = ControlButton()
     private let leaveButton = ControlButton()
 
     // MARK: - Init
@@ -112,7 +111,7 @@ final class VoiceRoomViewController: UIViewController {
         collectionView.snp.makeConstraints { make in
             make.top.equalTo(statusBar.snp.bottom).offset(8)
             make.leading.trailing.equalToSuperview()
-            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(76)
+            make.bottom.equalTo(view.safeAreaLayoutGuide).inset(96)
         }
         collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
     }
@@ -133,32 +132,25 @@ final class VoiceRoomViewController: UIViewController {
         controlBar.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(12)
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(8)
-            make.height.equalTo(60)
+            make.height.equalTo(80)
         }
 
-        muteButton.configure(title: "静音", icon: "mic.slash.fill",
-                             style: .normal)
+        muteButton.configure(title: "静音", icon: "mic.slash.fill", style: .normal)
         muteButton.addTarget(self, action: #selector(muteTapped), for: .touchUpInside)
 
-        speakerButton.configure(title: "扬声器", icon: "speaker.wave.2.fill",
-                                style: .normal)
+        speakerButton.configure(title: "扬声器", icon: "speaker.wave.2.fill", style: .normal)
         speakerButton.addTarget(self, action: #selector(speakerTapped), for: .touchUpInside)
 
-        reconnectButton.configure(title: "重连", icon: "arrow.trianglehead.2.clockwise.rotate.90",
-                                  style: .warn)
-        reconnectButton.addTarget(self, action: #selector(reconnectTapped), for: .touchUpInside)
-
-        leaveButton.configure(title: "离开", icon: "phone.down.fill",
-                              style: .danger)
+        leaveButton.configure(title: "离开", icon: "phone.down.fill", style: .danger)
         leaveButton.addTarget(self, action: #selector(leaveTapped), for: .touchUpInside)
 
-        let stack = UIStackView(arrangedSubviews: [muteButton, speakerButton, reconnectButton, leaveButton])
+        let stack = UIStackView(arrangedSubviews: [muteButton, speakerButton, leaveButton])
         stack.axis = .horizontal
         stack.spacing = 8
         stack.distribution = .fillEqually
         controlBar.addSubview(stack)
         stack.snp.makeConstraints { make in
-            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 12, bottom: 10, right: 12))
+            make.edges.equalToSuperview().inset(UIEdgeInsets(top: 10, left: 24, bottom: 10, right: 24))
         }
     }
 
@@ -205,7 +197,8 @@ final class VoiceRoomViewController: UIViewController {
             statusDot.backgroundColor = UIColor(hex: 0x607286)
             statusLabel.text = "已断开"
             statusLabel.textColor = UIColor(hex: 0x607286)
-
+            //连接被动断开后，自动重连
+            self.viewModel.reconnect()
         case .failed(let msg):
             statusDot.backgroundColor = UIColor(hex: 0xD0381E)
             statusLabel.text = "连接失败"
@@ -252,10 +245,6 @@ final class VoiceRoomViewController: UIViewController {
         viewModel.toggleSpeaker()
     }
 
-    @objc private func reconnectTapped() {
-        viewModel.reconnect()
-    }
-
     @objc private func leaveTapped() {
         viewModel.stop()
         navigationController?.popViewController(animated: true)
@@ -284,43 +273,80 @@ extension VoiceRoomViewController: UICollectionViewDataSource, UICollectionViewD
 
 // MARK: - ControlButton
 
-private final class ControlButton: UIButton {
+private final class ControlButton: UIControl {
     enum Style { case normal, active, warn, danger }
+
+    private let circleView = UIView()
+    private let imageView = UIImageView()
+    private let titleLabel = UILabel()
+
+    private static let circleSize: CGFloat = 44
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.cornerRadius = 10
-        layer.borderWidth = 1
-        titleLabel?.font = .systemFont(ofSize: 12, weight: .medium)
+
+        circleView.layer.cornerRadius = Self.circleSize / 2
+        circleView.layer.borderWidth = 1
+        circleView.isUserInteractionEnabled = false
+        addSubview(circleView)
+
+        imageView.contentMode = .scaleAspectFit
+        imageView.isUserInteractionEnabled = false
+        circleView.addSubview(imageView)
+
+        titleLabel.font = .systemFont(ofSize: 11, weight: .medium)
+        titleLabel.textAlignment = .center
+        titleLabel.isUserInteractionEnabled = false
+        addSubview(titleLabel)
+
+        circleView.snp.makeConstraints { make in
+            make.top.equalToSuperview()
+            make.centerX.equalToSuperview()
+            make.width.height.equalTo(Self.circleSize)
+        }
+        imageView.snp.makeConstraints { make in
+            make.center.equalToSuperview()
+            make.width.height.equalTo(22)
+        }
+        titleLabel.snp.makeConstraints { make in
+            make.top.equalTo(circleView.snp.bottom).offset(5)
+            make.leading.trailing.equalToSuperview()
+            make.bottom.lessThanOrEqualToSuperview()
+        }
     }
+
     required init?(coder: NSCoder) { fatalError() }
 
     func configure(title: String, icon: String, style: Style) {
-        var cfg = UIButton.Configuration.plain()
-        cfg.title = title
-        cfg.image = UIImage(systemName: icon)
-        cfg.imagePadding = 4
-        cfg.imagePlacement = .top
-        cfg.contentInsets = NSDirectionalEdgeInsets(top: 4, leading: 4, bottom: 4, trailing: 4)
+        titleLabel.text = title
+        let config = UIImage.SymbolConfiguration(pointSize: 16, weight: .medium)
+        imageView.image = UIImage(systemName: icon, withConfiguration: config)
 
         switch style {
         case .normal:
-            cfg.baseForegroundColor = UIColor(hex: 0x2F526E)
-            backgroundColor = .white
-            layer.borderColor = UIColor(hex: 0xBFD9EE).cgColor
+            circleView.backgroundColor = .white
+            circleView.layer.borderColor = UIColor(hex: 0xBFD9EE).cgColor
+            imageView.tintColor = UIColor(hex: 0x2F526E)
+            titleLabel.textColor = UIColor(hex: 0x2F526E)
         case .active:
-            cfg.baseForegroundColor = UIColor(hex: 0x0B5FA5)
-            backgroundColor = UIColor(hex: 0xE8F4FF)
-            layer.borderColor = UIColor(hex: 0x90C3F0).cgColor
+            circleView.backgroundColor = UIColor(hex: 0xE8F4FF)
+            circleView.layer.borderColor = UIColor(hex: 0x90C3F0).cgColor
+            imageView.tintColor = UIColor(hex: 0x0B5FA5)
+            titleLabel.textColor = UIColor(hex: 0x0B5FA5)
         case .warn:
-            cfg.baseForegroundColor = UIColor(hex: 0xB87900)
-            backgroundColor = UIColor(hex: 0xFFF8EC)
-            layer.borderColor = UIColor(hex: 0xE2C68B).cgColor
+            circleView.backgroundColor = UIColor(hex: 0xFFF8EC)
+            circleView.layer.borderColor = UIColor(hex: 0xE2C68B).cgColor
+            imageView.tintColor = UIColor(hex: 0xB87900)
+            titleLabel.textColor = UIColor(hex: 0xB87900)
         case .danger:
-            cfg.baseForegroundColor = UIColor(hex: 0xB74F4F)
-            backgroundColor = UIColor(hex: 0xFFF3F3)
-            layer.borderColor = UIColor(hex: 0xE8B3B3).cgColor
+            circleView.backgroundColor = UIColor(hex: 0xFFF3F3)
+            circleView.layer.borderColor = UIColor(hex: 0xE8B3B3).cgColor
+            imageView.tintColor = UIColor(hex: 0xB74F4F)
+            titleLabel.textColor = UIColor(hex: 0xB74F4F)
         }
-        configuration = cfg
+    }
+
+    override var isHighlighted: Bool {
+        didSet { alpha = isHighlighted ? 0.55 : 1.0 }
     }
 }
