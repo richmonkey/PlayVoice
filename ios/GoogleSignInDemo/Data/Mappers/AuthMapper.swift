@@ -5,7 +5,7 @@ struct AuthMapper {
         Session(
             accessToken: dto.accessToken,
             userId: dto.userId,
-            name: dto.name ?? "匿名用户",
+            name: dto.name ?? "Anonymous",
             email: dto.email,
             avatarURL: dto.avatarUrl.flatMap(URL.init),
             isNewUser: dto.isNewUser

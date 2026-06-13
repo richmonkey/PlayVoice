@@ -11,7 +11,7 @@ struct ChannelMapper {
             channelId: dto.channelId,
             channelName: dto.channelName,
             ownerUserId: dto.ownerUserId,
-            ownerName: dto.ownerName ?? "未知用户",
+            ownerName: dto.ownerName ?? "Unknown User",
             ownerAvatarURL: dto.ownerAvatarUrl.flatMap(URL.init),
             updatedAt: date
         )

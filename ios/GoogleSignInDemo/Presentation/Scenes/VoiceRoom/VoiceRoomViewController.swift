@@ -65,7 +65,7 @@ final class VoiceRoomViewController: UIViewController {
     // MARK: - Setup
 
     private func setupBackground() {
-        view.backgroundColor = UIColor(hex: 0xF4FBFF)
+        view.backgroundColor = AppTheme.Color.background
     }
 
     private func setupNavigationBar() {
@@ -74,19 +74,19 @@ final class VoiceRoomViewController: UIViewController {
     }
 
     private func setupStatusBar() {
-        statusBar.backgroundColor = UIColor.white.withAlphaComponent(0.8)
+        statusBar.backgroundColor    = AppTheme.Color.card.withAlphaComponent(0.9)
         statusBar.layer.cornerRadius = 10
-        statusBar.layer.borderWidth = 1
-        statusBar.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
+        statusBar.layer.borderWidth  = 1
+        statusBar.layer.borderColor  = AppTheme.Color.border.cgColor
         view.addSubview(statusBar)
 
         statusDot.layer.cornerRadius = 4
-        statusDot.backgroundColor = UIColor(hex: 0xFFBB00)
+        statusDot.backgroundColor    = AppTheme.Color.warning
         statusBar.addSubview(statusDot)
 
-        statusLabel.font = .systemFont(ofSize: 12, weight: .medium)
-        statusLabel.textColor = UIColor(hex: 0x607286)
-        statusLabel.text = "连接中..."
+        statusLabel.font      = AppTheme.Font.captionMed()
+        statusLabel.textColor = AppTheme.Color.textSecondary
+        statusLabel.text      = "Connecting…"
         statusBar.addSubview(statusLabel)
 
         statusBar.snp.makeConstraints { make in
@@ -117,16 +117,12 @@ final class VoiceRoomViewController: UIViewController {
     }
 
     private func setupControlBar() {
-        controlBar.backgroundColor = UIColor.white.withAlphaComponent(0.9)
-        controlBar.layer.cornerRadius = 16
-        controlBar.layer.cornerCurve = .continuous
-        controlBar.layer.borderWidth = 1
-        controlBar.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
-        controlBar.layer.shadowColor = UIColor(hex: 0x31668C).cgColor
-        controlBar.layer.shadowOffset = CGSize(width: 0, height: -4)
-        controlBar.layer.shadowRadius = 12
-        controlBar.layer.shadowOpacity = 0.08
-        controlBar.layer.masksToBounds = false
+        controlBar.backgroundColor     = AppTheme.Color.card.withAlphaComponent(0.95)
+        controlBar.layer.cornerRadius  = AppTheme.Radius.card + 4
+        controlBar.layer.cornerCurve   = .continuous
+        controlBar.layer.borderWidth   = 1
+        controlBar.layer.borderColor   = AppTheme.Color.border.cgColor
+        AppTheme.Shadow.elevated(on: controlBar)
         view.addSubview(controlBar)
 
         controlBar.snp.makeConstraints { make in
@@ -135,13 +131,13 @@ final class VoiceRoomViewController: UIViewController {
             make.height.equalTo(80)
         }
 
-        muteButton.configure(title: "静音", icon: "mic.slash.fill", style: .normal)
+        muteButton.configure(title: "Mute", icon: "mic.slash.fill", style: .normal)
         muteButton.addTarget(self, action: #selector(muteTapped), for: .touchUpInside)
 
-        speakerButton.configure(title: "扬声器", icon: "speaker.wave.2.fill", style: .normal)
+        speakerButton.configure(title: "Speaker", icon: "speaker.wave.2.fill", style: .normal)
         speakerButton.addTarget(self, action: #selector(speakerTapped), for: .touchUpInside)
 
-        leaveButton.configure(title: "离开", icon: "phone.down.fill", style: .danger)
+        leaveButton.configure(title: "Leave", icon: "phone.down.fill", style: .danger)
         leaveButton.addTarget(self, action: #selector(leaveTapped), for: .touchUpInside)
 
         let stack = UIStackView(arrangedSubviews: [muteButton, speakerButton, leaveButton])
@@ -184,30 +180,29 @@ final class VoiceRoomViewController: UIViewController {
     private func renderConnectionState(_ state: VoiceRoomConnectionState) {
         switch state {
         case .connecting:
-            statusDot.backgroundColor = UIColor(hex: 0xFFBB00)
-            statusLabel.text = "连接中..."
-            statusLabel.textColor = UIColor(hex: 0x856D00)
+            statusDot.backgroundColor = AppTheme.Color.warning
+            statusLabel.text          = "Connecting…"
+            statusLabel.textColor     = AppTheme.Color.textSecondary
 
         case .connected:
-            statusDot.backgroundColor = UIColor(hex: 0x06A561)
-            statusLabel.text = "已连接"
-            statusLabel.textColor = UIColor(hex: 0x1E6B49)
+            statusDot.backgroundColor = AppTheme.Color.success
+            statusLabel.text          = "Connected"
+            statusLabel.textColor     = AppTheme.Color.success
 
         case .disconnected:
-            statusDot.backgroundColor = UIColor(hex: 0x607286)
-            statusLabel.text = "已断开"
-            statusLabel.textColor = UIColor(hex: 0x607286)
-            //连接被动断开后，自动重连
-            //self.viewModel.reconnect()
+            statusDot.backgroundColor = AppTheme.Color.textTertiary
+            statusLabel.text          = "Disconnected"
+            statusLabel.textColor     = AppTheme.Color.textTertiary
+
         case .failed(let msg):
-            statusDot.backgroundColor = UIColor(hex: 0xD0381E)
-            statusLabel.text = "连接失败"
-            statusLabel.textColor = UIColor(hex: 0xD0381E)
-            let alert = UIAlertController(title: "连接失败", message: msg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "重试", style: .default) { [weak self] _ in
+            statusDot.backgroundColor = AppTheme.Color.danger
+            statusLabel.text          = "Connection Failed"
+            statusLabel.textColor     = AppTheme.Color.danger
+            let alert = UIAlertController(title: "Connection Failed", message: msg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Reconnect", style: .default) { [weak self] _ in
                 self?.viewModel.reconnect()
             })
-            alert.addAction(UIAlertAction(title: "离开", style: .destructive) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: "Leave", style: .destructive) { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
             })
             present(alert, animated: true)
@@ -216,12 +211,12 @@ final class VoiceRoomViewController: UIViewController {
 
     private func updateTitle() {
         let count = viewModel.members.count
-        title = "\(viewModel.channelName) · \(count) 人"
+        title = "\(viewModel.channelName) · \(count)"
     }
 
     private func updateMuteButton(_ muted: Bool) {
         muteButton.configure(
-            title: muted ? "静音中" : "取消静音",
+            title: muted ? "Muted" : "Unmute",
             icon: muted ? "mic.slash.fill" : "mic.fill",
             style: muted ? .active : .normal
         )
@@ -229,7 +224,7 @@ final class VoiceRoomViewController: UIViewController {
 
     private func updateSpeakerButton(_ speaker: Bool) {
         speakerButton.configure(
-            title: speaker ? "扬声器" : "听筒",
+            title: speaker ? "Speaker" : "Earpiece",
             icon: speaker ? "speaker.wave.2.fill" : "earbuds",
             style: speaker ? .active : .normal
         )
@@ -324,25 +319,25 @@ private final class ControlButton: UIControl {
 
         switch style {
         case .normal:
-            circleView.backgroundColor = .white
-            circleView.layer.borderColor = UIColor(hex: 0xBFD9EE).cgColor
-            imageView.tintColor = UIColor(hex: 0x2F526E)
-            titleLabel.textColor = UIColor(hex: 0x2F526E)
+            circleView.backgroundColor   = AppTheme.Color.card
+            circleView.layer.borderColor = AppTheme.Color.border.cgColor
+            imageView.tintColor          = AppTheme.Color.textSecondary
+            titleLabel.textColor         = AppTheme.Color.textSecondary
         case .active:
-            circleView.backgroundColor = UIColor(hex: 0xE8F4FF)
-            circleView.layer.borderColor = UIColor(hex: 0x90C3F0).cgColor
-            imageView.tintColor = UIColor(hex: 0x0B5FA5)
-            titleLabel.textColor = UIColor(hex: 0x0B5FA5)
+            circleView.backgroundColor   = AppTheme.Color.brandLight
+            circleView.layer.borderColor = AppTheme.Color.brand.withAlphaComponent(0.4).cgColor
+            imageView.tintColor          = AppTheme.Color.brand
+            titleLabel.textColor         = AppTheme.Color.brand
         case .warn:
-            circleView.backgroundColor = UIColor(hex: 0xFFF8EC)
-            circleView.layer.borderColor = UIColor(hex: 0xE2C68B).cgColor
-            imageView.tintColor = UIColor(hex: 0xB87900)
-            titleLabel.textColor = UIColor(hex: 0xB87900)
+            circleView.backgroundColor   = AppTheme.Color.dangerLight
+            circleView.layer.borderColor = AppTheme.Color.warning.withAlphaComponent(0.4).cgColor
+            imageView.tintColor          = AppTheme.Color.warning
+            titleLabel.textColor         = AppTheme.Color.warning
         case .danger:
-            circleView.backgroundColor = UIColor(hex: 0xFFF3F3)
-            circleView.layer.borderColor = UIColor(hex: 0xE8B3B3).cgColor
-            imageView.tintColor = UIColor(hex: 0xB74F4F)
-            titleLabel.textColor = UIColor(hex: 0xB74F4F)
+            circleView.backgroundColor   = AppTheme.Color.dangerLight
+            circleView.layer.borderColor = AppTheme.Color.danger.withAlphaComponent(0.4).cgColor
+            imageView.tintColor          = AppTheme.Color.danger
+            titleLabel.textColor         = AppTheme.Color.danger
         }
     }
 

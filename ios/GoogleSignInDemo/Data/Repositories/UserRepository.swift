@@ -12,9 +12,9 @@ final class UserRepository: UserRepositoryProtocol {
         return dtos.map { dto in
             SearchUser(
                 userId: dto.userId,
-                name: dto.name ?? "未知用户",
+                name: dto.name ?? "Unknown User",
                 avatarURL: dto.avatarUrl.flatMap(URL.init),
-                channelName: dto.channelName ?? "未命名频道",
+                channelName: dto.channelName ?? "Unnamed Channel",
                 isFollowed: dto.isFollowed
             )
         }

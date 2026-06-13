@@ -23,9 +23,8 @@ final class LoginViewController: UIViewController {
 
     private let gradientLayer: CAGradientLayer = {
         let l = CAGradientLayer()
-        l.colors = [UIColor(hex: 0xE9F7FF).cgColor,
-                    UIColor(hex: 0xF4FBFF).cgColor,
-                    UIColor(hex: 0xF9FDFF).cgColor]
+        l.colors = [AppTheme.Color.brandLight.cgColor,
+                    AppTheme.Color.background.cgColor]
         l.startPoint = CGPoint(x: 0, y: 0)
         l.endPoint   = CGPoint(x: 1, y: 1)
         return l
@@ -38,21 +37,18 @@ final class LoginViewController: UIViewController {
 
     private let panelView: UIView = {
         let v = UIView()
-        v.backgroundColor     = .white
-        v.layer.cornerRadius  = 24
-        v.layer.shadowColor   = UIColor(hex: 0x31668C, alpha: 0.16).cgColor
-        v.layer.shadowOffset  = CGSize(width: 0, height: 18)
-        v.layer.shadowRadius  = 30
-        v.layer.shadowOpacity = 1
+        v.backgroundColor     = AppTheme.Color.card
+        v.layer.cornerRadius  = AppTheme.Radius.card + 12
+        AppTheme.Shadow.elevated(on: v)
         return v
     }()
 
     private let tagLabel: PaddedLabel = {
         let l = PaddedLabel()
-        l.text                = "GOOGLE SIGN-IN"
-        l.font                = .systemFont(ofSize: 12, weight: .semibold)
-        l.textColor           = UIColor(hex: 0x1B6DB8)
-        l.backgroundColor     = UIColor(hex: 0xE8F3FF)
+        l.text                = "SIGN IN"
+        l.font                = AppTheme.Font.captionMed()
+        l.textColor           = AppTheme.Color.brand
+        l.backgroundColor     = AppTheme.Color.brandLight
         l.layer.cornerRadius  = 13
         l.layer.masksToBounds = true
         l.insets = UIEdgeInsets(top: 6, left: 10, bottom: 6, right: 10)
@@ -61,18 +57,18 @@ final class LoginViewController: UIViewController {
 
     private let titleLabel: UILabel = {
         let l = UILabel()
-        l.text          = "欢迎回来"
+        l.text          = "Welcome Back"
         l.font          = .systemFont(ofSize: 30, weight: .bold)
-        l.textColor     = UIColor(hex: 0x0F1F2E)
+        l.textColor     = AppTheme.Color.textPrimary
         l.numberOfLines = 0
         return l
     }()
 
     private let subtitleLabel: UILabel = {
         let l = UILabel()
-        l.text          = "请使用 Google 账号继续登录。"
-        l.font          = .systemFont(ofSize: 15)
-        l.textColor     = UIColor(hex: 0x607286)
+        l.text          = "Sign in with your Google account."
+        l.font          = AppTheme.Font.body()
+        l.textColor     = AppTheme.Color.textSecondary
         l.numberOfLines = 0
         return l
     }()
@@ -96,7 +92,7 @@ final class LoginViewController: UIViewController {
         config.imagePlacement = .leading
         config.imagePadding   = 10
         config.attributedTitle = AttributedString(
-            "使用 Google 继续",
+            "Continue with Google",
             attributes: AttributeContainer([
                 .font: UIFont.systemFont(ofSize: 14, weight: .semibold),
                 .foregroundColor: UIColor(hex: 0x3C4043)
@@ -110,18 +106,18 @@ final class LoginViewController: UIViewController {
 
     private let statusWrapper: UIView = {
         let v = UIView()
-        v.backgroundColor    = UIColor(hex: 0xF6FBFF)
-        v.layer.borderColor  = UIColor(hex: 0xD3E7F5).cgColor
+        v.backgroundColor    = AppTheme.Color.cardAlt
+        v.layer.borderColor  = AppTheme.Color.border.cgColor
         v.layer.borderWidth  = 1
-        v.layer.cornerRadius = 14
+        v.layer.cornerRadius = AppTheme.Radius.button + 6
         return v
     }()
 
     private let statusLabel: UILabel = {
         let l = UILabel()
-        l.text          = "选择 Google 账号后可继续。"
-        l.font          = .systemFont(ofSize: 14)
-        l.textColor     = UIColor(hex: 0x35556F)
+        l.text          = "Choose a sign-in method to continue."
+        l.font          = AppTheme.Font.callout()
+        l.textColor     = AppTheme.Color.textSecondary
         l.numberOfLines = 0
         return l
     }()
@@ -154,17 +150,18 @@ final class LoginViewController: UIViewController {
     private func render(_ state: AuthViewState) {
         switch state {
         case .idle:
-            statusLabel.text         = "选择 Google 账号后可继续。"
+            statusLabel.text             = "Choose a sign-in method to continue."
             googleSignInButton.isEnabled = true
         case .loading:
-            statusLabel.text         = "正在登录…"
+            statusLabel.text             = "Signing in…"
             googleSignInButton.isEnabled = false
         case .success(let isNewUser):
-            statusLabel.text = isNewUser ? "注册成功，欢迎加入！" : "登录成功，欢迎回来！"
+            statusLabel.text = isNewUser ? "Account created. Welcome!" : "Signed in. Welcome back!"
             coordinator.showHome()
         case .failure(let message):
-            statusLabel.text         = message
+            statusLabel.text             = message
             googleSignInButton.isEnabled = true
+
         }
     }
 
@@ -272,6 +269,8 @@ final class LoginViewController: UIViewController {
         v.layer.cornerRadius = size / 2
         return v
     }
+
+    // MARK: - Google helper
 
     private func makeGoogleGImage(size: CGFloat) -> UIImage {
         let renderer = UIGraphicsImageRenderer(size: CGSize(width: size, height: size))

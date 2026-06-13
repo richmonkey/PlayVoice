@@ -15,8 +15,8 @@ final class SearchViewController: UIViewController {
         let sc = UISearchController(searchResultsController: nil)
         sc.searchResultsUpdater = self
         sc.obscuresBackgroundDuringPresentation = false
-        sc.searchBar.placeholder = "搜索昵称或频道名称"
-        sc.searchBar.tintColor = UIColor(hex: 0x0B84FF)
+        sc.searchBar.placeholder = "Search by name or channel"
+        sc.searchBar.tintColor = AppTheme.Color.brand
         return sc
     }()
 
@@ -35,15 +35,15 @@ final class SearchViewController: UIViewController {
         let v = UIView()
 
         let icon = UIImageView(image: UIImage(systemName: "person.2.fill"))
-        icon.tintColor = UIColor(hex: 0xB0C8DB)
+        icon.tintColor = AppTheme.Color.textTertiary
         icon.contentMode = .scaleAspectFit
         v.addSubview(icon)
 
         let label = UILabel()
-        label.text = "输入昵称或频道名称\n搜索并关注用户"
+        label.text = "Enter a name or channel\nto search and follow users"
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = UIColor(hex: 0x66788C)
+        label.font = AppTheme.Font.callout()
+        label.textColor = AppTheme.Color.textSecondary
         label.textAlignment = .center
         v.addSubview(label)
 
@@ -62,9 +62,9 @@ final class SearchViewController: UIViewController {
     private let emptyResultView: UIView = {
         let v = UIView()
         let label = UILabel()
-        label.text = "没有找到相关用户"
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = UIColor(hex: 0x66788C)
+        label.text = "No users found"
+        label.font = AppTheme.Font.callout()
+        label.textColor = AppTheme.Color.textSecondary
         label.textAlignment = .center
         v.addSubview(label)
         label.snp.makeConstraints { make in make.edges.equalToSuperview() }
@@ -106,13 +106,13 @@ final class SearchViewController: UIViewController {
     // MARK: - Setup
 
     private func setupNavigationBar() {
-        title = "搜索用户"
+        title = "Search"
         navigationItem.searchController = searchController
         navigationItem.hidesSearchBarWhenScrolling = false
     }
 
     private func setupBackground() {
-        view.backgroundColor = UIColor(hex: 0xF6FBFF)
+        view.backgroundColor = AppTheme.Color.background
     }
 
     private func setupLayout() {
@@ -155,9 +155,9 @@ final class SearchViewController: UIViewController {
         header.backgroundColor = .clear
 
         let subtitleLabel = UILabel()
-        subtitleLabel.text = "可通过昵称或频道名称查找用户并关注。"
-        subtitleLabel.font = .systemFont(ofSize: 13)
-        subtitleLabel.textColor = UIColor(hex: 0x66788C)
+        subtitleLabel.text = "Find users by name or channel and follow them."
+        subtitleLabel.font = AppTheme.Font.subheadline()
+        subtitleLabel.textColor = AppTheme.Color.textSecondary
         subtitleLabel.numberOfLines = 0
         header.addSubview(subtitleLabel)
 

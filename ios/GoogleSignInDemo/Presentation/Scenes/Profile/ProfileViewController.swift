@@ -42,8 +42,8 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "个人主页"
-        view.backgroundColor = UIColor(hex: 0xF2F7FC)
+        title = "Profile"
+        view.backgroundColor = AppTheme.Color.background
         setupTableView()
         setupLoadingIndicator()
         loadHeroFromCache()
@@ -63,7 +63,7 @@ final class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.backgroundColor = UIColor(hex: 0xF2F7FC)
+        tableView.backgroundColor = AppTheme.Color.background
         view.addSubview(tableView)
         tableView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
         setupHeroHeader()
@@ -72,16 +72,12 @@ final class ProfileViewController: UIViewController {
     private func setupHeroHeader() {
         let header = UIView()
 
-        heroCard.backgroundColor = .white
-        heroCard.layer.cornerRadius = 16
-        heroCard.layer.cornerCurve = .continuous
-        heroCard.layer.borderWidth = 1
-        heroCard.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
-        heroCard.layer.shadowColor = UIColor(hex: 0x1B8AD6).cgColor
-        heroCard.layer.shadowOffset = CGSize(width: 0, height: 4)
-        heroCard.layer.shadowRadius = 10
-        heroCard.layer.shadowOpacity = 0.08
-        heroCard.layer.masksToBounds = false
+        heroCard.backgroundColor     = AppTheme.Color.card
+        heroCard.layer.cornerRadius  = AppTheme.Radius.card
+        heroCard.layer.cornerCurve   = .continuous
+        heroCard.layer.borderWidth   = 1
+        heroCard.layer.borderColor   = AppTheme.Color.border.cgColor
+        AppTheme.Shadow.card(on: heroCard)
         header.addSubview(heroCard)
 
         avatarView.layer.cornerRadius = 30
@@ -96,8 +92,8 @@ final class ProfileViewController: UIViewController {
         avatarView.layer.insertSublayer(g, at: 0)
         avatarGradient = g
 
-        avatarLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        avatarLabel.textColor = .white
+        avatarLabel.font          = AppTheme.Font.title2()
+        avatarLabel.textColor     = .white
         avatarLabel.textAlignment = .center
         avatarView.addSubview(avatarLabel)
         avatarLabel.snp.makeConstraints { $0.center.equalToSuperview() }
@@ -108,12 +104,12 @@ final class ProfileViewController: UIViewController {
         avatarView.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { $0.edges.equalToSuperview() }
 
-        heroNameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
-        heroNameLabel.textColor = UIColor(hex: 0x172839)
+        heroNameLabel.font      = AppTheme.Font.title2()
+        heroNameLabel.textColor = AppTheme.Color.textPrimary
         heroCard.addSubview(heroNameLabel)
 
-        heroSubtitleLabel.font = .systemFont(ofSize: 13)
-        heroSubtitleLabel.textColor = UIColor(hex: 0x667B8F)
+        heroSubtitleLabel.font      = AppTheme.Font.subheadline()
+        heroSubtitleLabel.textColor = AppTheme.Color.textSecondary
         heroCard.addSubview(heroSubtitleLabel)
 
         heroCard.snp.makeConstraints { make in
@@ -161,7 +157,7 @@ final class ProfileViewController: UIViewController {
         displayName = name
         email = ud.string(forKey: "user_email") ?? ""
         avatarLabel.text = initials(from: name)
-        heroNameLabel.text = name.isEmpty ? "未设置昵称" : name
+        heroNameLabel.text = name.isEmpty ? "No name set" : name
         heroSubtitleLabel.text = email
         loadAvatarImage(from: ud.string(forKey: "user_avatar_url").flatMap(URL.init))
     }
@@ -208,15 +204,15 @@ final class ProfileViewController: UIViewController {
             self.email = email
             channelName = channel.channelName
             avatarLabel.text = initials(from: userName)
-            heroNameLabel.text = userName.isEmpty ? "未设置昵称" : userName
+            heroNameLabel.text = userName.isEmpty ? "No name set" : userName
             heroSubtitleLabel.text = email
             loadAvatarImage(from: avatarURL)
             tableView.reloadData()
 
         case .failure(let msg):
             loadingIndicator.stopAnimating()
-            let alert = UIAlertController(title: "加载失败", message: msg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "重试", style: .default) { [weak self] _ in
+            let alert = UIAlertController(title: "Load Failed", message: msg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
                 self?.viewModel.load()
             })
             present(alert, animated: true)
@@ -245,7 +241,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "基本信息" : "频道设置"
+        section == 0 ? "General" : "Channel"
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -256,17 +252,17 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            config.text = "昵称"
+            config.text = "Display Name"
             config.secondaryText = displayName.isEmpty ? "—" : displayName
             cell.accessoryType = .none
             cell.selectionStyle = .none
         case (0, _):
-            config.text = "邮箱"
+            config.text = "Email"
             config.secondaryText = email.isEmpty ? "—" : email
             cell.accessoryType = .none
             cell.selectionStyle = .none
         default:
-            config.text = "频道名称"
+            config.text = "Channel Name"
             config.secondaryText = channelName.isEmpty ? "—" : channelName
             cell.accessoryType = .disclosureIndicator
             cell.selectionStyle = .default

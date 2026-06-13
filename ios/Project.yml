@@ -1,0 +1,143 @@
+name: PlayVoice
+options:
+  bundleIdPrefix: com.daibou007
+  deploymentTarget:
+    iOS: "17.6"
+  usesTabs: false
+  tabWidth: 2
+  indentWidth: 2
+
+settings:
+  DEVELOPMENT_TEAM: Z53L5682S3
+  CODE_SIGN_STYLE: Automatic
+  SWIFT_VERSION: "5.9"
+  IPHONEOS_DEPLOYMENT_TARGET: "17.6"
+  MARKETING_VERSION: "1.0.0"
+  CURRENT_PROJECT_VERSION: "1"
+  # ── App Store Connect Metadata (set in ASC, not in binary) ──────────────
+  # App Name (30 chars max):    PlayVoice - Game Voice Chat
+  # Subtitle (30 chars max):    Real-Time Squad Voice Rooms
+  # Primary Category:           Social Networking
+  # Secondary Category:         Entertainment
+
+targets:
+  PlayVoice:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.6"
+
+    sources:
+      - path: GoogleSignInDemo
+        excludes:
+          - "Info.plist"
+
+    resources:
+      - path: GoogleSignInDemo/Resources
+        type: directory
+
+    settings:
+      PRODUCT_NAME: GameVoice
+      BUNDLE_ID: com.daibou007.playvoice
+      INFOPLIST_FILE: GoogleSignInDemo/Info.plist
+      CODE_SIGN_ENTITLEMENTS: GoogleSignInDemo/PlayVoice.entitlements
+      SWIFT_OBJC_BRIDGING_HEADER: GoogleSignInDemo/Bridging-Header.h
+      TARGETED_DEVICE_FAMILY: "1"
+      CFBundleDisplayName: GameVoice
+      CFBundleName: GameVoice
+      MARKETING_VERSION: "$(MARKETING_VERSION)"
+      CURRENT_PROJECT_VERSION: "$(CURRENT_PROJECT_VERSION)"
+      OTHER_LDFLAGS:
+        - -ObjC
+      FRAMEWORK_SEARCH_PATHS:
+        - $(SRCROOT)/Frameworks
+      LINKER_SEARCH_PATHS: $(inherited)
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Frameworks
+        - $(SRCROOT)/GoogleSignInDemo/Infrastructure/Room
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers
+      USER_HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers
+      # Home-screen icon label (max ~13 chars readable on device)
+      INFOPLIST_KEY_CFBundleDisplayName: GameVoice
+      # App Store primary category — Social Networking
+      INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.social-networking
+      INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: "YES"
+      INFOPLIST_KEY_UILaunchScreen:
+        UIColorName: ""
+        UIImageName: LaunchIcon
+        UIImageRespectsSafeAreaInsets: false
+
+    dependencies:
+      - package: SnapKit
+        product: SnapKit
+      - package: GoogleSignIn
+        product: GoogleSignIn
+      - framework: Frameworks/WebRTC.xcframework
+        embed: true
+        codeSign: true
+      - framework: Frameworks/protooclient.xcframework
+        embed: false
+
+    frameworkSearchPaths:
+      - $(SRCROOT)/Frameworks
+
+    buildPhases:
+      - type: script
+        name: "Check Local Frameworks"
+        inputFiles:
+          - $(SRCROOT)/Frameworks/WebRTC.xcframework
+          - $(SRCROOT)/Frameworks/protooclient.xcframework
+        outputFiles:
+          - $(DERIVED_FILE_DIR)/frameworks_checked
+        script: |
+          set -e
+          MISSING=""
+          if [ ! -d "${SRCROOT}/Frameworks/WebRTC.xcframework" ]; then
+            MISSING="${MISSING}  WebRTC.xcframework\n"
+          fi
+          if [ ! -d "${SRCROOT}/Frameworks/protooclient.xcframework" ]; then
+            MISSING="${MISSING}  protooclient.xcframework\n"
+          fi
+          if [ -n "${MISSING}" ]; then
+            echo "error: Frameworks/ 目录下缺失:\n${MISSING}"
+            echo "请将 xcframework 文件手动复制到 ios/Frameworks/ 目录"
+            exit 1
+          fi
+          touch "${DERIVED_FILE_DIR}/frameworks_checked"
+      - type: sources
+      - type: resourceBundles
+
+    scheme:
+      testTargets: []
+      gatherCoverageData: false
+      parallelizeBuildables: true
+      randomExecutionOrder: false
+
+packages:
+  SnapKit:
+    url: https://github.com/SnapKit/SnapKit.git
+    version: 5.7.1
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS.git
+    version: 7.1.0
+
+# CocoaPods 配置（如需迁移到 SPM，可移除此项）
+# 目前保留 CocoaPods 用于: GoogleSignIn, SnapKit 等
+# 迁移指南：
+# 1. 执行 `xcodegen generate` 生成新 Xcode 项目
+# 2. 删除 Pods 目录和 Podfile
+# 3. 在 Project.yml 中配置 SPM 依赖（packages 和 dependencies）
+# 4. 重新运行 `xcodegen generate`
+
+# 项目结构说明：
+# GoogleSignInDemo/
+# ├── Presentation/         # UI 层（UIViewController, SwiftUI）
+# ├── Domain/              # 业务层（UseCase, Entity, Protocol）
+# ├── Data/                # 数据层（Repository, DTO, Mapper）
+# ├── Infrastructure/      # 基础层（Network, Database, DI）
+# ├── Resources/           # 资源文件（Assets, Localizable 等）
+# ├── Bridging-Header.h    # ObjC-Swift 桥接文件
+# ├── AppDelegate.swift
+# └── SceneDelegate.swift
