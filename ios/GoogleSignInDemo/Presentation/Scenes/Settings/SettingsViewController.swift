@@ -53,7 +53,7 @@ final class SettingsViewController: UIViewController {
     private func buildSections() {
         sections = [
             makeAppearanceSection(),
-            makeSupportSection(),
+            makeCommunitySection(),
             makeLegalSection(),
             makeAboutSection()
         ]
@@ -71,32 +71,24 @@ final class SettingsViewController: UIViewController {
         return Section(title: "Appearance", rows: [modeRow])
     }
 
-    private func makeSupportSection() -> Section {
-        let help = Row(
-            title: "Help Center",
-            subtitle: "Guides & FAQs",
-            icon: "questionmark.circle.fill",
-            iconColor: UIColor(hex: 0x00C48C),
-            action: { [weak self] in self?.openURL("https://daibou007.github.io/PrivacyAndSupport/GameVoice/support.html") },
-            accessory: .disclosure
-        )
-        let support = Row(
-            title: "Contact Support",
-            subtitle: "daibou007@gmail.com",
-            icon: "envelope.fill",
-            iconColor: UIColor(hex: 0xFF9500),
-            action: { [weak self] in self?.openURL("mailto:daibou007@gmail.com") },
+    private func makeCommunitySection() -> Section {
+        let share = Row(
+            title: "Share GameVoice",
+            subtitle: "Invite your squad to join",
+            icon: "square.and.arrow.up",
+            iconColor: UIColor(hex: 0x2570FF),
+            action: { [weak self] in self?.shareApp() },
             accessory: .disclosure
         )
         let rate = Row(
             title: "Rate GameVoice",
-            subtitle: "Enjoying the app? Let us know",
+            subtitle: "Enjoying the app? Leave a review",
             icon: "star.fill",
             iconColor: UIColor(hex: 0xFFCC00),
-            action: { [weak self] in self?.openURL("https://apps.apple.com/app/id000000000") },
+            action: { [weak self] in self?.openURL("https://apps.apple.com/app/id6779935867?action=write-review") },
             accessory: .disclosure
         )
-        return Section(title: "Support", rows: [help, support, rate])
+        return Section(title: "Community", rows: [share, rate])
     }
 
     private func makeLegalSection() -> Section {
@@ -130,7 +122,15 @@ final class SettingsViewController: UIViewController {
             action: { [weak self] in self?.showAboutAlert(version: version) },
             accessory: .none
         )
-        return Section(title: "About", rows: [about])
+        let support = Row(
+            title: "Support",
+            subtitle: nil,
+            icon: "questionmark.circle.fill",
+            iconColor: UIColor(hex: 0x00C48C),
+            action: { [weak self] in self?.openURL("https://daibou007.github.io/PrivacyAndSupport/GameVoice/support.html") },
+            accessory: .disclosure
+        )
+        return Section(title: "About", rows: [about, support])
     }
 
     private func showAboutAlert(version: String) {
@@ -176,6 +176,19 @@ final class SettingsViewController: UIViewController {
         }
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
         present(alert, animated: true)
+    }
+
+    private func shareApp() {
+        let appURL  = URL(string: "https://apps.apple.com/app/id6779935867")!
+        let message = "Check out GameVoice — Real-Time Voice Chat for Gamers!"
+        let vc = UIActivityViewController(activityItems: [message, appURL], applicationActivities: nil)
+        vc.excludedActivityTypes = [.addToReadingList, .assignToContact, .markupAsPDF]
+        if let popover = vc.popoverPresentationController {
+            popover.sourceView = view
+            popover.sourceRect = CGRect(x: view.bounds.midX, y: view.bounds.midY, width: 0, height: 0)
+            popover.permittedArrowDirections = []
+        }
+        present(vc, animated: true)
     }
 
     private func openURL(_ string: String) {

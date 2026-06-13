@@ -74,29 +74,17 @@ final class SplashViewController: UIViewController {
         view.addSubview(bgView)
         bgView.snp.makeConstraints { $0.edges.equalToSuperview() }
 
-        view.addSubview(glowView)
-        glowView.snp.makeConstraints { make in
-            make.center.equalToSuperview().offset(-60)
-            make.width.height.equalTo(240)
-        }
-
-        view.addSubview(waveRing3)
-        view.addSubview(waveRing2)
-        view.addSubview(waveRing1)
-        for ring in [waveRing1, waveRing2, waveRing3] {
-            ring.snp.makeConstraints { $0.center.equalToSuperview().offset(-60) }
-            ring.alpha = 0
-        }
-        waveRing1.snp.makeConstraints { $0.width.height.equalTo(88) }
-        waveRing2.snp.makeConstraints { $0.width.height.equalTo(140) }
-        waveRing3.snp.makeConstraints { $0.width.height.equalTo(200) }
-
         view.addSubview(logoContainer)
         logoContainer.snp.makeConstraints { make in
             make.centerX.equalToSuperview()
             make.centerY.equalToSuperview().offset(-60)
         }
 
+        // glowView and rings inside logoContainer, centered on iconView
+        logoContainer.addSubview(glowView)
+        logoContainer.addSubview(waveRing3)
+        logoContainer.addSubview(waveRing2)
+        logoContainer.addSubview(waveRing1)
         logoContainer.addSubview(iconView)
         logoContainer.addSubview(appNameLabel)
         logoContainer.addSubview(taglineLabel)
@@ -106,6 +94,18 @@ final class SplashViewController: UIViewController {
             make.centerX.equalToSuperview()
             make.width.height.equalTo(56)
         }
+        glowView.snp.makeConstraints { make in
+            make.center.equalTo(iconView)
+            make.width.height.equalTo(240)
+        }
+        for ring in [waveRing1, waveRing2, waveRing3] {
+            ring.snp.makeConstraints { $0.center.equalTo(iconView) }
+            ring.alpha = 0
+        }
+        waveRing1.snp.makeConstraints { $0.width.height.equalTo(88) }
+        waveRing2.snp.makeConstraints { $0.width.height.equalTo(140) }
+        waveRing3.snp.makeConstraints { $0.width.height.equalTo(200) }
+
         appNameLabel.snp.makeConstraints { make in
             make.top.equalTo(iconView.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
