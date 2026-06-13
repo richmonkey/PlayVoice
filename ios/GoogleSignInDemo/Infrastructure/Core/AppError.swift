@@ -8,10 +8,10 @@ enum AppError: Error, LocalizedError {
 
     var errorDescription: String? {
         switch self {
-        case .invalidResponse:           return "服务器响应异常，请重试。"
-        case .httpError(let code):       return "请求失败（\(code)），请重试。"
-        case .decodingError:             return "数据解析失败，请重试。"
-        case .network:                   return "网络错误，请检查连接后重试。"
+        case .invalidResponse:           return "Server error. Please try again."
+        case .httpError(let code):       return "Request failed (\(code)). Please try again."
+        case .decodingError:             return "Failed to parse response. Please try again."
+        case .network:                   return "Network error. Check your connection and try again."
         }
     }
 }

@@ -9,6 +9,7 @@ enum HTTPMethod: String {
 
 enum Endpoint {
     case googleAuth(idToken: String, name: String?, avatarURL: String?)
+    case appleAuth(idToken: String, name: String?, email: String?)
     case followedChannels
     case myChannel
     case updateChannelName(name: String)
@@ -21,6 +22,7 @@ extension Endpoint {
     var path: String {
         switch self {
         case .googleAuth:              return "auth/google"
+        case .appleAuth:               return "auth/apple"
         case .followedChannels:        return "channels/followed"
         case .myChannel:               return "channels/me"
         case .updateChannelName:       return "channels/me/name"
@@ -33,6 +35,7 @@ extension Endpoint {
     var method: HTTPMethod {
         switch self {
         case .googleAuth:        return .post
+        case .appleAuth:         return .post
         case .followedChannels:  return .get
         case .myChannel:         return .get
         case .updateChannelName: return .patch
@@ -57,6 +60,11 @@ extension Endpoint {
             var body: [String: String] = ["id_token": idToken]
             if let name { body["name"] = name }
             if let avatarURL { body["avatar_url"] = avatarURL }
+            return try JSONEncoder().encode(body)
+        case .appleAuth(let idToken, let name, let email):
+            var body: [String: String] = ["id_token": idToken]
+            if let name { body["name"] = name }
+            if let email { body["email"] = email }
             return try JSONEncoder().encode(body)
         case .updateChannelName(let name):
             return try JSONEncoder().encode(["channel_name": name])

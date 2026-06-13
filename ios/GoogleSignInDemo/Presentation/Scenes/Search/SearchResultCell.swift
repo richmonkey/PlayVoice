@@ -110,18 +110,18 @@ final class SearchResultCell: UITableViewCell {
 
         initialsLabel.text = initials(from: user.name)
         nameLabel.text = user.name
-        channelLabel.text = "频道：\(user.channelName)"
+        channelLabel.text = "Channel: \(user.channelName)"
         applyFollowState(user.isFollowed)
     }
 
     private func applyFollowState(_ isFollowed: Bool) {
         if isFollowed {
-            followButton.setTitle("已关注", for: .normal)
+            followButton.setTitle("Following", for: .normal)
             followButton.setTitleColor(UIColor(hex: 0x0E5FA5), for: .normal)
             followButton.backgroundColor = UIColor(hex: 0xEBF6FF)
             followButton.layer.borderColor = UIColor(hex: 0x9ECCF1).cgColor
         } else {
-            followButton.setTitle("关注", for: .normal)
+            followButton.setTitle("Follow", for: .normal)
             followButton.setTitleColor(UIColor(hex: 0x2C577C), for: .normal)
             followButton.backgroundColor = UIColor(hex: 0xF8FCFF)
             followButton.layer.borderColor = UIColor(hex: 0xC8DEF1).cgColor

@@ -38,7 +38,7 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
         roomClient = client
 
         let myId = UserDefaults.standard.integer(forKey: "user_id")
-        let myName = UserDefaults.standard.string(forKey: "user_name") ?? "我"
+        let myName = UserDefaults.standard.string(forKey: "user_name") ?? "Me"
 
         super.init()
         client.delegate = self
@@ -66,7 +66,7 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
                     self.roomClient.start()
                     self.startSpeakerDetection()
                 } else {
-                    self.connectionState = .failed("麦克风权限被拒绝，请在「设置 › 隐私与安全性」中开启")
+                    self.connectionState = .failed("Microphone access denied. Enable it in Settings › Privacy.")
                 }
             }
         }
@@ -141,7 +141,7 @@ extension VoiceRoomViewModel: RoomClientDelegate {
     }
 
     func roomClientDidFail(_ client: RoomClient) {
-        connectionState = .failed("连接失败，请检查网络后点击「重连」")
+        connectionState = .failed("Connection failed. Check your network and tap Reconnect.")
     }
 
     func roomClient(_ client: RoomClient, didJoinWithPeers peers: [Any]) {

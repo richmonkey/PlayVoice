@@ -86,7 +86,7 @@ final class VoiceRoomViewController: UIViewController {
 
         statusLabel.font = .systemFont(ofSize: 12, weight: .medium)
         statusLabel.textColor = UIColor(hex: 0x607286)
-        statusLabel.text = "连接中..."
+        statusLabel.text = "Connecting…"
         statusBar.addSubview(statusLabel)
 
         statusBar.snp.makeConstraints { make in
@@ -135,13 +135,13 @@ final class VoiceRoomViewController: UIViewController {
             make.height.equalTo(80)
         }
 
-        muteButton.configure(title: "静音", icon: "mic.slash.fill", style: .normal)
+        muteButton.configure(title: "Mute", icon: "mic.slash.fill", style: .normal)
         muteButton.addTarget(self, action: #selector(muteTapped), for: .touchUpInside)
 
-        speakerButton.configure(title: "扬声器", icon: "speaker.wave.2.fill", style: .normal)
+        speakerButton.configure(title: "Speaker", icon: "speaker.wave.2.fill", style: .normal)
         speakerButton.addTarget(self, action: #selector(speakerTapped), for: .touchUpInside)
 
-        leaveButton.configure(title: "离开", icon: "phone.down.fill", style: .danger)
+        leaveButton.configure(title: "Leave", icon: "phone.down.fill", style: .danger)
         leaveButton.addTarget(self, action: #selector(leaveTapped), for: .touchUpInside)
 
         let stack = UIStackView(arrangedSubviews: [muteButton, speakerButton, leaveButton])
@@ -185,29 +185,27 @@ final class VoiceRoomViewController: UIViewController {
         switch state {
         case .connecting:
             statusDot.backgroundColor = UIColor(hex: 0xFFBB00)
-            statusLabel.text = "连接中..."
+            statusLabel.text = "Connecting…"
             statusLabel.textColor = UIColor(hex: 0x856D00)
 
         case .connected:
             statusDot.backgroundColor = UIColor(hex: 0x06A561)
-            statusLabel.text = "已连接"
+            statusLabel.text = "Connected"
             statusLabel.textColor = UIColor(hex: 0x1E6B49)
 
         case .disconnected:
             statusDot.backgroundColor = UIColor(hex: 0x607286)
-            statusLabel.text = "已断开"
+            statusLabel.text = "Disconnected"
             statusLabel.textColor = UIColor(hex: 0x607286)
-            //连接被动断开后，自动重连
-            //self.viewModel.reconnect()
         case .failed(let msg):
             statusDot.backgroundColor = UIColor(hex: 0xD0381E)
-            statusLabel.text = "连接失败"
+            statusLabel.text = "Connection Failed"
             statusLabel.textColor = UIColor(hex: 0xD0381E)
-            let alert = UIAlertController(title: "连接失败", message: msg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "重试", style: .default) { [weak self] _ in
+            let alert = UIAlertController(title: "Connection Failed", message: msg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Reconnect", style: .default) { [weak self] _ in
                 self?.viewModel.reconnect()
             })
-            alert.addAction(UIAlertAction(title: "离开", style: .destructive) { [weak self] _ in
+            alert.addAction(UIAlertAction(title: "Leave", style: .destructive) { [weak self] _ in
                 self?.navigationController?.popViewController(animated: true)
             })
             present(alert, animated: true)
@@ -216,12 +214,12 @@ final class VoiceRoomViewController: UIViewController {
 
     private func updateTitle() {
         let count = viewModel.members.count
-        title = "\(viewModel.channelName) · \(count) 人"
+        title = "\(viewModel.channelName) · \(count)"
     }
 
     private func updateMuteButton(_ muted: Bool) {
         muteButton.configure(
-            title: muted ? "静音中" : "取消静音",
+            title: muted ? "Muted" : "Unmute",
             icon: muted ? "mic.slash.fill" : "mic.fill",
             style: muted ? .active : .normal
         )
@@ -229,7 +227,7 @@ final class VoiceRoomViewController: UIViewController {
 
     private func updateSpeakerButton(_ speaker: Bool) {
         speakerButton.configure(
-            title: speaker ? "扬声器" : "听筒",
+            title: speaker ? "Speaker" : "Earpiece",
             icon: speaker ? "speaker.wave.2.fill" : "earbuds",
             style: speaker ? .active : .normal
         )

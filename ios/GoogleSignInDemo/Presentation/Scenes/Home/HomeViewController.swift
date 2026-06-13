@@ -45,7 +45,7 @@ final class HomeViewController: UIViewController {
         v.layer.borderColor = UIColor(hex: 0xB9D8EF).cgColor
 
         let label = UILabel()
-        label.text = "还没有关注任何频道\n点击顶部「搜索用户」来发现更多频道"
+        label.text = "No followed channels yet.\nTap \"Search\" at the top to discover users."
         label.numberOfLines = 0
         label.font = .systemFont(ofSize: 13)
         label.textColor = UIColor(hex: 0x52708A)
@@ -100,7 +100,7 @@ final class HomeViewController: UIViewController {
 
     private func setupBackground() {
         view.backgroundColor = UIColor(hex: 0xF4FBFF)
-        title = "首页"
+        title = "Home"
         let profileBtn = UIBarButtonItem(
             image: UIImage(systemName: "person.circle"),
             style: .plain,
@@ -160,19 +160,19 @@ final class HomeViewController: UIViewController {
         myAvatarImageView.isHidden = true
         myAvatarView.addSubview(myAvatarImageView)
 
-        myChannelTitleLabel.text = "我的频道"
+        myChannelTitleLabel.text = "My Channel"
         myChannelTitleLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         myChannelTitleLabel.textColor = UIColor(hex: 0x0F1F2E)
         myChannelCard.addSubview(myChannelTitleLabel)
 
-        myChannelSubtitleLabel.text = "加载中..."
+        myChannelSubtitleLabel.text = "Loading…"
         myChannelSubtitleLabel.font = .systemFont(ofSize: 12)
         myChannelSubtitleLabel.textColor = UIColor(hex: 0x607286)
         myChannelCard.addSubview(myChannelSubtitleLabel)
 
         // Search button
         var cfg = UIButton.Configuration.plain()
-        cfg.title = "搜索用户"
+        cfg.title = "Search"
         cfg.image = UIImage(systemName: "magnifyingglass")
         cfg.imagePadding = 6
         cfg.baseForegroundColor = UIColor(hex: 0x146EBD)
@@ -267,18 +267,18 @@ final class HomeViewController: UIViewController {
 
         case .failure(let msg):
             loadingIndicator.stopAnimating()
-            myChannelSubtitleLabel.text = "加载失败"
+            myChannelSubtitleLabel.text = "Load failed"
             channels = []
             tableView.reloadData()
             emptyView.isHidden = false
             let label = emptyView.subviews.first as? UILabel
-            label?.text = "加载失败：\(msg)\n下拉刷新重试"
+            label?.text = "Failed to load: \(msg)\nPull to refresh"
         }
     }
 
     private func updateMyChannelCard(with channel: Channel?) {
         let name = UserDefaults.standard.string(forKey: "user_name") ?? ""
-        myChannelSubtitleLabel.text = channel?.channelName ?? "我的频道"
+        myChannelSubtitleLabel.text = channel?.channelName ?? "My Channel"
 
         if let url = channel?.ownerAvatarURL {
             myAvatarLabel.isHidden = true
@@ -345,13 +345,13 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         header.backgroundColor = .clear
 
         let titleLabel = UILabel()
-        titleLabel.text = "关注频道"
+        titleLabel.text = "Followed Channels"
         titleLabel.font = .systemFont(ofSize: 24, weight: .bold)
         titleLabel.textColor = UIColor(hex: 0x0F1F2E)
         header.addSubview(titleLabel)
 
         let countLabel = UILabel()
-        countLabel.text = "\(channels.count) 个频道"
+        countLabel.text = "\(channels.count) channel\(channels.count == 1 ? "" : "s")"
         countLabel.font = .systemFont(ofSize: 13)
         countLabel.textColor = UIColor(hex: 0x607286)
         header.addSubview(countLabel)

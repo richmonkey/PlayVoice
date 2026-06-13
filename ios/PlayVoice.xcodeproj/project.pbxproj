@@ -121,6 +121,7 @@
 		B1A5F8782412AC311CE66A76 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		BA27D7D1293C4A23AE3C55EF /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
 		BD42851EFD30EA27FA935CFC /* protooclient.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = protooclient.xcframework; path = Frameworks/protooclient.xcframework; sourceTree = "<group>"; };
+		BF134A04E2437A0DFD8154F9 /* PlayVoice.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PlayVoice.entitlements; sourceTree = "<group>"; };
 		C7DA368A3AD7B55421939D7E /* GoogleSignInDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GoogleSignInDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		D2F297703570313483036FCD /* ChannelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMapper.swift; sourceTree = "<group>"; };
 		D58F0C2DC6CC11C1C072C07C /* UserSearchDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchDTO.swift; sourceTree = "<group>"; };
@@ -292,6 +293,7 @@
 				F728AB6EE66FDF04D04C261F /* Assets.xcassets */,
 				FCE7409891627CA1055215AC /* Bridging-Header.h */,
 				C7DA368A3AD7B55421939D7E /* GoogleSignInDemo-Bridging-Header.h */,
+				BF134A04E2437A0DFD8154F9 /* PlayVoice.entitlements */,
 				5DDE02EE2AE967C6DB3B0723 /* SceneDelegate.swift */,
 				C7CE8CFF775855B057CAE4A0 /* Data */,
 				FE98A67DC20678B4EB625D39 /* Domain */,
@@ -546,6 +548,7 @@
 				BUNDLE_ID = com.daibou007.playvoice;
 				CFBundleDisplayName = PlayVoice;
 				CFBundleName = PlayVoice;
+				CODE_SIGN_ENTITLEMENTS = GoogleSignInDemo/PlayVoice.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -556,13 +559,13 @@
 					"$(SRCROOT)/Frameworks",
 					"$(SRCROOT)/GoogleSignInDemo/Infrastructure/Room",
 					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers",
 				);
 				INFOPLIST_FILE = GoogleSignInDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PlayVoice;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen = "[\"UIImageName\": \"LaunchIcon\", \"UIImageRespectsSafeAreaInsets\": false, \"UIColorName\": \"\"]";
+				INFOPLIST_KEY_UILaunchScreen = "[\"UIColorName\": \"\", \"UIImageRespectsSafeAreaInsets\": false, \"UIImageName\": \"LaunchIcon\"]";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -580,7 +583,7 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers",
 				);
 			};
 			name = Release;
@@ -719,6 +722,7 @@
 				BUNDLE_ID = com.daibou007.playvoice;
 				CFBundleDisplayName = PlayVoice;
 				CFBundleName = PlayVoice;
+				CODE_SIGN_ENTITLEMENTS = GoogleSignInDemo/PlayVoice.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				FRAMEWORK_SEARCH_PATHS = (
@@ -729,13 +733,13 @@
 					"$(SRCROOT)/Frameworks",
 					"$(SRCROOT)/GoogleSignInDemo/Infrastructure/Room",
 					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers",
 				);
 				INFOPLIST_FILE = GoogleSignInDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PlayVoice;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen = "[\"UIImageName\": \"LaunchIcon\", \"UIImageRespectsSafeAreaInsets\": false, \"UIColorName\": \"\"]";
+				INFOPLIST_KEY_UILaunchScreen = "[\"UIColorName\": \"\", \"UIImageRespectsSafeAreaInsets\": false, \"UIImageName\": \"LaunchIcon\"]";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -753,7 +757,7 @@
 				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = (
 					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers",
 				);
 			};
 			name = Debug;

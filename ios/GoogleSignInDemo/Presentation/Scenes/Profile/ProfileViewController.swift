@@ -42,7 +42,7 @@ final class ProfileViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "个人主页"
+        title = "Profile"
         view.backgroundColor = UIColor(hex: 0xF2F7FC)
         setupTableView()
         setupLoadingIndicator()
@@ -161,7 +161,7 @@ final class ProfileViewController: UIViewController {
         displayName = name
         email = ud.string(forKey: "user_email") ?? ""
         avatarLabel.text = initials(from: name)
-        heroNameLabel.text = name.isEmpty ? "未设置昵称" : name
+        heroNameLabel.text = name.isEmpty ? "No name set" : name
         heroSubtitleLabel.text = email
         loadAvatarImage(from: ud.string(forKey: "user_avatar_url").flatMap(URL.init))
     }
@@ -208,15 +208,15 @@ final class ProfileViewController: UIViewController {
             self.email = email
             channelName = channel.channelName
             avatarLabel.text = initials(from: userName)
-            heroNameLabel.text = userName.isEmpty ? "未设置昵称" : userName
+            heroNameLabel.text = userName.isEmpty ? "No name set" : userName
             heroSubtitleLabel.text = email
             loadAvatarImage(from: avatarURL)
             tableView.reloadData()
 
         case .failure(let msg):
             loadingIndicator.stopAnimating()
-            let alert = UIAlertController(title: "加载失败", message: msg, preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "重试", style: .default) { [weak self] _ in
+            let alert = UIAlertController(title: "Load Failed", message: msg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "Retry", style: .default) { [weak self] _ in
                 self?.viewModel.load()
             })
             present(alert, animated: true)
@@ -245,7 +245,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "基本信息" : "频道设置"
+        section == 0 ? "General" : "Channel"
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -256,17 +256,17 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
         switch (indexPath.section, indexPath.row) {
         case (0, 0):
-            config.text = "昵称"
+            config.text = "Display Name"
             config.secondaryText = displayName.isEmpty ? "—" : displayName
             cell.accessoryType = .none
             cell.selectionStyle = .none
         case (0, _):
-            config.text = "邮箱"
+            config.text = "Email"
             config.secondaryText = email.isEmpty ? "—" : email
             cell.accessoryType = .none
             cell.selectionStyle = .none
         default:
-            config.text = "频道名称"
+            config.text = "Channel Name"
             config.secondaryText = channelName.isEmpty ? "—" : channelName
             cell.accessoryType = .disclosureIndicator
             cell.selectionStyle = .default

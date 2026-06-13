@@ -1,0 +1,82 @@
+/* Login */
+"login.tag" = "SIGN IN";
+"login.title" = "Welcome Back";
+"login.subtitle" = "Sign in with your Google or Apple account.";
+"login.google.button" = "Continue with Google";
+"login.status.idle" = "Choose a sign-in method to continue.";
+"login.status.loading" = "Signing in…";
+"login.status.success.new" = "Account created. Welcome!";
+"login.status.success.returning" = "Signed in. Welcome back!";
+
+/* Home */
+"home.title" = "Home";
+"home.myChannel.title" = "My Channel";
+"home.myChannel.loading" = "Loading…";
+"home.myChannel.loadFailed" = "Load failed";
+"home.search.button" = "Search";
+"home.empty" = "No followed channels yet.\nTap \"Search\" at the top to discover users.";
+"home.loadFailed" = "Failed to load: %@\nPull to refresh";
+"home.followedChannels.title" = "Followed Channels";
+"home.followedChannels.count" = "%d channel";
+"home.followedChannels.count.plural" = "%d channels";
+
+/* Search */
+"search.title" = "Search";
+"search.placeholder" = "Search by name or channel";
+"search.hint" = "Enter a name or channel\nto search and follow users";
+"search.subtitle" = "Find users by name or channel and follow them.";
+"search.empty" = "No users found";
+"search.cell.channel" = "Channel: %@";
+"search.follow" = "Follow";
+"search.following" = "Following";
+
+/* Profile */
+"profile.title" = "Profile";
+"profile.name.empty" = "No name set";
+"profile.section.general" = "General";
+"profile.section.channel" = "Channel";
+"profile.field.displayName" = "Display Name";
+"profile.field.email" = "Email";
+"profile.field.channelName" = "Channel Name";
+"profile.loadFailed.title" = "Load Failed";
+"profile.loadFailed.retry" = "Retry";
+
+/* Edit Channel Name */
+"editChannel.title" = "Edit Channel Name";
+"editChannel.save" = "Save";
+"editChannel.saveFailed.title" = "Save Failed";
+"editChannel.saveFailed.ok" = "OK";
+"editChannel.footer" = "2–30 characters. Cannot be blank.";
+
+/* Voice Room */
+"room.status.connecting" = "Connecting…";
+"room.status.connected" = "Connected";
+"room.status.disconnected" = "Disconnected";
+"room.status.failed" = "Connection Failed";
+"room.alert.failed.title" = "Connection Failed";
+"room.alert.reconnect" = "Reconnect";
+"room.alert.leave" = "Leave";
+"room.button.mute" = "Mute";
+"room.button.muted" = "Muted";
+"room.button.unmute" = "Unmute";
+"room.button.speaker" = "Speaker";
+"room.button.earpiece" = "Earpiece";
+"room.button.leave" = "Leave";
+
+/* Errors */
+"error.invalidResponse" = "Server error. Please try again.";
+"error.httpError" = "Request failed (%d). Please try again.";
+"error.decodingError" = "Failed to parse response. Please try again.";
+"error.network" = "Network error. Check your connection and try again.";
+
+/* Fallbacks */
+"fallback.unknownUser" = "Unknown User";
+"fallback.unnamedChannel" = "Unnamed Channel";
+"fallback.anonymous" = "Anonymous";
+"fallback.me" = "Me";
+
+/* Relative time */
+"time.justNow" = "Just now";
+"time.minutesAgo" = "%dm ago";
+"time.hoursAgo" = "%dh ago";
+"time.daysAgo" = "%dd ago";

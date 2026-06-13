@@ -34,6 +34,7 @@ targets:
       PRODUCT_NAME: PlayVoice
       BUNDLE_ID: com.daibou007.playvoice
       INFOPLIST_FILE: GoogleSignInDemo/Info.plist
+      CODE_SIGN_ENTITLEMENTS: GoogleSignInDemo/PlayVoice.entitlements
       SWIFT_OBJC_BRIDGING_HEADER: GoogleSignInDemo/Bridging-Header.h
       TARGETED_DEVICE_FAMILY: "1"
       CFBundleDisplayName: PlayVoice
@@ -49,10 +50,10 @@ targets:
         - $(SRCROOT)/Frameworks
         - $(SRCROOT)/GoogleSignInDemo/Infrastructure/Room
         - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
-        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers
       USER_HEADER_SEARCH_PATHS:
         - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
-        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers
       INFOPLIST_KEY_CFBundleDisplayName: PlayVoice
       INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
       INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: "YES"

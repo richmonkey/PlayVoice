@@ -29,10 +29,10 @@ final class EditChannelNameViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "修改频道名称"
+        title = "Edit Channel Name"
         view.backgroundColor = UIColor(hex: 0xF2F7FC)
 
-        let save = UIBarButtonItem(title: "保存", style: .done,
+        let save = UIBarButtonItem(title: "Save", style: .done,
                                    target: self, action: #selector(saveTapped))
         navigationItem.rightBarButtonItem = save
         saveButton = save
@@ -61,8 +61,8 @@ final class EditChannelNameViewController: UIViewController {
                 self.navigationController?.popViewController(animated: true)
             } else {
                 self.saveButton?.isEnabled = true
-                let alert = UIAlertController(title: "保存失败", message: errorMsg, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "好的", style: .default))
+                let alert = UIAlertController(title: "Save Failed", message: errorMsg, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
                 self.present(alert, animated: true)
             }
         }
@@ -78,7 +78,7 @@ extension EditChannelNameViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int { 1 }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        "2–30 个字符，不允许纯空格。"
+        "2–30 characters. Cannot be blank."
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {

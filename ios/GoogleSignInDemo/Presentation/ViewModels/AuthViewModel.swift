@@ -8,7 +8,7 @@ enum AuthViewState {
 }
 
 final class AuthViewModel: ObservableObject {
-    @Published private(set) var viewState: AuthViewState = .idle
+    @Published var viewState: AuthViewState = .idle
 
     private let loginUseCase: LoginUseCase
 
@@ -17,17 +17,25 @@ final class AuthViewModel: ObservableObject {
     }
 
     func signIn(idToken: String, name: String? = nil, avatarURL: String? = nil) {
+        perform { [weak self] in
+            try await self?.loginUseCase.execute(idToken: idToken, name: name, avatarURL: avatarURL)
+        }
+    }
+
+    func signInWithApple(idToken: String, name: String? = nil, email: String? = nil) {
+        perform { [weak self] in
+            try await self?.loginUseCase.executeWithApple(idToken: idToken, name: name, email: email)
+        }
+    }
+
+    private func perform(_ work: @escaping () async throws -> Session?) {
         viewState = .loading
         Task {
             do {
-                let session = try await loginUseCase.execute(idToken: idToken, name: name, avatarURL: avatarURL)
-                await MainActor.run {
-                    viewState = .success(isNewUser: session.isNewUser)
-                }
+                guard let session = try await work() else { return }
+                await MainActor.run { viewState = .success(isNewUser: session.isNewUser) }
             } catch {
-                await MainActor.run {
-                    viewState = .failure(error.localizedDescription)
-                }
+                await MainActor.run { viewState = .failure(error.localizedDescription) }
             }
         }
     }

@@ -133,9 +133,9 @@ final class ChannelCell: UITableViewCell {
 
     private func relativeTime(from date: Date) -> String {
         let interval = -date.timeIntervalSinceNow
-        if interval < 60 { return "刚刚" }
-        if interval < 3600 { return "\(Int(interval / 60)) 分钟前" }
-        if interval < 86400 { return "\(Int(interval / 3600)) 小时前" }
-        return "\(Int(interval / 86400)) 天前"
+        if interval < 60 { return "Just now" }
+        if interval < 3600 { return "\(Int(interval / 60))m ago" }
+        if interval < 86400 { return "\(Int(interval / 3600))h ago" }
+        return "\(Int(interval / 86400))d ago"
     }
 }
