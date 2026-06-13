@@ -18,7 +18,8 @@ class _Base(pw.Model):
 
 class User(_Base):
     id = pw.AutoField(primary_key=True)
-    google_sub = pw.CharField(unique=True)
+    google_sub = pw.CharField(unique=True, null=True)
+    apple_sub = pw.CharField(unique=True, null=True)
     name = pw.CharField(null=True)
     avatar_url = pw.CharField(null=True)
     email = pw.CharField()

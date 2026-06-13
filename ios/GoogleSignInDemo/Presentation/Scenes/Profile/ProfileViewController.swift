@@ -80,6 +80,7 @@ final class ProfileViewController: UIViewController {
         AppTheme.Shadow.card(on: heroCard)
         header.addSubview(heroCard)
 
+        avatarView.backgroundColor = UIColor(hex: 0x1A92FF)
         avatarView.layer.cornerRadius = 30
         avatarView.clipsToBounds = true
         heroCard.addSubview(avatarView)

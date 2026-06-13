@@ -33,4 +33,24 @@ final class AuthViewModel: ObservableObject {
             }
         }
     }
+
+    func signInWithApple(identityToken: String, name: String?) {
+        viewState = .loading
+        Task {
+            do {
+                let session = try await loginUseCase.executeApple(identityToken: identityToken, name: name)
+                await MainActor.run {
+                    viewState = .success(isNewUser: session.isNewUser)
+                }
+            } catch {
+                await MainActor.run {
+                    viewState = .failure(error.localizedDescription)
+                }
+            }
+        }
+    }
+
+    func handleAppleError(_ message: String) {
+        viewState = .failure("Apple 登录失败：\(message)")
+    }
 }

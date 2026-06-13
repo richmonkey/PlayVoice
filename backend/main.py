@@ -61,10 +61,13 @@ class LoggingMiddleware(BaseHTTPMiddleware):
         )
 
 
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db.connect(reuse_if_open=True)
     db.create_tables([User, Channel, Follow], safe=True)
+
     yield
     if not db.is_closed():
         db.close()

@@ -25,14 +25,44 @@ def get_or_create_user(
         )
 
         if not is_new_user:
-            (User.update(name=name, avatar_url=avatar_url, updated_at=_utcnow())
+            (User.update(email=email, updated_at=_utcnow())
                  .where(User.id == user.id)
                  .execute())
-            user.name = name
-            user.avatar_url = avatar_url
+            user.email = email
 
         if is_new_user:
             default_name = name or email.split("@")[0]
+            Channel.create(owner=user, channel_name=f"{default_name}的频道")
+
+    return UserResult(
+        id=user.id,
+        name=user.name,
+        email=user.email,
+        avatar_url=user.avatar_url,
+        is_new_user=is_new_user,
+    )
+
+
+def get_or_create_user_apple(
+    apple_sub: str,
+    email: str | None,
+    name: str | None,
+) -> UserResult:
+    with db.atomic():
+        resolved_email = email or f"{apple_sub}@privaterelay.appleid.com"
+        user, is_new_user = User.get_or_create(
+            apple_sub=apple_sub,
+            defaults={"email": resolved_email, "name": name, "avatar_url": None},
+        )
+
+        if not is_new_user:
+            (User.update(email=resolved_email, updated_at=_utcnow())
+                 .where(User.id == user.id)
+                 .execute())
+            user.email = resolved_email            
+
+        if is_new_user:
+            default_name = name or resolved_email.split("@")[0]
             Channel.create(owner=user, channel_name=f"{default_name}的频道")
 
     return UserResult(

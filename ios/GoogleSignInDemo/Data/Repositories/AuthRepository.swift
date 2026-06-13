@@ -8,11 +8,16 @@ final class AuthRepository: AuthRepositoryProtocol {
     }
 
     func login(idToken: String, name: String?, avatarURL: String?) async throws -> Session {
-        try await performAuth(.googleAuth(idToken: idToken, name: name, avatarURL: avatarURL))
+        let dto: AuthResponseDTO = try await apiClient.request(.googleAuth(idToken: idToken, name: name, avatarURL: avatarURL))
+        return try await _saveSession(dto)
     }
 
-    private func performAuth(_ endpoint: Endpoint) async throws -> Session {
-        let dto: AuthResponseDTO = try await apiClient.request(endpoint)
+    func loginWithApple(identityToken: String, name: String?) async throws -> Session {
+        let dto: AuthResponseDTO = try await apiClient.request(.appleAuth(identityToken: identityToken, name: name))
+        return try await _saveSession(dto)
+    }
+
+    private func _saveSession(_ dto: AuthResponseDTO) async throws -> Session {
         let session = AuthMapper.toEntity(dto)
         await MainActor.run {
             let ud = UserDefaults.standard
