@@ -7,7 +7,6 @@
 //
 
 #import "RoomClient.h"
-#import "GameVoice-Swift.h"
 #import <AVFAudio/AVFAudio.h>
 #import <AVFoundation/AVFoundation.h>
 #import <WebRTC/WebRTC.h>
@@ -130,9 +129,9 @@ static const double kActiveSpeakerAudioLevelThreshold = 0.03;
 }
 
 
--(void)start {
+-(void)start:(NSString*)baseURL {
     // be careful! golang code can't trigger network access to the system and get error:"no route to host".
-    NSString *url = [NSString stringWithFormat:@"%@/?peerId=%lld&roomId=%@&mode=group", AppConfig.roomServerBaseURL, self.currentUID, self.channelID];
+    NSString *url = [NSString stringWithFormat:@"%@/?peerId=%lld&roomId=%@&mode=group", baseURL, self.currentUID, self.channelID];
     self.peerClient = [[ProtooclientPeer alloc] init:url listener:self];
     [self.peerClient open];
 }

@@ -63,7 +63,7 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
             DispatchQueue.main.async {
                 guard let self else { return }
                 if granted {
-                    self.roomClient.start()
+                    self.roomClient.start(AppConfig.roomServerBaseURL)
                     self.startSpeakerDetection()
                 } else {
                     self.connectionState = .failed("Microphone access denied. Enable it in Settings › Privacy.")

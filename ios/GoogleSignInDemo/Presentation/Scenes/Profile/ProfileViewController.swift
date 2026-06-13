@@ -267,8 +267,8 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         case (0, 0):
             config.text = "Display Name"
             config.secondaryText = displayName.isEmpty ? "—" : displayName
-            cell.accessoryType = .none
-            cell.selectionStyle = .none
+            cell.accessoryType = .disclosureIndicator
+            cell.selectionStyle = .default
         case (0, _):
             config.text = "Email"
             config.secondaryText = email.isEmpty ? "—" : email
@@ -301,6 +301,13 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
         switch (indexPath.section, indexPath.row) {
+        case (0, 0):
+            let editVC = EditDisplayNameViewController(
+                currentName: displayName
+            ) { [weak self] newName, completion in
+                self?.viewModel.updateDisplayName(newName, completion: completion)
+            }
+            navigationController?.pushViewController(editVC, animated: true)
         case (1, _):
             guard let channel = currentChannel else { return }
             let editVC = EditChannelNameViewController(

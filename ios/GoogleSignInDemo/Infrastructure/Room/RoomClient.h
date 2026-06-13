@@ -43,7 +43,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property(nonatomic, assign) BOOL muted;//default NO
 @property(nonatomic, nullable) ARDCaptureController *captureController;
 
--(void)start;
+-(void)start:(NSString*)baseURL;
 -(void)stop;
 -(void)produceVideo;
 -(void)produceAudio;

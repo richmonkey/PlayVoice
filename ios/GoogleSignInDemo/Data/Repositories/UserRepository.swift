@@ -27,4 +27,8 @@ final class UserRepository: UserRepositoryProtocol {
     func unfollowUser(userId: Int) async throws {
         try await apiClient.requestEmpty(.unfollowUser(userId: userId))
     }
+
+    func updateDisplayName(_ name: String) async throws {
+        try await apiClient.requestEmpty(.updateDisplayName(name: name))
+    }
 }

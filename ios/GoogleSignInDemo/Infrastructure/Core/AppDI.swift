@@ -18,7 +18,7 @@ final class AppDI {
     }
 
     func makeProfileViewModel() -> ProfileViewModel {
-        ProfileViewModel(channelRepository: channelRepository)
+        ProfileViewModel(channelRepository: channelRepository, userRepository: userRepository)
     }
 
     func makeSearchViewModel() -> SearchViewModel {

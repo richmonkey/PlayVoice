@@ -1,1 +1,1 @@
-PRODUCT_REQUIREMENTS.md 是产品功能文档
+docs/PRODUCT_REQUIREMENTS.md 是产品功能文档

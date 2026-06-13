@@ -32,7 +32,7 @@ def get_or_create_user(
 
         if is_new_user:
             default_name = name or email.split("@")[0]
-            Channel.create(owner=user, channel_name=f"{default_name}的频道")
+            Channel.create(owner=user, channel_name=f"{default_name}'s channel")
 
     return UserResult(
         id=user.id,
@@ -63,7 +63,7 @@ def get_or_create_user_apple(
 
         if is_new_user:
             default_name = name or resolved_email.split("@")[0]
-            Channel.create(owner=user, channel_name=f"{default_name}的频道")
+            Channel.create(owner=user, channel_name=f"{default_name}'s channel")
 
     return UserResult(
         id=user.id,
@@ -81,6 +81,12 @@ class UserSearchItem:
     avatar_url: str | None
     channel_name: str | None
     is_followed: bool
+
+
+def update_name(user_id: int, name: str) -> None:
+    (User.update(name=name, updated_at=_utcnow())
+         .where(User.id == user_id)
+         .execute())
 
 
 def search_users(keyword: str, current_user_id: int) -> list[UserSearchItem]:

@@ -13,6 +13,7 @@ enum Endpoint {
     case followedChannels
     case myChannel
     case updateChannelName(name: String)
+    case updateDisplayName(name: String)
     case searchUsers(query: String)
     case followUser(userId: Int)
     case unfollowUser(userId: Int)
@@ -26,6 +27,7 @@ extension Endpoint {
         case .followedChannels:        return "channels/followed"
         case .myChannel:               return "channels/me"
         case .updateChannelName:       return "channels/me/name"
+        case .updateDisplayName:       return "users/me/name"
         case .searchUsers:             return "users/search"
         case .followUser(let id):      return "follows/\(id)"
         case .unfollowUser(let id):    return "follows/\(id)"
@@ -39,6 +41,7 @@ extension Endpoint {
         case .followedChannels:  return .get
         case .myChannel:         return .get
         case .updateChannelName: return .patch
+        case .updateDisplayName: return .patch
         case .searchUsers:       return .get
         case .followUser:        return .post
         case .unfollowUser:      return .delete
@@ -67,6 +70,8 @@ extension Endpoint {
             return try JSONEncoder().encode(body)
         case .updateChannelName(let name):
             return try JSONEncoder().encode(["channel_name": name])
+        case .updateDisplayName(let name):
+            return try JSONEncoder().encode(["name": name])
         default:
             return nil
         }
