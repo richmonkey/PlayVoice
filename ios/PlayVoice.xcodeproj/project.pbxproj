@@ -27,12 +27,12 @@
 		4C6583FD668EECBE27BA1790 /* AuthMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F273C8F7A18B376A96090F4 /* AuthMapper.swift */; };
 		4D93258700367874EBCF097E /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A719A706362A66641C2DE713 /* ChannelCell.swift */; };
 		4E80BE4D281767783E9FAE46 /* ChannelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F297703570313483036FCD /* ChannelMapper.swift */; };
+		512DBFB86658CDC81C270120 /* WebRTC.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 19C7B608FCE29BE703774843 /* WebRTC.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		5343429975E1AAC27B349B3C /* VoiceRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD1CFF6B72CD11F64C82FC5 /* VoiceRoomViewController.swift */; };
 		5A4B5362B0806B91FD6F5824 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA27D7D1293C4A23AE3C55EF /* APIClient.swift */; };
 		5FF9298FCE104EE0A7B41862 /* EditChannelNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EF5F342979792A5EC40E90 /* EditChannelNameViewController.swift */; };
 		6280C51E2A77A3EA1B4A43AD /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A72764A4B8E48160D4040DA /* AppError.swift */; };
 		6822DF2BC6729C5026FF7B73 /* ChannelDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4C4D9212476C481AAA5FB5 /* ChannelDTO.swift */; };
-		6926E26DAE5632F3FE10EAFB /* protooclient.xcframework in Resources */ = {isa = PBXBuildFile; fileRef = 4A336C524E5457511DE09A4A /* protooclient.xcframework */; };
 		74A61C14FD4A272678B6801D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294B8D84249086AD9CFE8584 /* ProfileViewModel.swift */; };
 		78E165A7BB7BA4AEB53C936E /* VoiceRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C7E651BFB8BEBB33F694BE /* VoiceRoomViewModel.swift */; };
 		7D39BC4F319B2BDBC4BD34CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BCC036AA4F8E7A868E70A5 /* LoginViewController.swift */; };
@@ -49,15 +49,30 @@
 		B82E6D1B18A337D42C18C991 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3315B136424F49C134B6CE8F /* AppCoordinator.swift */; };
 		B9913A851D2041FBC620636B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A7FD850367976AB561F61AA0 /* SnapKit */; };
 		BA5039AB94CCF377638601AB /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E05D3F7DF6D0353F961639 /* ProfileViewController.swift */; };
+		BDF331F38E336727D8417467 /* protooclient.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD42851EFD30EA27FA935CFC /* protooclient.xcframework */; };
 		CE26823B88C3EC4711C8D521 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD6665EE3B4DBB408C685C5 /* PaddedLabel.swift */; };
 		CED43D01152FBB589F18CD76 /* RoomMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D32EC01DDC9462E4068DF2 /* RoomMember.swift */; };
 		DD010D0F6704F2B7D5B44461 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D06A97118F53472DEECBEAD /* SearchResultCell.swift */; };
-		DFF1AD51BEC20452ADAFA5A5 /* WebRTC.xcframework in Resources */ = {isa = PBXBuildFile; fileRef = ED58A2F4E713CDA93D6E3D30 /* WebRTC.xcframework */; };
+		E1EC02670C5EF5377DD04F24 /* WebRTC.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19C7B608FCE29BE703774843 /* WebRTC.xcframework */; };
 		E31052CD5BD0F7B91B43B82C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F728AB6EE66FDF04D04C261F /* Assets.xcassets */; };
 		E7015F03977EBB74ABF3B1F8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9955B15476497448B4B4D5 /* SearchViewController.swift */; };
 		E9E380F479C02B1990C496D4 /* AuthRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3DCEAA30EA7FFDDF82A9E /* AuthRepositoryProtocol.swift */; };
 		FB8185E191EFCA992D14DFE8 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1628853E346D2E8888C80FE1 /* AuthRepository.swift */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		BF46263247029ED1CABD6BB7 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				512DBFB86658CDC81C270120 /* WebRTC.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		0199C8A73A9EB2258452DFAF /* ARDCaptureController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARDCaptureController.m; sourceTree = "<group>"; };
@@ -66,6 +81,7 @@
 		10C7E651BFB8BEBB33F694BE /* VoiceRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewModel.swift; sourceTree = "<group>"; };
 		11DC847AA6849BDA2FECA501 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		1628853E346D2E8888C80FE1 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		19C7B608FCE29BE703774843 /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = WebRTC.xcframework; path = Frameworks/WebRTC.xcframework; sourceTree = "<group>"; };
 		1AD1CFF6B72CD11F64C82FC5 /* VoiceRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewController.swift; sourceTree = "<group>"; };
 		1BF29DE7AAE774C7F46E3E2C /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		1CC31EE8A6E8CE5B62900FB3 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
@@ -80,7 +96,6 @@
 		3B835ACBF6013B99F525F309 /* ChannelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRepository.swift; sourceTree = "<group>"; };
 		41D32EC01DDC9462E4068DF2 /* RoomMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMember.swift; sourceTree = "<group>"; };
 		43D716BAF1289B61538451A2 /* FetchFollowedChannelsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFollowedChannelsUseCase.swift; sourceTree = "<group>"; };
-		4A336C524E5457511DE09A4A /* protooclient.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = protooclient.xcframework; sourceTree = "<group>"; };
 		4B6896E6E9BBA73754575A91 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
 		4EA5077DCB1BF24BEE511370 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
 		4F646D08ADBD70A0E8A70FE0 /* WebRTCVideoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebRTCVideoView.h; sourceTree = "<group>"; };
@@ -105,10 +120,10 @@
 		AF038D1680A4C07973D6870A /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
 		B1A5F8782412AC311CE66A76 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
 		BA27D7D1293C4A23AE3C55EF /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		BD42851EFD30EA27FA935CFC /* protooclient.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = protooclient.xcframework; path = Frameworks/protooclient.xcframework; sourceTree = "<group>"; };
 		C7DA368A3AD7B55421939D7E /* GoogleSignInDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GoogleSignInDemo-Bridging-Header.h"; sourceTree = "<group>"; };
 		D2F297703570313483036FCD /* ChannelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMapper.swift; sourceTree = "<group>"; };
 		D58F0C2DC6CC11C1C072C07C /* UserSearchDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchDTO.swift; sourceTree = "<group>"; };
-		ED58A2F4E713CDA93D6E3D30 /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = WebRTC.xcframework; sourceTree = "<group>"; };
 		EFD07094C3AC9AE662139566 /* AppDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDI.swift; sourceTree = "<group>"; };
 		F45E5599ABD603249C7B79CE /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
 		F517E85FC88B70B6D9A6177B /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
@@ -123,6 +138,8 @@
 			files = (
 				B9913A851D2041FBC620636B /* SnapKit in Frameworks */,
 				21644B9D3D51751D51675CA7 /* GoogleSignIn in Frameworks */,
+				E1EC02670C5EF5377DD04F24 /* WebRTC.xcframework in Frameworks */,
+				BDF331F38E336727D8417467 /* protooclient.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,6 +150,7 @@
 			isa = PBXGroup;
 			children = (
 				8E24C653E0C0CD5128052017 /* GoogleSignInDemo */,
+				E54CFE42D6D1AB2EC456E42F /* Frameworks */,
 				5315AFAA7A5B77711ADE6647 /* Products */,
 			);
 			indentWidth = 2;
@@ -274,9 +292,7 @@
 				F728AB6EE66FDF04D04C261F /* Assets.xcassets */,
 				FCE7409891627CA1055215AC /* Bridging-Header.h */,
 				C7DA368A3AD7B55421939D7E /* GoogleSignInDemo-Bridging-Header.h */,
-				4A336C524E5457511DE09A4A /* protooclient.xcframework */,
 				5DDE02EE2AE967C6DB3B0723 /* SceneDelegate.swift */,
-				ED58A2F4E713CDA93D6E3D30 /* WebRTC.xcframework */,
 				C7CE8CFF775855B057CAE4A0 /* Data */,
 				FE98A67DC20678B4EB625D39 /* Domain */,
 				2137E8363B12079897630816 /* Infrastructure */,
@@ -353,6 +369,15 @@
 			path = Core;
 			sourceTree = "<group>";
 		};
+		E54CFE42D6D1AB2EC456E42F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				BD42851EFD30EA27FA935CFC /* protooclient.xcframework */,
+				19C7B608FCE29BE703774843 /* WebRTC.xcframework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		F5093D4C0EDA43DD2CFCFA58 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -394,6 +419,7 @@
 				4F4A5A718143FBB10534ADAC /* Sources */,
 				C43B61EA68905F874354D1DB /* Resources */,
 				E28D03BB8CA1CAAFE093B213 /* Frameworks */,
+				BF46263247029ED1CABD6BB7 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -452,8 +478,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				E31052CD5BD0F7B91B43B82C /* Assets.xcassets in Resources */,
-				DFF1AD51BEC20452ADAFA5A5 /* WebRTC.xcframework in Resources */,
-				6926E26DAE5632F3FE10EAFB /* protooclient.xcframework in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -525,40 +549,38 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/GoogleSignInDemo",
+					"$(SRCROOT)/Frameworks",
+					"\"Frameworks\"",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/GoogleSignInDemo",
+					"$(SRCROOT)/Frameworks",
 					"$(SRCROOT)/GoogleSignInDemo/Infrastructure/Room",
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
 				);
 				INFOPLIST_FILE = GoogleSignInDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PlayVoice;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen = "[\"UIImageName\": \"LaunchIcon\", \"UIImageRespectsSafeAreaInsets\": false, \"UIColorName\": \"\"]";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LINKER_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					WebRTC,
-					"-framework",
-					protooclient,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.daibou007.PlayVoice;
 				PRODUCT_NAME = PlayVoice;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "GoogleSignInDemo/Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
 				);
 			};
 			name = Release;
@@ -700,40 +722,38 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
 				FRAMEWORK_SEARCH_PATHS = (
-					"$(SRCROOT)/GoogleSignInDemo",
+					"$(SRCROOT)/Frameworks",
+					"\"Frameworks\"",
 				);
 				HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/GoogleSignInDemo",
+					"$(SRCROOT)/Frameworks",
 					"$(SRCROOT)/GoogleSignInDemo/Infrastructure/Room",
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
 				);
 				INFOPLIST_FILE = GoogleSignInDemo/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = PlayVoice;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen = "[\"UIImageName\": \"LaunchIcon\", \"UIImageRespectsSafeAreaInsets\": false, \"UIColorName\": \"\"]";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LINKER_SEARCH_PATHS = "$(inherited)";
 				MARKETING_VERSION = "$(MARKETING_VERSION)";
 				OTHER_LDFLAGS = (
 					"-ObjC",
-					"-framework",
-					WebRTC,
-					"-framework",
-					protooclient,
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.daibou007.PlayVoice;
 				PRODUCT_NAME = PlayVoice;
 				SDKROOT = iphoneos;
 				SWIFT_OBJC_BRIDGING_HEADER = "GoogleSignInDemo/Bridging-Header.h";
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 				USER_HEADER_SEARCH_PATHS = (
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
-					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
 				);
 			};
 			name = Debug;

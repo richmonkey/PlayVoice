@@ -8,3 +8,5 @@ ios/protooclient.xcframework/
 ios/build/
 ios/GoogleSignInDemo/WebRTC.xcframework/
 ios/GoogleSignInDemo/protooclient.xcframework/
+ios/Frameworks/protooclient.xcframework/
+ios/Frameworks/WebRTC.xcframework/

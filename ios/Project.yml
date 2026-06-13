@@ -35,53 +35,49 @@ targets:
       BUNDLE_ID: com.daibou007.playvoice
       INFOPLIST_FILE: GoogleSignInDemo/Info.plist
       SWIFT_OBJC_BRIDGING_HEADER: GoogleSignInDemo/Bridging-Header.h
-      TARGETED_DEVICE_FAMILY: "1,2"
+      TARGETED_DEVICE_FAMILY: "1"
       CFBundleDisplayName: PlayVoice
       CFBundleName: PlayVoice
       MARKETING_VERSION: "$(MARKETING_VERSION)"
       CURRENT_PROJECT_VERSION: "$(CURRENT_PROJECT_VERSION)"
       OTHER_LDFLAGS:
         - -ObjC
-        - -framework
-        - WebRTC
-        - -framework
-        - protooclient
       FRAMEWORK_SEARCH_PATHS:
-        - $(SRCROOT)/GoogleSignInDemo
+        - $(SRCROOT)/Frameworks
+      LINKER_SEARCH_PATHS: $(inherited)
       HEADER_SEARCH_PATHS:
-        - $(SRCROOT)/GoogleSignInDemo
+        - $(SRCROOT)/Frameworks
         - $(SRCROOT)/GoogleSignInDemo/Infrastructure/Room
-        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
-        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
       USER_HEADER_SEARCH_PATHS:
-        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
-        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
+        - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
       INFOPLIST_KEY_CFBundleDisplayName: PlayVoice
       INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
       INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: "YES"
-      INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
+      INFOPLIST_KEY_UILaunchScreen:
+        UIColorName: ""
+        UIImageName: LaunchIcon
+        UIImageRespectsSafeAreaInsets: false
 
     dependencies:
       - package: SnapKit
         product: SnapKit
       - package: GoogleSignIn
         product: GoogleSignIn
+      - framework: Frameworks/WebRTC.xcframework
+        embed: true
+        codeSign: true
+      - framework: Frameworks/protooclient.xcframework
+        embed: false
 
     frameworkSearchPaths:
-      - $(SRCROOT)/GoogleSignInDemo
+      - $(SRCROOT)/Frameworks
 
     buildPhases:
       - type: sources
-      - type: frameworks
-        files:
-          - framework: GoogleSignInDemo/WebRTC.xcframework
-          - framework: GoogleSignInDemo/protooclient.xcframework
       - type: resourceBundles
-      - type: copyFiles
-        destination: frameworks
-        files:
-          - path: GoogleSignInDemo/WebRTC.xcframework
-          - path: GoogleSignInDemo/protooclient.xcframework
 
     scheme:
       testTargets: []
