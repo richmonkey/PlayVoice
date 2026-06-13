@@ -1,0 +1,797 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		01A973686FA084CFCCAFCE4F /* UserRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF038D1680A4C07973D6870A /* UserRepositoryProtocol.swift */; };
+		0488F1558B65B427DD70E630 /* AppDI.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFD07094C3AC9AE662139566 /* AppDI.swift */; };
+		049D01DF6B1757DD848D065D /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72334A177E17FF3B00E23B81 /* Endpoint.swift */; };
+		09B1B5CA81DAB66F44C6D3A2 /* MemberCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CC31EE8A6E8CE5B62900FB3 /* MemberCell.swift */; };
+		0FA68E9EFA6E8892FB9CDC1D /* FetchFollowedChannelsUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 43D716BAF1289B61538451A2 /* FetchFollowedChannelsUseCase.swift */; };
+		192A9FFC8712FC0F6498C37B /* WebRTCVideoView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3987C7871CF834DDB33A9D4E /* WebRTCVideoView.m */; };
+		1B3ABE2A6DB79E862CC9ACB7 /* ARDCaptureController.m in Sources */ = {isa = PBXBuildFile; fileRef = 0199C8A73A9EB2258452DFAF /* ARDCaptureController.m */; };
+		1FE3D7E0014F14D4F104FBBB /* Session.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA5077DCB1BF24BEE511370 /* Session.swift */; };
+		205A74E7EADC59D642ADD72D /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1BF29DE7AAE774C7F46E3E2C /* SearchViewModel.swift */; };
+		2094FA1C7BF9BCA23157E429 /* AppConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = F45E5599ABD603249C7B79CE /* AppConfig.swift */; };
+		21644B9D3D51751D51675CA7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 12642D06CE2553F71AE179AF /* GoogleSignIn */; };
+		2931A786B69BF826EFA82BD6 /* ChannelRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3B835ACBF6013B99F525F309 /* ChannelRepository.swift */; };
+		2D72D402B9EE9ED696E5B4EC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DDE02EE2AE967C6DB3B0723 /* SceneDelegate.swift */; };
+		2DA6805556BE0458691F9198 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 11DC847AA6849BDA2FECA501 /* AppDelegate.swift */; };
+		2DEE73570CD0F4F0C4196B25 /* Channel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F517E85FC88B70B6D9A6177B /* Channel.swift */; };
+		368A15F34670E82B98044217 /* UserSearchDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = D58F0C2DC6CC11C1C072C07C /* UserSearchDTO.swift */; };
+		46A26588EF403E9384E3B7F5 /* UIImageView+URL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 824592B14CF2C75FBB8BBCBB /* UIImageView+URL.swift */; };
+		4C6583FD668EECBE27BA1790 /* AuthMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F273C8F7A18B376A96090F4 /* AuthMapper.swift */; };
+		4D93258700367874EBCF097E /* ChannelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A719A706362A66641C2DE713 /* ChannelCell.swift */; };
+		4E80BE4D281767783E9FAE46 /* ChannelMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = D2F297703570313483036FCD /* ChannelMapper.swift */; };
+		5343429975E1AAC27B349B3C /* VoiceRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AD1CFF6B72CD11F64C82FC5 /* VoiceRoomViewController.swift */; };
+		5A4B5362B0806B91FD6F5824 /* APIClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA27D7D1293C4A23AE3C55EF /* APIClient.swift */; };
+		5FF9298FCE104EE0A7B41862 /* EditChannelNameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93EF5F342979792A5EC40E90 /* EditChannelNameViewController.swift */; };
+		6280C51E2A77A3EA1B4A43AD /* AppError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A72764A4B8E48160D4040DA /* AppError.swift */; };
+		6822DF2BC6729C5026FF7B73 /* ChannelDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C4C4D9212476C481AAA5FB5 /* ChannelDTO.swift */; };
+		6926E26DAE5632F3FE10EAFB /* protooclient.xcframework in Resources */ = {isa = PBXBuildFile; fileRef = 4A336C524E5457511DE09A4A /* protooclient.xcframework */; };
+		74A61C14FD4A272678B6801D /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 294B8D84249086AD9CFE8584 /* ProfileViewModel.swift */; };
+		78E165A7BB7BA4AEB53C936E /* VoiceRoomViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10C7E651BFB8BEBB33F694BE /* VoiceRoomViewModel.swift */; };
+		7D39BC4F319B2BDBC4BD34CF /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38BCC036AA4F8E7A868E70A5 /* LoginViewController.swift */; };
+		7E74C3FCD220E7327DE230BC /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6896E6E9BBA73754575A91 /* UserRepository.swift */; };
+		863E90DCEF0BD94E58DF6740 /* AuthDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 566EE54BDDE2AD7BDEC1158A /* AuthDTO.swift */; };
+		87DB3F926E84A249B641AEE6 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEC004C7B4A8353AD40D021 /* HomeViewModel.swift */; };
+		89412226BA303501031A9E60 /* SearchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D98556D663C0B727229D51C /* SearchUser.swift */; };
+		94165027FC390CFC4ED0363A /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AB1FDA6072898193261463B1 /* AuthViewModel.swift */; };
+		9A6096C5B5A57797E0EDF03E /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 622276B7AA73E63756001F27 /* UIColor+Hex.swift */; };
+		A746620637AEB80C3B0782EF /* ChannelRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52132ACA9EE62BC0714B9BBE /* ChannelRepositoryProtocol.swift */; };
+		A7E2EC967B7A7692D390DB91 /* LoginUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = B1A5F8782412AC311CE66A76 /* LoginUseCase.swift */; };
+		AA1A3BA8D6D8389D704707EB /* RoomClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 58284E9B88BE1C616E7E8AE7 /* RoomClient.m */; };
+		B5D57D8DE52DA9DC0320D20F /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 079754CAA1B53B31E9ED1423 /* HomeViewController.swift */; };
+		B82E6D1B18A337D42C18C991 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3315B136424F49C134B6CE8F /* AppCoordinator.swift */; };
+		B9913A851D2041FBC620636B /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = A7FD850367976AB561F61AA0 /* SnapKit */; };
+		BA5039AB94CCF377638601AB /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72E05D3F7DF6D0353F961639 /* ProfileViewController.swift */; };
+		CE26823B88C3EC4711C8D521 /* PaddedLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD6665EE3B4DBB408C685C5 /* PaddedLabel.swift */; };
+		CED43D01152FBB589F18CD76 /* RoomMember.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41D32EC01DDC9462E4068DF2 /* RoomMember.swift */; };
+		DD010D0F6704F2B7D5B44461 /* SearchResultCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D06A97118F53472DEECBEAD /* SearchResultCell.swift */; };
+		DFF1AD51BEC20452ADAFA5A5 /* WebRTC.xcframework in Resources */ = {isa = PBXBuildFile; fileRef = ED58A2F4E713CDA93D6E3D30 /* WebRTC.xcframework */; };
+		E31052CD5BD0F7B91B43B82C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F728AB6EE66FDF04D04C261F /* Assets.xcassets */; };
+		E7015F03977EBB74ABF3B1F8 /* SearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E9955B15476497448B4B4D5 /* SearchViewController.swift */; };
+		E9E380F479C02B1990C496D4 /* AuthRepositoryProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BE3DCEAA30EA7FFDDF82A9E /* AuthRepositoryProtocol.swift */; };
+		FB8185E191EFCA992D14DFE8 /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1628853E346D2E8888C80FE1 /* AuthRepository.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		0199C8A73A9EB2258452DFAF /* ARDCaptureController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ARDCaptureController.m; sourceTree = "<group>"; };
+		079754CAA1B53B31E9ED1423 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		0D98556D663C0B727229D51C /* SearchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUser.swift; sourceTree = "<group>"; };
+		10C7E651BFB8BEBB33F694BE /* VoiceRoomViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewModel.swift; sourceTree = "<group>"; };
+		11DC847AA6849BDA2FECA501 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		1628853E346D2E8888C80FE1 /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
+		1AD1CFF6B72CD11F64C82FC5 /* VoiceRoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceRoomViewController.swift; sourceTree = "<group>"; };
+		1BF29DE7AAE774C7F46E3E2C /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
+		1CC31EE8A6E8CE5B62900FB3 /* MemberCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberCell.swift; sourceTree = "<group>"; };
+		214B81FCF5EC2087CBF476A6 /* PlayVoice.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PlayVoice.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		294B8D84249086AD9CFE8584 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
+		2BE3DCEAA30EA7FFDDF82A9E /* AuthRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepositoryProtocol.swift; sourceTree = "<group>"; };
+		2F273C8F7A18B376A96090F4 /* AuthMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthMapper.swift; sourceTree = "<group>"; };
+		2FD6665EE3B4DBB408C685C5 /* PaddedLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddedLabel.swift; sourceTree = "<group>"; };
+		3315B136424F49C134B6CE8F /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		38BCC036AA4F8E7A868E70A5 /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		3987C7871CF834DDB33A9D4E /* WebRTCVideoView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WebRTCVideoView.m; sourceTree = "<group>"; };
+		3B835ACBF6013B99F525F309 /* ChannelRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRepository.swift; sourceTree = "<group>"; };
+		41D32EC01DDC9462E4068DF2 /* RoomMember.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RoomMember.swift; sourceTree = "<group>"; };
+		43D716BAF1289B61538451A2 /* FetchFollowedChannelsUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchFollowedChannelsUseCase.swift; sourceTree = "<group>"; };
+		4A336C524E5457511DE09A4A /* protooclient.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = protooclient.xcframework; sourceTree = "<group>"; };
+		4B6896E6E9BBA73754575A91 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		4EA5077DCB1BF24BEE511370 /* Session.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Session.swift; sourceTree = "<group>"; };
+		4F646D08ADBD70A0E8A70FE0 /* WebRTCVideoView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WebRTCVideoView.h; sourceTree = "<group>"; };
+		5154CE28734C60D8F76C1D61 /* ARDCaptureController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ARDCaptureController.h; sourceTree = "<group>"; };
+		52132ACA9EE62BC0714B9BBE /* ChannelRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelRepositoryProtocol.swift; sourceTree = "<group>"; };
+		566EE54BDDE2AD7BDEC1158A /* AuthDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDTO.swift; sourceTree = "<group>"; };
+		58284E9B88BE1C616E7E8AE7 /* RoomClient.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RoomClient.m; sourceTree = "<group>"; };
+		5A72764A4B8E48160D4040DA /* AppError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppError.swift; sourceTree = "<group>"; };
+		5DDE02EE2AE967C6DB3B0723 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		622276B7AA73E63756001F27 /* UIColor+Hex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		6E9955B15476497448B4B4D5 /* SearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewController.swift; sourceTree = "<group>"; };
+		72334A177E17FF3B00E23B81 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
+		72E05D3F7DF6D0353F961639 /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
+		7C4C4D9212476C481AAA5FB5 /* ChannelDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDTO.swift; sourceTree = "<group>"; };
+		824592B14CF2C75FBB8BBCBB /* UIImageView+URL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+URL.swift"; sourceTree = "<group>"; };
+		8515D650691A1E97C7BB7B18 /* RoomClient.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RoomClient.h; sourceTree = "<group>"; };
+		93EF5F342979792A5EC40E90 /* EditChannelNameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditChannelNameViewController.swift; sourceTree = "<group>"; };
+		9CEC004C7B4A8353AD40D021 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		9D06A97118F53472DEECBEAD /* SearchResultCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultCell.swift; sourceTree = "<group>"; };
+		A719A706362A66641C2DE713 /* ChannelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelCell.swift; sourceTree = "<group>"; };
+		AB1FDA6072898193261463B1 /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
+		AF038D1680A4C07973D6870A /* UserRepositoryProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepositoryProtocol.swift; sourceTree = "<group>"; };
+		B1A5F8782412AC311CE66A76 /* LoginUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginUseCase.swift; sourceTree = "<group>"; };
+		BA27D7D1293C4A23AE3C55EF /* APIClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIClient.swift; sourceTree = "<group>"; };
+		C7DA368A3AD7B55421939D7E /* GoogleSignInDemo-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "GoogleSignInDemo-Bridging-Header.h"; sourceTree = "<group>"; };
+		D2F297703570313483036FCD /* ChannelMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelMapper.swift; sourceTree = "<group>"; };
+		D58F0C2DC6CC11C1C072C07C /* UserSearchDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserSearchDTO.swift; sourceTree = "<group>"; };
+		ED58A2F4E713CDA93D6E3D30 /* WebRTC.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = WebRTC.xcframework; sourceTree = "<group>"; };
+		EFD07094C3AC9AE662139566 /* AppDI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDI.swift; sourceTree = "<group>"; };
+		F45E5599ABD603249C7B79CE /* AppConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppConfig.swift; sourceTree = "<group>"; };
+		F517E85FC88B70B6D9A6177B /* Channel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Channel.swift; sourceTree = "<group>"; };
+		F728AB6EE66FDF04D04C261F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		FCE7409891627CA1055215AC /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E28D03BB8CA1CAAFE093B213 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B9913A851D2041FBC620636B /* SnapKit in Frameworks */,
+				21644B9D3D51751D51675CA7 /* GoogleSignIn in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		08A770DEDF0F3C5C99D71EEC = {
+			isa = PBXGroup;
+			children = (
+				8E24C653E0C0CD5128052017 /* GoogleSignInDemo */,
+				5315AFAA7A5B77711ADE6647 /* Products */,
+			);
+			indentWidth = 2;
+			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
+		};
+		17BFB250BA6EBB4628DE7AFB /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				2FD6665EE3B4DBB408C685C5 /* PaddedLabel.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		2137E8363B12079897630816 /* Infrastructure */ = {
+			isa = PBXGroup;
+			children = (
+				E46CF35E1A1C8ADE5C143FC5 /* Core */,
+				78102E014E2AEBA19A2B09B7 /* Network */,
+				72CBEE36F058008614688AEA /* Room */,
+			);
+			path = Infrastructure;
+			sourceTree = "<group>";
+		};
+		3F59D0BE6DC2A2248C8D8778 /* Scenes */ = {
+			isa = PBXGroup;
+			children = (
+				D9265F15815C25630BD167EC /* Home */,
+				5F764BB8A58D48A9AE245B65 /* Login */,
+				AB0C62D94F3120FDA2696A7F /* Profile */,
+				CD63371B63BE0663057497D4 /* Search */,
+				416682E84C4991A413231197 /* VoiceRoom */,
+			);
+			path = Scenes;
+			sourceTree = "<group>";
+		};
+		416682E84C4991A413231197 /* VoiceRoom */ = {
+			isa = PBXGroup;
+			children = (
+				1CC31EE8A6E8CE5B62900FB3 /* MemberCell.swift */,
+				1AD1CFF6B72CD11F64C82FC5 /* VoiceRoomViewController.swift */,
+			);
+			path = VoiceRoom;
+			sourceTree = "<group>";
+		};
+		4D4E11E1F374FFB2639AE035 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				2BE3DCEAA30EA7FFDDF82A9E /* AuthRepositoryProtocol.swift */,
+				52132ACA9EE62BC0714B9BBE /* ChannelRepositoryProtocol.swift */,
+				AF038D1680A4C07973D6870A /* UserRepositoryProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		514C245A731B464701CB319D /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				17BFB250BA6EBB4628DE7AFB /* Components */,
+				3F59D0BE6DC2A2248C8D8778 /* Scenes */,
+				FD579BDC8AC5A7BF92F2ED8E /* ViewModels */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		5315AFAA7A5B77711ADE6647 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				214B81FCF5EC2087CBF476A6 /* PlayVoice.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		53C4A33F6A77461A7049DA57 /* DTOs */ = {
+			isa = PBXGroup;
+			children = (
+				566EE54BDDE2AD7BDEC1158A /* AuthDTO.swift */,
+				7C4C4D9212476C481AAA5FB5 /* ChannelDTO.swift */,
+				D58F0C2DC6CC11C1C072C07C /* UserSearchDTO.swift */,
+			);
+			path = DTOs;
+			sourceTree = "<group>";
+		};
+		5F764BB8A58D48A9AE245B65 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				38BCC036AA4F8E7A868E70A5 /* LoginViewController.swift */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		7129024940C12D2968C84450 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				F517E85FC88B70B6D9A6177B /* Channel.swift */,
+				41D32EC01DDC9462E4068DF2 /* RoomMember.swift */,
+				0D98556D663C0B727229D51C /* SearchUser.swift */,
+				4EA5077DCB1BF24BEE511370 /* Session.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		72CBEE36F058008614688AEA /* Room */ = {
+			isa = PBXGroup;
+			children = (
+				5154CE28734C60D8F76C1D61 /* ARDCaptureController.h */,
+				0199C8A73A9EB2258452DFAF /* ARDCaptureController.m */,
+				8515D650691A1E97C7BB7B18 /* RoomClient.h */,
+				58284E9B88BE1C616E7E8AE7 /* RoomClient.m */,
+				4F646D08ADBD70A0E8A70FE0 /* WebRTCVideoView.h */,
+				3987C7871CF834DDB33A9D4E /* WebRTCVideoView.m */,
+			);
+			path = Room;
+			sourceTree = "<group>";
+		};
+		78102E014E2AEBA19A2B09B7 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				BA27D7D1293C4A23AE3C55EF /* APIClient.swift */,
+				72334A177E17FF3B00E23B81 /* Endpoint.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		86ED4FB087EC12AE1874B785 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				2F273C8F7A18B376A96090F4 /* AuthMapper.swift */,
+				D2F297703570313483036FCD /* ChannelMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
+		8E24C653E0C0CD5128052017 /* GoogleSignInDemo */ = {
+			isa = PBXGroup;
+			children = (
+				11DC847AA6849BDA2FECA501 /* AppDelegate.swift */,
+				F728AB6EE66FDF04D04C261F /* Assets.xcassets */,
+				FCE7409891627CA1055215AC /* Bridging-Header.h */,
+				C7DA368A3AD7B55421939D7E /* GoogleSignInDemo-Bridging-Header.h */,
+				4A336C524E5457511DE09A4A /* protooclient.xcframework */,
+				5DDE02EE2AE967C6DB3B0723 /* SceneDelegate.swift */,
+				ED58A2F4E713CDA93D6E3D30 /* WebRTC.xcframework */,
+				C7CE8CFF775855B057CAE4A0 /* Data */,
+				FE98A67DC20678B4EB625D39 /* Domain */,
+				2137E8363B12079897630816 /* Infrastructure */,
+				514C245A731B464701CB319D /* Presentation */,
+			);
+			path = GoogleSignInDemo;
+			sourceTree = "<group>";
+		};
+		937B631116CF1AFC1FE8E049 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				1628853E346D2E8888C80FE1 /* AuthRepository.swift */,
+				3B835ACBF6013B99F525F309 /* ChannelRepository.swift */,
+				4B6896E6E9BBA73754575A91 /* UserRepository.swift */,
+			);
+			path = Repositories;
+			sourceTree = "<group>";
+		};
+		A6BB037C8C8D586A316D7773 /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				43D716BAF1289B61538451A2 /* FetchFollowedChannelsUseCase.swift */,
+				B1A5F8782412AC311CE66A76 /* LoginUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		AB0C62D94F3120FDA2696A7F /* Profile */ = {
+			isa = PBXGroup;
+			children = (
+				93EF5F342979792A5EC40E90 /* EditChannelNameViewController.swift */,
+				72E05D3F7DF6D0353F961639 /* ProfileViewController.swift */,
+			);
+			path = Profile;
+			sourceTree = "<group>";
+		};
+		C7CE8CFF775855B057CAE4A0 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				53C4A33F6A77461A7049DA57 /* DTOs */,
+				86ED4FB087EC12AE1874B785 /* Mappers */,
+				937B631116CF1AFC1FE8E049 /* Repositories */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		CD63371B63BE0663057497D4 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				9D06A97118F53472DEECBEAD /* SearchResultCell.swift */,
+				6E9955B15476497448B4B4D5 /* SearchViewController.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		D9265F15815C25630BD167EC /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A719A706362A66641C2DE713 /* ChannelCell.swift */,
+				079754CAA1B53B31E9ED1423 /* HomeViewController.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		E46CF35E1A1C8ADE5C143FC5 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				F45E5599ABD603249C7B79CE /* AppConfig.swift */,
+				3315B136424F49C134B6CE8F /* AppCoordinator.swift */,
+				EFD07094C3AC9AE662139566 /* AppDI.swift */,
+				5A72764A4B8E48160D4040DA /* AppError.swift */,
+				F5093D4C0EDA43DD2CFCFA58 /* Extensions */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		F5093D4C0EDA43DD2CFCFA58 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				622276B7AA73E63756001F27 /* UIColor+Hex.swift */,
+				824592B14CF2C75FBB8BBCBB /* UIImageView+URL.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FD579BDC8AC5A7BF92F2ED8E /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				AB1FDA6072898193261463B1 /* AuthViewModel.swift */,
+				9CEC004C7B4A8353AD40D021 /* HomeViewModel.swift */,
+				294B8D84249086AD9CFE8584 /* ProfileViewModel.swift */,
+				1BF29DE7AAE774C7F46E3E2C /* SearchViewModel.swift */,
+				10C7E651BFB8BEBB33F694BE /* VoiceRoomViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		FE98A67DC20678B4EB625D39 /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				7129024940C12D2968C84450 /* Entities */,
+				4D4E11E1F374FFB2639AE035 /* Protocols */,
+				A6BB037C8C8D586A316D7773 /* UseCases */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		26E8A5A22F140DA05B63BFE9 /* PlayVoice */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8D5CE10E905A8050778539CB /* Build configuration list for PBXNativeTarget "PlayVoice" */;
+			buildPhases = (
+				4F4A5A718143FBB10534ADAC /* Sources */,
+				C43B61EA68905F874354D1DB /* Resources */,
+				E28D03BB8CA1CAAFE093B213 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PlayVoice;
+			packageProductDependencies = (
+				A7FD850367976AB561F61AA0 /* SnapKit */,
+				12642D06CE2553F71AE179AF /* GoogleSignIn */,
+			);
+			productName = PlayVoice;
+			productReference = 214B81FCF5EC2087CBF476A6 /* PlayVoice.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		CEB34B26819FA5817AA202B9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					26E8A5A22F140DA05B63BFE9 = {
+						DevelopmentTeam = Z53L5682S3;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 538E98EA912AF0A5C0372783 /* Build configuration list for PBXProject "PlayVoice" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 08A770DEDF0F3C5C99D71EEC;
+			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				4C39DE081D07403E545777A5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+				295C53D887A6B1FD24547A27 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 5315AFAA7A5B77711ADE6647 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				26E8A5A22F140DA05B63BFE9 /* PlayVoice */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C43B61EA68905F874354D1DB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E31052CD5BD0F7B91B43B82C /* Assets.xcassets in Resources */,
+				DFF1AD51BEC20452ADAFA5A5 /* WebRTC.xcframework in Resources */,
+				6926E26DAE5632F3FE10EAFB /* protooclient.xcframework in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4F4A5A718143FBB10534ADAC /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5A4B5362B0806B91FD6F5824 /* APIClient.swift in Sources */,
+				1B3ABE2A6DB79E862CC9ACB7 /* ARDCaptureController.m in Sources */,
+				2094FA1C7BF9BCA23157E429 /* AppConfig.swift in Sources */,
+				B82E6D1B18A337D42C18C991 /* AppCoordinator.swift in Sources */,
+				0488F1558B65B427DD70E630 /* AppDI.swift in Sources */,
+				2DA6805556BE0458691F9198 /* AppDelegate.swift in Sources */,
+				6280C51E2A77A3EA1B4A43AD /* AppError.swift in Sources */,
+				863E90DCEF0BD94E58DF6740 /* AuthDTO.swift in Sources */,
+				4C6583FD668EECBE27BA1790 /* AuthMapper.swift in Sources */,
+				FB8185E191EFCA992D14DFE8 /* AuthRepository.swift in Sources */,
+				E9E380F479C02B1990C496D4 /* AuthRepositoryProtocol.swift in Sources */,
+				94165027FC390CFC4ED0363A /* AuthViewModel.swift in Sources */,
+				2DEE73570CD0F4F0C4196B25 /* Channel.swift in Sources */,
+				4D93258700367874EBCF097E /* ChannelCell.swift in Sources */,
+				6822DF2BC6729C5026FF7B73 /* ChannelDTO.swift in Sources */,
+				4E80BE4D281767783E9FAE46 /* ChannelMapper.swift in Sources */,
+				2931A786B69BF826EFA82BD6 /* ChannelRepository.swift in Sources */,
+				A746620637AEB80C3B0782EF /* ChannelRepositoryProtocol.swift in Sources */,
+				5FF9298FCE104EE0A7B41862 /* EditChannelNameViewController.swift in Sources */,
+				049D01DF6B1757DD848D065D /* Endpoint.swift in Sources */,
+				0FA68E9EFA6E8892FB9CDC1D /* FetchFollowedChannelsUseCase.swift in Sources */,
+				B5D57D8DE52DA9DC0320D20F /* HomeViewController.swift in Sources */,
+				87DB3F926E84A249B641AEE6 /* HomeViewModel.swift in Sources */,
+				A7E2EC967B7A7692D390DB91 /* LoginUseCase.swift in Sources */,
+				7D39BC4F319B2BDBC4BD34CF /* LoginViewController.swift in Sources */,
+				09B1B5CA81DAB66F44C6D3A2 /* MemberCell.swift in Sources */,
+				CE26823B88C3EC4711C8D521 /* PaddedLabel.swift in Sources */,
+				BA5039AB94CCF377638601AB /* ProfileViewController.swift in Sources */,
+				74A61C14FD4A272678B6801D /* ProfileViewModel.swift in Sources */,
+				AA1A3BA8D6D8389D704707EB /* RoomClient.m in Sources */,
+				CED43D01152FBB589F18CD76 /* RoomMember.swift in Sources */,
+				2D72D402B9EE9ED696E5B4EC /* SceneDelegate.swift in Sources */,
+				DD010D0F6704F2B7D5B44461 /* SearchResultCell.swift in Sources */,
+				89412226BA303501031A9E60 /* SearchUser.swift in Sources */,
+				E7015F03977EBB74ABF3B1F8 /* SearchViewController.swift in Sources */,
+				205A74E7EADC59D642ADD72D /* SearchViewModel.swift in Sources */,
+				1FE3D7E0014F14D4F104FBBB /* Session.swift in Sources */,
+				9A6096C5B5A57797E0EDF03E /* UIColor+Hex.swift in Sources */,
+				46A26588EF403E9384E3B7F5 /* UIImageView+URL.swift in Sources */,
+				7E74C3FCD220E7327DE230BC /* UserRepository.swift in Sources */,
+				01A973686FA084CFCCAFCE4F /* UserRepositoryProtocol.swift in Sources */,
+				368A15F34670E82B98044217 /* UserSearchDTO.swift in Sources */,
+				5343429975E1AAC27B349B3C /* VoiceRoomViewController.swift in Sources */,
+				78E165A7BB7BA4AEB53C936E /* VoiceRoomViewModel.swift in Sources */,
+				192A9FFC8712FC0F6498C37B /* WebRTCVideoView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		410A98793D7E21CA4D1ABDB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID = com.daibou007.playvoice;
+				CFBundleDisplayName = PlayVoice;
+				CFBundleName = PlayVoice;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/GoogleSignInDemo",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/GoogleSignInDemo",
+					"$(SRCROOT)/GoogleSignInDemo/Infrastructure/Room",
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+				);
+				INFOPLIST_FILE = GoogleSignInDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayVoice;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					WebRTC,
+					"-framework",
+					protooclient,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.daibou007.PlayVoice;
+				PRODUCT_NAME = PlayVoice;
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "GoogleSignInDemo/Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+				);
+			};
+			name = Release;
+		};
+		679994BC59219D65A6D26340 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = Z53L5682S3;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Release;
+		};
+		A44B1D6EE8EF9B4F90C15749 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = Z53L5682S3;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				MARKETING_VERSION = 1.0.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.9;
+			};
+			name = Debug;
+		};
+		C720482659549E4E8701146E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				BUNDLE_ID = com.daibou007.playvoice;
+				CFBundleDisplayName = PlayVoice;
+				CFBundleName = PlayVoice;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = "$(CURRENT_PROJECT_VERSION)";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SRCROOT)/GoogleSignInDemo",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/GoogleSignInDemo",
+					"$(SRCROOT)/GoogleSignInDemo/Infrastructure/Room",
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+				);
+				INFOPLIST_FILE = GoogleSignInDemo/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PlayVoice;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = "$(MARKETING_VERSION)";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-framework",
+					WebRTC,
+					"-framework",
+					protooclient,
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.daibou007.PlayVoice;
+				PRODUCT_NAME = PlayVoice;
+				SDKROOT = iphoneos;
+				SWIFT_OBJC_BRIDGING_HEADER = "GoogleSignInDemo/Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = (
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers",
+					"$(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers",
+				);
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		538E98EA912AF0A5C0372783 /* Build configuration list for PBXProject "PlayVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A44B1D6EE8EF9B4F90C15749 /* Debug */,
+				679994BC59219D65A6D26340 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		8D5CE10E905A8050778539CB /* Build configuration list for PBXNativeTarget "PlayVoice" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C720482659549E4E8701146E /* Debug */,
+				410A98793D7E21CA4D1ABDB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		295C53D887A6B1FD24547A27 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit.git";
+			requirement = {
+				kind = exactVersion;
+				version = 5.7.1;
+			};
+		};
+		4C39DE081D07403E545777A5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS.git";
+			requirement = {
+				kind = exactVersion;
+				version = 7.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		12642D06CE2553F71AE179AF /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4C39DE081D07403E545777A5 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		A7FD850367976AB561F61AA0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 295C53D887A6B1FD24547A27 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
+	};
+	rootObject = CEB34B26819FA5817AA202B9 /* Project object */;
+}

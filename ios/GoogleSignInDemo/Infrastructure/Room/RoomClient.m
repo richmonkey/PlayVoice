@@ -7,7 +7,7 @@
 //
 
 #import "RoomClient.h"
-#import "GoogleSignInDemo-Swift.h"
+#import "PlayVoice-Swift.h"
 #import <AVFAudio/AVFAudio.h>
 #import <AVFoundation/AVFoundation.h>
 #import <WebRTC/WebRTC.h>

@@ -1,0 +1,117 @@
+name: PlayVoice
+options:
+  bundleIdPrefix: com.daibou007
+  deploymentTarget:
+    iOS: "17.6"
+  usesTabs: false
+  tabWidth: 2
+  indentWidth: 2
+
+settings:
+  DEVELOPMENT_TEAM: Z53L5682S3
+  CODE_SIGN_STYLE: Automatic
+  SWIFT_VERSION: "5.9"
+  IPHONEOS_DEPLOYMENT_TARGET: "17.6"
+  MARKETING_VERSION: "1.0.0"
+  CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  PlayVoice:
+    type: application
+    platform: iOS
+    deploymentTarget: "17.6"
+
+    sources:
+      - path: GoogleSignInDemo
+        excludes:
+          - "Info.plist"
+
+    resources:
+      - path: GoogleSignInDemo/Resources
+        type: directory
+
+    settings:
+      PRODUCT_NAME: PlayVoice
+      BUNDLE_ID: com.daibou007.playvoice
+      INFOPLIST_FILE: GoogleSignInDemo/Info.plist
+      SWIFT_OBJC_BRIDGING_HEADER: GoogleSignInDemo/Bridging-Header.h
+      TARGETED_DEVICE_FAMILY: "1,2"
+      CFBundleDisplayName: PlayVoice
+      CFBundleName: PlayVoice
+      MARKETING_VERSION: "$(MARKETING_VERSION)"
+      CURRENT_PROJECT_VERSION: "$(CURRENT_PROJECT_VERSION)"
+      OTHER_LDFLAGS:
+        - -ObjC
+        - -framework
+        - WebRTC
+        - -framework
+        - protooclient
+      FRAMEWORK_SEARCH_PATHS:
+        - $(SRCROOT)/GoogleSignInDemo
+      HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/GoogleSignInDemo
+        - $(SRCROOT)/GoogleSignInDemo/Infrastructure/Room
+        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
+        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
+      USER_HEADER_SEARCH_PATHS:
+        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
+        - $(SRCROOT)/GoogleSignInDemo/WebRTC.xcframework/ios-arm64-simulator/WebRTC.framework/Headers
+      INFOPLIST_KEY_CFBundleDisplayName: PlayVoice
+      INFOPLIST_KEY_LSApplicationCategoryType: public.app-category.utilities
+      INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents: "YES"
+      INFOPLIST_KEY_UILaunchScreen_Generation: "YES"
+
+    dependencies:
+      - package: SnapKit
+        product: SnapKit
+      - package: GoogleSignIn
+        product: GoogleSignIn
+
+    frameworkSearchPaths:
+      - $(SRCROOT)/GoogleSignInDemo
+
+    buildPhases:
+      - type: sources
+      - type: frameworks
+        files:
+          - framework: GoogleSignInDemo/WebRTC.xcframework
+          - framework: GoogleSignInDemo/protooclient.xcframework
+      - type: resourceBundles
+      - type: copyFiles
+        destination: frameworks
+        files:
+          - path: GoogleSignInDemo/WebRTC.xcframework
+          - path: GoogleSignInDemo/protooclient.xcframework
+
+    scheme:
+      testTargets: []
+      gatherCoverageData: false
+      parallelizeBuildables: true
+      randomExecutionOrder: false
+
+packages:
+  SnapKit:
+    url: https://github.com/SnapKit/SnapKit.git
+    version: 5.7.1
+  GoogleSignIn:
+    url: https://github.com/google/GoogleSignIn-iOS.git
+    version: 7.1.0
+
+# CocoaPods 配置（如需迁移到 SPM，可移除此项）
+# 目前保留 CocoaPods 用于: GoogleSignIn, SnapKit 等
+# 迁移指南：
+# 1. 执行 `xcodegen generate` 生成新 Xcode 项目
+# 2. 删除 Pods 目录和 Podfile
+# 3. 在 Project.yml 中配置 SPM 依赖（packages 和 dependencies）
+# 4. 重新运行 `xcodegen generate`
+
+# 项目结构说明：
+# GoogleSignInDemo/
+# ├── Presentation/         # UI 层（UIViewController, SwiftUI）
+# ├── Domain/              # 业务层（UseCase, Entity, Protocol）
+# ├── Data/                # 数据层（Repository, DTO, Mapper）
+# ├── Infrastructure/      # 基础层（Network, Database, DI）
+# ├── Resources/           # 资源文件（Assets, Localizable 等）
+# ├── Bridging-Header.h    # ObjC-Swift 桥接文件
+# ├── AppDelegate.swift
+# └── SceneDelegate.swift

@@ -1,3 +1,10 @@
 .DS_Store
 Pods
 GoogleSignInDemo.xcworkspace
+ios/.build/
+ios/GoogleSignInDemo.xcodeproj/project.xcworkspace/xcuserdata/
+ios/WebRTC.xcframework/
+ios/protooclient.xcframework/
+ios/build/
+ios/GoogleSignInDemo/WebRTC.xcframework/
+ios/GoogleSignInDemo/protooclient.xcframework/
