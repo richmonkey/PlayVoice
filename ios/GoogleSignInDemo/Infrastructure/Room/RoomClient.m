@@ -21,6 +21,7 @@
 
 static NSString * const kARDAudioTrackId = @"ARDAMSa0";
 static NSString * const kARDVideoTrackId = @"ARDAMSv0";
+static const double kActiveSpeakerAudioLevelThreshold = 0.03;
 
 @interface Producer : NSObject
 @property(nonatomic, copy) NSString *id_;
@@ -165,7 +166,7 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
         [self getRouterRtpCapabilities];
     }
           onError:^(ProtooclientResponse *r) {
-        
+
     }];
 }
 
@@ -525,6 +526,7 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
         consumer.producerId = producerId;
         consumer.rtpReceiver = recvResult.rtpReceiver;
         consumer.track = recvResult.rtpReceiver.track;
+        consumer.peerId = peerId;
         consumer.rtpParameters = rtpParameters;
         [self.consumers setObject:consumer forKey:consumer.id_];
 
@@ -544,6 +546,46 @@ static NSString * const kARDVideoTrackId = @"ARDAMSv0";
 -(void)resumeConsume:(Consumer*)consumer {
     NSDictionary *object = @{@"consumerId": consumer.id_};
     [self request:@"resumeConsumer" jsonData:object onSuccess:nil onError:nil];
+}
+
+-(NSArray<NSString*>*)detectActiveSpeakerPeerIds {
+    NSLog(@"detect active speakers");
+    NSMutableArray<NSString*> *activePeerIds = [NSMutableArray array];
+    NSMutableSet<NSString*> *seenPeerIds = [NSMutableSet set];
+    CFTimeInterval nowTimestampUs = [[NSDate date] timeIntervalSince1970] * 1000.0 * 1000.0;
+
+    for (Consumer *consumer in [self.consumers allValues]) {
+        if (![consumer.track.kind isEqualToString:kRTCMediaStreamTrackKindAudio]) {
+            continue;
+        }
+        if (consumer.peerId.length == 0 || consumer.rtpReceiver == nil) {
+            continue;
+        }
+
+        for (RTCRtpSource *source in consumer.rtpReceiver.sources) {
+            if (source.sourceType != RTCRtpSourceTypeSSRC) {
+                continue;
+            }
+
+            NSNumber *audioLevel = source.audioLevel;
+            if (audioLevel == nil) {
+                continue;
+            }
+            if (audioLevel.doubleValue < kActiveSpeakerAudioLevelThreshold) {
+                continue;
+            }
+            if ([seenPeerIds containsObject:consumer.peerId]) {
+                break;
+            }
+
+            [seenPeerIds addObject:consumer.peerId];
+            [activePeerIds addObject:consumer.peerId];
+            NSLog(@"peerid: %@ is speaking", consumer.peerId);
+            break;
+        }
+    }
+
+    return activePeerIds;
 }
 
 

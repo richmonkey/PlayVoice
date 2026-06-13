@@ -20,6 +20,7 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
     private let ownerUserId: Int
     private let currentUserId: Int
     let roomClient: RoomClient
+    private var speakerDetectionTimer: Timer?
 
     init(channel: Channel) {
         channelName = channel.channelName
@@ -63,6 +64,7 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
                 guard let self else { return }
                 if granted {
                     self.roomClient.start()
+                    self.startSpeakerDetection()
                 } else {
                     self.connectionState = .failed("麦克风权限被拒绝，请在「设置 › 隐私与安全性」中开启")
                 }
@@ -71,8 +73,30 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
     }
 
     func stop() {
+        stopSpeakerDetection()
         roomClient.stop()
         try? AVAudioSession.sharedInstance().setActive(false)
+    }
+
+    private func startSpeakerDetection() {
+        speakerDetectionTimer = Timer.scheduledTimer(withTimeInterval: 0.1, repeats: true) { [weak self] _ in
+            self?.updateActiveSpeakers()
+        }
+    }
+
+    private func stopSpeakerDetection() {
+        speakerDetectionTimer?.invalidate()
+        speakerDetectionTimer = nil
+    }
+
+    private func updateActiveSpeakers() {
+        let activePeerIds = Set(roomClient.detectActiveSpeakerPeerIds())
+        for i in members.indices {
+            let speaking = activePeerIds.contains(members[i].id)
+            if members[i].isSpeaking != speaking {
+                members[i].isSpeaking = speaking
+            }
+        }
     }
 
     func toggleMute() {

@@ -14,7 +14,6 @@ final class MemberCell: UICollectionViewCell {
 
     private let nameLabel = UILabel()
     private let statusStrip = UIStackView()
-    private let ownerPill = StatusPill()
     private let onlinePill = StatusPill()
     private let micPill = StatusPill()
     private let speakingPill = StatusPill()
@@ -128,7 +127,7 @@ final class MemberCell: UICollectionViewCell {
             make.leading.trailing.equalToSuperview().inset(4)
             make.bottom.lessThanOrEqualToSuperview().inset(8)
         }
-        for pill in [ownerPill, onlinePill, micPill, speakingPill] {
+        for pill in [onlinePill, micPill, speakingPill] {
             statusStrip.addArrangedSubview(pill)
             pill.snp.makeConstraints { $0.height.equalTo(22) }
         }
@@ -151,11 +150,6 @@ final class MemberCell: UICollectionViewCell {
 
         ownerBadge.isHidden = !member.isOwner
 
-        ownerPill.configure(
-            icon: "crown.fill",
-            active: member.isOwner,
-            activeColors: (UIColor(hex: 0xCFC5FF), UIColor(hex: 0xF4F1FF), UIColor(hex: 0x8873D8))
-        )
         onlinePill.configure(
             icon: "circle.fill",
             active: true,

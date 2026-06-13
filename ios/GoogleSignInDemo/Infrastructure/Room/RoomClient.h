@@ -50,6 +50,7 @@ NS_ASSUME_NONNULL_BEGIN
 -(void)closeAudioProducer;
 -(void)closeVideoProducer;
 -(void)applyMuted:(BOOL)muted;
+-(NSArray<NSString*>*)detectActiveSpeakerPeerIds;
 
 @end
 
