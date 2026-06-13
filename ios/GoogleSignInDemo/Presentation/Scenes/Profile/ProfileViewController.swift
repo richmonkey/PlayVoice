@@ -43,7 +43,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Profile"
-        view.backgroundColor = UIColor(hex: 0xF2F7FC)
+        view.backgroundColor = AppTheme.Color.background
         setupTableView()
         setupLoadingIndicator()
         loadHeroFromCache()
@@ -63,7 +63,7 @@ final class ProfileViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        tableView.backgroundColor = UIColor(hex: 0xF2F7FC)
+        tableView.backgroundColor = AppTheme.Color.background
         view.addSubview(tableView)
         tableView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
         setupHeroHeader()
@@ -72,16 +72,12 @@ final class ProfileViewController: UIViewController {
     private func setupHeroHeader() {
         let header = UIView()
 
-        heroCard.backgroundColor = .white
-        heroCard.layer.cornerRadius = 16
-        heroCard.layer.cornerCurve = .continuous
-        heroCard.layer.borderWidth = 1
-        heroCard.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
-        heroCard.layer.shadowColor = UIColor(hex: 0x1B8AD6).cgColor
-        heroCard.layer.shadowOffset = CGSize(width: 0, height: 4)
-        heroCard.layer.shadowRadius = 10
-        heroCard.layer.shadowOpacity = 0.08
-        heroCard.layer.masksToBounds = false
+        heroCard.backgroundColor     = AppTheme.Color.card
+        heroCard.layer.cornerRadius  = AppTheme.Radius.card
+        heroCard.layer.cornerCurve   = .continuous
+        heroCard.layer.borderWidth   = 1
+        heroCard.layer.borderColor   = AppTheme.Color.border.cgColor
+        AppTheme.Shadow.card(on: heroCard)
         header.addSubview(heroCard)
 
         avatarView.layer.cornerRadius = 30
@@ -96,8 +92,8 @@ final class ProfileViewController: UIViewController {
         avatarView.layer.insertSublayer(g, at: 0)
         avatarGradient = g
 
-        avatarLabel.font = .systemFont(ofSize: 20, weight: .bold)
-        avatarLabel.textColor = .white
+        avatarLabel.font          = AppTheme.Font.title2()
+        avatarLabel.textColor     = .white
         avatarLabel.textAlignment = .center
         avatarView.addSubview(avatarLabel)
         avatarLabel.snp.makeConstraints { $0.center.equalToSuperview() }
@@ -108,12 +104,12 @@ final class ProfileViewController: UIViewController {
         avatarView.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints { $0.edges.equalToSuperview() }
 
-        heroNameLabel.font = .systemFont(ofSize: 18, weight: .semibold)
-        heroNameLabel.textColor = UIColor(hex: 0x172839)
+        heroNameLabel.font      = AppTheme.Font.title2()
+        heroNameLabel.textColor = AppTheme.Color.textPrimary
         heroCard.addSubview(heroNameLabel)
 
-        heroSubtitleLabel.font = .systemFont(ofSize: 13)
-        heroSubtitleLabel.textColor = UIColor(hex: 0x667B8F)
+        heroSubtitleLabel.font      = AppTheme.Font.subheadline()
+        heroSubtitleLabel.textColor = AppTheme.Color.textSecondary
         heroCard.addSubview(heroSubtitleLabel)
 
         heroCard.snp.makeConstraints { make in

@@ -24,37 +24,33 @@ final class ChannelCell: UITableViewCell {
         contentView.backgroundColor = .clear
 
         let card = UIView()
-        card.backgroundColor = .white
-        card.layer.cornerRadius = 16
-        card.layer.borderWidth = 1
-        card.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
-        card.layer.shadowColor = UIColor(red: 0.23, green: 0.41, blue: 0.52, alpha: 1).cgColor
-        card.layer.shadowOffset = CGSize(width: 0, height: 6)
-        card.layer.shadowRadius = 10
-        card.layer.shadowOpacity = 0.08
-        card.layer.masksToBounds = false
+        card.backgroundColor     = AppTheme.Color.card
+        card.layer.cornerRadius  = AppTheme.Radius.card
+        card.layer.borderWidth   = 1
+        card.layer.borderColor   = AppTheme.Color.border.cgColor
+        AppTheme.Shadow.card(on: card)
         contentView.addSubview(card)
 
-        avatarView.layer.cornerRadius = 12
-        avatarView.clipsToBounds = true
+        avatarView.layer.cornerRadius = AppTheme.Radius.avatar
+        avatarView.clipsToBounds      = true
         card.addSubview(avatarView)
 
-        initialsLabel.font = .systemFont(ofSize: 14, weight: .bold)
-        initialsLabel.textColor = .white
+        initialsLabel.font          = AppTheme.Font.subheadline()
+        initialsLabel.textColor     = .white
         initialsLabel.textAlignment = .center
         avatarView.addSubview(initialsLabel)
 
-        avatarImageView.contentMode = .scaleAspectFill
-        avatarImageView.clipsToBounds = true
-        avatarImageView.layer.cornerRadius = 12
+        avatarImageView.contentMode        = .scaleAspectFill
+        avatarImageView.clipsToBounds      = true
+        avatarImageView.layer.cornerRadius = AppTheme.Radius.avatar
         avatarView.addSubview(avatarImageView)
 
-        channelNameLabel.font = .systemFont(ofSize: 15, weight: .semibold)
-        channelNameLabel.textColor = UIColor(hex: 0x0F1F2E)
+        channelNameLabel.font      = AppTheme.Font.headline()
+        channelNameLabel.textColor = AppTheme.Color.textPrimary
         card.addSubview(channelNameLabel)
 
-        ownerInfoLabel.font = .systemFont(ofSize: 12)
-        ownerInfoLabel.textColor = UIColor(hex: 0x607286)
+        ownerInfoLabel.font      = AppTheme.Font.caption()
+        ownerInfoLabel.textColor = AppTheme.Color.textTertiary
         card.addSubview(ownerInfoLabel)
 
         card.snp.makeConstraints { make in

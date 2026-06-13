@@ -16,7 +16,7 @@ final class SearchViewController: UIViewController {
         sc.searchResultsUpdater = self
         sc.obscuresBackgroundDuringPresentation = false
         sc.searchBar.placeholder = "Search by name or channel"
-        sc.searchBar.tintColor = UIColor(hex: 0x0B84FF)
+        sc.searchBar.tintColor = AppTheme.Color.brand
         return sc
     }()
 
@@ -35,15 +35,15 @@ final class SearchViewController: UIViewController {
         let v = UIView()
 
         let icon = UIImageView(image: UIImage(systemName: "person.2.fill"))
-        icon.tintColor = UIColor(hex: 0xB0C8DB)
+        icon.tintColor = AppTheme.Color.textTertiary
         icon.contentMode = .scaleAspectFit
         v.addSubview(icon)
 
         let label = UILabel()
         label.text = "Enter a name or channel\nto search and follow users"
         label.numberOfLines = 0
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = UIColor(hex: 0x66788C)
+        label.font = AppTheme.Font.callout()
+        label.textColor = AppTheme.Color.textSecondary
         label.textAlignment = .center
         v.addSubview(label)
 
@@ -63,8 +63,8 @@ final class SearchViewController: UIViewController {
         let v = UIView()
         let label = UILabel()
         label.text = "No users found"
-        label.font = .systemFont(ofSize: 14)
-        label.textColor = UIColor(hex: 0x66788C)
+        label.font = AppTheme.Font.callout()
+        label.textColor = AppTheme.Color.textSecondary
         label.textAlignment = .center
         v.addSubview(label)
         label.snp.makeConstraints { make in make.edges.equalToSuperview() }
@@ -112,7 +112,7 @@ final class SearchViewController: UIViewController {
     }
 
     private func setupBackground() {
-        view.backgroundColor = UIColor(hex: 0xF6FBFF)
+        view.backgroundColor = AppTheme.Color.background
     }
 
     private func setupLayout() {
@@ -156,8 +156,8 @@ final class SearchViewController: UIViewController {
 
         let subtitleLabel = UILabel()
         subtitleLabel.text = "Find users by name or channel and follow them."
-        subtitleLabel.font = .systemFont(ofSize: 13)
-        subtitleLabel.textColor = UIColor(hex: 0x66788C)
+        subtitleLabel.font = AppTheme.Font.subheadline()
+        subtitleLabel.textColor = AppTheme.Color.textSecondary
         subtitleLabel.numberOfLines = 0
         header.addSubview(subtitleLabel)
 

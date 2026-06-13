@@ -9,32 +9,57 @@ final class AppCoordinator {
     }
 
     func start() {
-        window.overrideUserInterfaceStyle = .light
+        AppTheme.applyNavigationBarAppearance()
+        ThemeManager.shared.apply()
+
         NotificationCenter.default.addObserver(
             self,
             selector: #selector(handleUnauthorized),
             name: .unauthorized,
             object: nil
         )
-        let hasToken = !(UserDefaults.standard.string(forKey: "access_token") ?? "").isEmpty
-        if hasToken {
-            showHome()
+
+        showSplash()
+    }
+
+    // MARK: - Flow
+
+    private func showSplash() {
+        let splash = SplashViewController()
+        splash.onFinished = { [weak self] in self?.afterSplash() }
+        window.rootViewController = splash
+        window.makeKeyAndVisible()
+    }
+
+    private func afterSplash() {
+        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: OnboardingViewController.hasSeenKey)
+        if hasSeenOnboarding {
+            routeToAuthDestination()
         } else {
-            showLogin()
+            showOnboarding()
         }
+    }
+
+    private func showOnboarding() {
+        let vc = OnboardingViewController()
+        vc.onFinished = { [weak self] in self?.routeToAuthDestination() }
+        window.rootViewController = vc
+    }
+
+    private func routeToAuthDestination() {
+        let hasToken = !(UserDefaults.standard.string(forKey: "access_token") ?? "").isEmpty
+        if hasToken { showHome() } else { showLogin() }
     }
 
     @objc private func handleUnauthorized() {
         let ud = UserDefaults.standard
-        ud.removeObject(forKey: "access_token")
-        ud.removeObject(forKey: "user_id")
-        ud.removeObject(forKey: "user_name")
-        ud.removeObject(forKey: "user_email")
-        ud.removeObject(forKey: "user_avatar_url")
-        DispatchQueue.main.async {
-            self.showLogin()
+        ["access_token", "user_id", "user_name", "user_email", "user_avatar_url"].forEach {
+            ud.removeObject(forKey: $0)
         }
+        DispatchQueue.main.async { self.showLogin() }
     }
+
+    // MARK: - Destinations
 
     func showLogin() {
         let viewModel = AppDI.shared.makeAuthViewModel()
@@ -47,10 +72,14 @@ final class AppCoordinator {
         let viewModel = AppDI.shared.makeHomeViewModel()
         let vc = HomeViewController(viewModel: viewModel, coordinator: self)
         let nav = UINavigationController(rootViewController: vc)
-        nav.navigationBar.tintColor = UIColor(hex: 0x0B84FF)
         navigationController = nav
         window.rootViewController = nav
         window.makeKeyAndVisible()
+    }
+
+    func showSettings() {
+        let vc = SettingsViewController()
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     func showSearch() {

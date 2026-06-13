@@ -26,37 +26,33 @@ final class SearchResultCell: UITableViewCell {
         contentView.backgroundColor = .clear
 
         let card = UIView()
-        card.backgroundColor = .white
-        card.layer.cornerRadius = 14
-        card.layer.borderWidth = 1
-        card.layer.borderColor = UIColor(hex: 0xD9E8F3).cgColor
-        card.layer.shadowColor = UIColor(hex: 0x3A6885).cgColor
-        card.layer.shadowOffset = CGSize(width: 0, height: 4)
-        card.layer.shadowRadius = 8
-        card.layer.shadowOpacity = 0.06
-        card.layer.masksToBounds = false
+        card.backgroundColor     = AppTheme.Color.card
+        card.layer.cornerRadius  = AppTheme.Radius.card
+        card.layer.borderWidth   = 1
+        card.layer.borderColor   = AppTheme.Color.border.cgColor
+        AppTheme.Shadow.card(on: card)
         contentView.addSubview(card)
 
-        avatarView.layer.cornerRadius = 12
-        avatarView.clipsToBounds = true
+        avatarView.layer.cornerRadius = AppTheme.Radius.avatar
+        avatarView.clipsToBounds      = true
         card.addSubview(avatarView)
 
-        initialsLabel.font = .systemFont(ofSize: 14, weight: .bold)
-        initialsLabel.textColor = .white
+        initialsLabel.font          = AppTheme.Font.subheadline()
+        initialsLabel.textColor     = .white
         initialsLabel.textAlignment = .center
         avatarView.addSubview(initialsLabel)
 
-        nameLabel.font = .systemFont(ofSize: 15, weight: .semibold)
-        nameLabel.textColor = UIColor(hex: 0x142434)
+        nameLabel.font      = AppTheme.Font.headline()
+        nameLabel.textColor = AppTheme.Color.textPrimary
         card.addSubview(nameLabel)
 
-        channelLabel.font = .systemFont(ofSize: 12)
-        channelLabel.textColor = UIColor(hex: 0x66788C)
+        channelLabel.font      = AppTheme.Font.caption()
+        channelLabel.textColor = AppTheme.Color.textTertiary
         card.addSubview(channelLabel)
 
         followButton.layer.cornerRadius = 17
-        followButton.layer.borderWidth = 1
-        followButton.titleLabel?.font = .systemFont(ofSize: 12, weight: .medium)
+        followButton.layer.borderWidth  = 1
+        followButton.titleLabel?.font   = AppTheme.Font.captionMed()
         followButton.addTarget(self, action: #selector(followTapped), for: .touchUpInside)
         card.addSubview(followButton)
 
@@ -117,14 +113,14 @@ final class SearchResultCell: UITableViewCell {
     private func applyFollowState(_ isFollowed: Bool) {
         if isFollowed {
             followButton.setTitle("Following", for: .normal)
-            followButton.setTitleColor(UIColor(hex: 0x0E5FA5), for: .normal)
-            followButton.backgroundColor = UIColor(hex: 0xEBF6FF)
-            followButton.layer.borderColor = UIColor(hex: 0x9ECCF1).cgColor
+            followButton.setTitleColor(AppTheme.Color.brand, for: .normal)
+            followButton.backgroundColor   = AppTheme.Color.brandLight
+            followButton.layer.borderColor = AppTheme.Color.brand.withAlphaComponent(0.3).cgColor
         } else {
             followButton.setTitle("Follow", for: .normal)
-            followButton.setTitleColor(UIColor(hex: 0x2C577C), for: .normal)
-            followButton.backgroundColor = UIColor(hex: 0xF8FCFF)
-            followButton.layer.borderColor = UIColor(hex: 0xC8DEF1).cgColor
+            followButton.setTitleColor(AppTheme.Color.textSecondary, for: .normal)
+            followButton.backgroundColor   = AppTheme.Color.card
+            followButton.layer.borderColor = AppTheme.Color.border.cgColor
         }
     }
 
