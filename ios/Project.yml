@@ -76,6 +76,28 @@ targets:
       - $(SRCROOT)/Frameworks
 
     buildPhases:
+      - type: script
+        name: "Check Local Frameworks"
+        inputFiles:
+          - $(SRCROOT)/Frameworks/WebRTC.xcframework
+          - $(SRCROOT)/Frameworks/protooclient.xcframework
+        outputFiles:
+          - $(DERIVED_FILE_DIR)/frameworks_checked
+        script: |
+          set -e
+          MISSING=""
+          if [ ! -d "${SRCROOT}/Frameworks/WebRTC.xcframework" ]; then
+            MISSING="${MISSING}  WebRTC.xcframework\n"
+          fi
+          if [ ! -d "${SRCROOT}/Frameworks/protooclient.xcframework" ]; then
+            MISSING="${MISSING}  protooclient.xcframework\n"
+          fi
+          if [ -n "${MISSING}" ]; then
+            echo "error: Frameworks/ 目录下缺失:\n${MISSING}"
+            echo "请将 xcframework 文件手动复制到 ios/Frameworks/ 目录"
+            exit 1
+          fi
+          touch "${DERIVED_FILE_DIR}/frameworks_checked"
       - type: sources
       - type: resourceBundles
 
