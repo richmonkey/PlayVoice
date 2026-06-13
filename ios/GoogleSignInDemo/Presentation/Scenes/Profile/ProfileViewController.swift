@@ -7,6 +7,7 @@ final class ProfileViewController: UIViewController {
     // MARK: - Dependencies
 
     private let viewModel: ProfileViewModel
+    private weak var coordinator: AppCoordinator?
     private var cancellables = Set<AnyCancellable>()
 
     // MARK: - UI
@@ -31,8 +32,9 @@ final class ProfileViewController: UIViewController {
 
     // MARK: - Init
 
-    init(viewModel: ProfileViewModel) {
+    init(viewModel: ProfileViewModel, coordinator: AppCoordinator? = nil) {
         self.viewModel = viewModel
+        self.coordinator = coordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -235,14 +237,24 @@ final class ProfileViewController: UIViewController {
 
 extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
-    func numberOfSections(in tableView: UITableView) -> Int { 2 }
+    func numberOfSections(in tableView: UITableView) -> Int { 4 }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        section == 0 ? 2 : 1
+        switch section {
+        case 0: return 2
+        case 1: return 1
+        case 2: return 1
+        default: return 1
+        }
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        section == 0 ? "General" : "Channel"
+        switch section {
+        case 0: return "General"
+        case 1: return "Channel"
+        case 2: return "App"
+        default: return "Account"
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -262,10 +274,23 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             config.secondaryText = email.isEmpty ? "—" : email
             cell.accessoryType = .none
             cell.selectionStyle = .none
-        default:
+        case (1, _):
             config.text = "Channel Name"
             config.secondaryText = channelName.isEmpty ? "—" : channelName
             cell.accessoryType = .disclosureIndicator
+            cell.selectionStyle = .default
+        case (2, _):
+            config.text = "Settings"
+            config.image = UIImage(systemName: "gearshape")
+            config.imageProperties.tintColor = .systemGray
+            config.prefersSideBySideTextAndSecondaryText = false
+            cell.accessoryType = .disclosureIndicator
+            cell.selectionStyle = .default
+        default:
+            config.text = "Logout"
+            config.textProperties.color = .systemRed
+            config.prefersSideBySideTextAndSecondaryText = false
+            cell.accessoryType = .none
             cell.selectionStyle = .default
         }
 
@@ -275,13 +300,30 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
-        guard indexPath.section == 1, let channel = currentChannel else { return }
-
-        let editVC = EditChannelNameViewController(
-            currentName: channel.channelName
-        ) { [weak self] newName, completion in
-            self?.viewModel.updateChannelName(newName, completion: completion)
+        switch (indexPath.section, indexPath.row) {
+        case (1, _):
+            guard let channel = currentChannel else { return }
+            let editVC = EditChannelNameViewController(
+                currentName: channel.channelName
+            ) { [weak self] newName, completion in
+                self?.viewModel.updateChannelName(newName, completion: completion)
+            }
+            navigationController?.pushViewController(editVC, animated: true)
+        case (2, _):
+            coordinator?.showSettings()
+        case (3, _):
+            confirmLogout()
+        default:
+            break
         }
-        navigationController?.pushViewController(editVC, animated: true)
+    }
+
+    private func confirmLogout() {
+        let alert = UIAlertController(title: "Logout", message: "Are you sure you want to logout?", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Logout", style: .destructive) { [weak self] _ in
+            self?.coordinator?.logout()
+        })
+        present(alert, animated: true)
     }
 }

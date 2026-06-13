@@ -106,11 +106,7 @@ final class HomeViewController: UIViewController {
             image: UIImage(systemName: "person.circle"),
             style: .plain, target: self, action: #selector(profileTapped)
         )
-        let settingsBtn = UIBarButtonItem(
-            image: UIImage(systemName: "gearshape"),
-            style: .plain, target: self, action: #selector(settingsTapped)
-        )
-        navigationItem.rightBarButtonItems = [profileBtn, settingsBtn]
+        navigationItem.rightBarButtonItems = [profileBtn]
     }
 
     private func setupTopBar() {
@@ -339,9 +335,8 @@ final class HomeViewController: UIViewController {
         coordinator?.showVoiceRoom(channel: channel)
     }
 
-    @objc private func searchTapped()   { coordinator?.showSearch() }
-    @objc private func profileTapped()  { coordinator?.showProfile() }
-    @objc private func settingsTapped() { coordinator?.showSettings() }
+    @objc private func searchTapped()  { coordinator?.showSearch() }
+    @objc private func profileTapped() { coordinator?.showProfile() }
 
     @objc private func refresh() { viewModel.load() }
 

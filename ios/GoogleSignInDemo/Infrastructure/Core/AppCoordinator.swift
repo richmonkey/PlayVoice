@@ -90,8 +90,16 @@ final class AppCoordinator {
 
     func showProfile() {
         let viewModel = AppDI.shared.makeProfileViewModel()
-        let vc = ProfileViewController(viewModel: viewModel)
+        let vc = ProfileViewController(viewModel: viewModel, coordinator: self)
         navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func logout() {
+        let ud = UserDefaults.standard
+        ["access_token", "user_id", "user_name", "user_email", "user_avatar_url"].forEach {
+            ud.removeObject(forKey: $0)
+        }
+        showLogin()
     }
 
     func showVoiceRoom(channel: Channel) {
