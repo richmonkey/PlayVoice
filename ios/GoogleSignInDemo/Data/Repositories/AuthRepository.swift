@@ -11,10 +11,6 @@ final class AuthRepository: AuthRepositoryProtocol {
         try await performAuth(.googleAuth(idToken: idToken, name: name, avatarURL: avatarURL))
     }
 
-    func appleLogin(idToken: String, name: String?, email: String?) async throws -> Session {
-        try await performAuth(.appleAuth(idToken: idToken, name: name, email: email))
-    }
-
     private func performAuth(_ endpoint: Endpoint) async throws -> Session {
         let dto: AuthResponseDTO = try await apiClient.request(endpoint)
         let session = AuthMapper.toEntity(dto)

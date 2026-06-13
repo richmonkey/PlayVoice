@@ -22,12 +22,6 @@ final class AuthViewModel: ObservableObject {
         }
     }
 
-    func signInWithApple(idToken: String, name: String? = nil, email: String? = nil) {
-        perform { [weak self] in
-            try await self?.loginUseCase.executeWithApple(idToken: idToken, name: name, email: email)
-        }
-    }
-
     private func perform(_ work: @escaping () async throws -> Session?) {
         viewState = .loading
         Task {

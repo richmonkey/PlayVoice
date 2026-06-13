@@ -1,6 +1,5 @@
 import UIKit
 import GoogleSignIn
-import AuthenticationServices
 import SnapKit
 import Combine
 
@@ -67,7 +66,7 @@ final class LoginViewController: UIViewController {
 
     private let subtitleLabel: UILabel = {
         let l = UILabel()
-        l.text          = "Sign in with your Google or Apple account."
+        l.text          = "Sign in with your Google account."
         l.font          = AppTheme.Font.body()
         l.textColor     = AppTheme.Color.textSecondary
         l.numberOfLines = 0
@@ -102,13 +101,6 @@ final class LoginViewController: UIViewController {
         config.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
         let btn = UIButton(configuration: config)
         btn.addTarget(self, action: #selector(handleSignIn), for: .touchUpInside)
-        return btn
-    }()
-
-    private lazy var appleSignInButton: ASAuthorizationAppleIDButton = {
-        let btn = ASAuthorizationAppleIDButton(authorizationButtonType: .continue, authorizationButtonStyle: .black)
-        btn.cornerRadius = 22
-        btn.addTarget(self, action: #selector(handleAppleSignIn), for: .touchUpInside)
         return btn
     }()
 
@@ -160,18 +152,15 @@ final class LoginViewController: UIViewController {
         case .idle:
             statusLabel.text             = "Choose a sign-in method to continue."
             googleSignInButton.isEnabled = true
-            appleSignInButton.isEnabled  = true
         case .loading:
             statusLabel.text             = "Signing in…"
             googleSignInButton.isEnabled = false
-            appleSignInButton.isEnabled  = false
         case .success(let isNewUser):
             statusLabel.text = isNewUser ? "Account created. Welcome!" : "Signed in. Welcome back!"
             coordinator.showHome()
         case .failure(let message):
             statusLabel.text             = message
             googleSignInButton.isEnabled = true
-            appleSignInButton.isEnabled  = true
 
         }
     }
@@ -210,7 +199,7 @@ final class LoginViewController: UIViewController {
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 12, left: 14, bottom: 12, right: 14))
         }
 
-        [tagLabel, titleLabel, subtitleLabel, googleButtonWrapper, appleSignInButton, statusWrapper].forEach {
+        [tagLabel, titleLabel, subtitleLabel, googleButtonWrapper, statusWrapper].forEach {
             panelView.addSubview($0)
         }
 
@@ -231,14 +220,8 @@ final class LoginViewController: UIViewController {
             make.height.equalTo(44)
             make.width.equalTo(248)
         }
-        appleSignInButton.snp.makeConstraints { make in
-            make.top.equalTo(googleButtonWrapper.snp.bottom).offset(12)
-            make.centerX.equalToSuperview()
-            make.height.equalTo(44)
-            make.width.equalTo(248)
-        }
         statusWrapper.snp.makeConstraints { make in
-            make.top.equalTo(appleSignInButton.snp.bottom).offset(18)
+            make.top.equalTo(googleButtonWrapper.snp.bottom).offset(18)
             make.leading.trailing.equalToSuperview().inset(28)
             make.bottom.equalToSuperview().inset(28)
         }
@@ -278,16 +261,6 @@ final class LoginViewController: UIViewController {
         }
     }
 
-    @objc private func handleAppleSignIn() {
-        let provider = ASAuthorizationAppleIDProvider()
-        let request = provider.createRequest()
-        request.requestedScopes = [.fullName, .email]
-        let controller = ASAuthorizationController(authorizationRequests: [request])
-        controller.delegate = self
-        controller.presentationContextProvider = self
-        controller.performRequests()
-    }
-
     // MARK: - Helpers
 
     private func makeOrb(size: CGFloat, color: UIColor) -> UIView {
@@ -316,42 +289,4 @@ final class LoginViewController: UIViewController {
             }
         }
     }
-}
-
-// MARK: - ASAuthorizationControllerDelegate
-
-extension LoginViewController: ASAuthorizationControllerDelegate {
-    func authorizationController(controller: ASAuthorizationController,
-                                 didCompleteWithAuthorization authorization: ASAuthorization) {
-        guard let credential = authorization.credential as? ASAuthorizationAppleIDCredential,
-              let tokenData = credential.identityToken,
-              let idToken = String(data: tokenData, encoding: .utf8) else { return }
-
-        let fullName = credential.fullName
-        let name = [fullName?.givenName, fullName?.familyName]
-            .compactMap { $0 }
-            .joined(separator: " ")
-            .nilIfEmpty
-
-        viewModel.signInWithApple(idToken: idToken, name: name, email: credential.email)
-    }
-
-    func authorizationController(controller: ASAuthorizationController,
-                                 didCompleteWithError error: Error) {
-        let nsError = error as NSError
-        guard nsError.code != ASAuthorizationError.canceled.rawValue else { return }
-        viewModel.viewState = .failure(error.localizedDescription)
-    }
-}
-
-// MARK: - ASAuthorizationControllerPresentationContextProviding
-
-extension LoginViewController: ASAuthorizationControllerPresentationContextProviding {
-    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
-        view.window!
-    }
-}
-
-private extension String {
-    var nilIfEmpty: String? { isEmpty ? nil : self }
 }
