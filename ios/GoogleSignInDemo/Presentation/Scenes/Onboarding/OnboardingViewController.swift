@@ -18,20 +18,20 @@ final class OnboardingViewController: UIViewController {
         OnboardingSlide(
             icon: "mic.fill",
             iconBg: UIColor(hex: 0x2570FF),
-            title: "Crystal-Clear Voice Chat",
-            subtitle: "Low-latency, high-quality audio\nfor your gaming sessions."
+            title: "Crystal-Clear Voice",
+            subtitle: "GameVoice delivers low-latency,\nhigh-quality audio built for gaming."
         ),
         OnboardingSlide(
             icon: "person.2.fill",
             iconBg: UIColor(hex: 0x00C48C),
-            title: "Your Channel, Your Rules",
-            subtitle: "Every user gets one exclusive channel.\nInvite followers to join anytime."
+            title: "Your Channel, Your Squad",
+            subtitle: "Every GameVoice user gets one\nexclusive channel. Make it yours."
         ),
         OnboardingSlide(
             icon: "magnifyingglass",
             iconBg: UIColor(hex: 0xFF9500),
-            title: "Discover & Follow",
-            subtitle: "Search for players, follow channels\nyou love, and never miss a session."
+            title: "Follow & Jump In",
+            subtitle: "Search players, follow their channels,\nand join with a single tap."
         )
     ]
 

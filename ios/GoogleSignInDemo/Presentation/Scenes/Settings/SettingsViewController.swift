@@ -74,7 +74,7 @@ final class SettingsViewController: UIViewController {
     private func makeSupportSection() -> Section {
         let help = Row(
             title: "Help Center",
-            subtitle: nil,
+            subtitle: "Guides & FAQs",
             icon: "questionmark.circle.fill",
             iconColor: UIColor(hex: 0x00C48C),
             action: { [weak self] in self?.openURL("https://playvoice.app/help") },
@@ -82,15 +82,15 @@ final class SettingsViewController: UIViewController {
         )
         let support = Row(
             title: "Contact Support",
-            subtitle: nil,
+            subtitle: "support@playvoice.app",
             icon: "envelope.fill",
             iconColor: UIColor(hex: 0xFF9500),
             action: { [weak self] in self?.openURL("mailto:support@playvoice.app") },
             accessory: .disclosure
         )
         let rate = Row(
-            title: "Rate PlayVoice",
-            subtitle: nil,
+            title: "Rate GameVoice",
+            subtitle: "Enjoying the app? Let us know",
             icon: "star.fill",
             iconColor: UIColor(hex: 0xFFCC00),
             action: { [weak self] in self?.openURL("https://apps.apple.com/app/id000000000") },
@@ -102,7 +102,7 @@ final class SettingsViewController: UIViewController {
     private func makeLegalSection() -> Section {
         let privacy = Row(
             title: "Privacy Policy",
-            subtitle: nil,
+            subtitle: "How we handle your data",
             icon: "lock.shield.fill",
             iconColor: UIColor(hex: 0x7A62FF),
             action: { [weak self] in self?.openURL("https://playvoice.app/privacy") },
@@ -110,7 +110,7 @@ final class SettingsViewController: UIViewController {
         )
         let terms = Row(
             title: "Terms of Service",
-            subtitle: nil,
+            subtitle: "Usage rules & conditions",
             icon: "doc.text.fill",
             iconColor: UIColor(hex: 0x86909C),
             action: { [weak self] in self?.openURL("https://playvoice.app/terms") },
@@ -123,14 +123,30 @@ final class SettingsViewController: UIViewController {
         let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "1.0"
         let build   = Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "1"
         let about = Row(
-            title: "About PlayVoice",
-            subtitle: "Version \(version) (\(build))",
+            title: "GameVoice",
+            subtitle: "Voice Chat for Gamers · v\(version) (\(build))",
             icon: "mic.fill",
             iconColor: UIColor(hex: 0x2570FF),
-            action: nil,
+            action: { [weak self] in self?.showAboutAlert(version: version) },
             accessory: .none
         )
         return Section(title: "About", rows: [about])
+    }
+
+    private func showAboutAlert(version: String) {
+        let message = """
+        GameVoice is a real-time voice chat app designed for gaming squads.
+
+        • Low-latency WebRTC audio
+        • Personal voice channel per user
+        • Follow players, join their rooms
+        • One-time purchase — no subscriptions
+
+        Version \(version) · © 2026 GameVoice
+        """
+        let alert = UIAlertController(title: "About GameVoice", message: message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .default))
+        present(alert, animated: true)
     }
 
     // MARK: - TableView

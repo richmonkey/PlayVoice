@@ -80,3 +80,41 @@
 "time.minutesAgo" = "%dm ago";
 "time.hoursAgo" = "%dh ago";
 "time.daysAgo" = "%dd ago";
+
+/* Splash */
+"splash.appName" = "GameVoice";
+"splash.tagline" = "Voice Chat for Gamers";
+
+/* Onboarding */
+"onboarding.skip" = "Skip";
+"onboarding.next" = "Next";
+"onboarding.getStarted" = "Get Started";
+"onboarding.slide1.title" = "Crystal-Clear Voice";
+"onboarding.slide1.subtitle" = "GameVoice delivers low-latency,\nhigh-quality audio built for gaming.";
+"onboarding.slide2.title" = "Your Channel, Your Squad";
+"onboarding.slide2.subtitle" = "Every GameVoice user gets one\nexclusive channel. Make it yours.";
+"onboarding.slide3.title" = "Follow & Jump In";
+"onboarding.slide3.subtitle" = "Search players, follow their channels,\nand join with a single tap.";
+
+/* Settings */
+"settings.title" = "Settings";
+"settings.section.appearance" = "Appearance";
+"settings.section.support" = "Support";
+"settings.section.legal" = "Legal";
+"settings.section.about" = "About";
+"settings.appearance.title" = "Appearance";
+"settings.help.title" = "Help Center";
+"settings.help.subtitle" = "Guides & FAQs";
+"settings.support.title" = "Contact Support";
+"settings.support.subtitle" = "support@playvoice.app";
+"settings.rate.title" = "Rate GameVoice";
+"settings.rate.subtitle" = "Enjoying the app? Let us know";
+"settings.privacy.title" = "Privacy Policy";
+"settings.privacy.subtitle" = "How we handle your data";
+"settings.terms.title" = "Terms of Service";
+"settings.terms.subtitle" = "Usage rules & conditions";
+"settings.about.title" = "GameVoice";
+"settings.about.description" = "GameVoice is a real-time voice chat app designed for gaming squads.\n\n• Low-latency WebRTC audio\n• Personal voice channel per user\n• Follow players, join their rooms\n• One-time purchase — no subscriptions";
+
+/* Microphone permission (also set in Info.plist) */
+"permission.microphone" = "GameVoice uses your microphone to enable real-time voice chat with your gaming squad.";

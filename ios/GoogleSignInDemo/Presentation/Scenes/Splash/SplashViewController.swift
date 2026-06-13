@@ -40,7 +40,7 @@ final class SplashViewController: UIViewController {
 
     private let appNameLabel: UILabel = {
         let l = UILabel()
-        l.text = "PlayVoice"
+        l.text = "GameVoice"
         l.font = .systemFont(ofSize: 32, weight: .bold)
         l.textColor = .white
         l.textAlignment = .center
@@ -49,7 +49,7 @@ final class SplashViewController: UIViewController {
 
     private let taglineLabel: UILabel = {
         let l = UILabel()
-        l.text = "Game Voice Chat"
+        l.text = "Voice Chat for Gamers"
         l.font = .systemFont(ofSize: 14, weight: .medium)
         l.textColor = UIColor.white.withAlphaComponent(0.65)
         l.textAlignment = .center
