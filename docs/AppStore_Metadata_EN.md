@@ -1,11 +1,11 @@
-# PlayVoice — App Store Metadata (English)
+# GameVoice — App Store Metadata (English)
 
 ---
 
 ## App Name (Max 30 characters)
 
 ```
-PlayVoice - Game Voice Chat
+GameVoice - Game Voice Chat
 ```
 **Character count: 27**
 
@@ -58,7 +58,7 @@ Low-latency voice rooms for your gaming squad. Follow players, join their channe
 ## Description (Max 4000 characters)
 
 ```
-PlayVoice is the no-fuss voice chat app built for gamers who need crystal-clear, low-latency communication while playing together.
+GameVoice is the no-fuss voice chat app built for gamers who need crystal-clear, low-latency communication while playing together.
 
 No lobby setup. No subscription. One tap and you're talking.
 
@@ -103,7 +103,7 @@ Pay once, use forever. No subscriptions. No recurring charges. No in-app ads. Ev
  PRIVACY & PERMISSIONS
 ──────────────────────────────────────
 
-PlayVoice requests only what it needs:
+GameVoice requests only what it needs:
 • Microphone — required for voice chat (requested when you first enter a voice room)
 • No location access
 • No contacts access
@@ -122,7 +122,7 @@ Your Google or Apple account name and profile photo are used solely to display y
 
 ──────────────────────────────────────
 
-Download PlayVoice, claim your channel, and never miss a squad session again.
+Download GameVoice, claim your channel, and never miss a squad session again.
 ```
 **Character count: ~2,850** *(well within the 4,000-character limit)*
 
@@ -134,7 +134,7 @@ Download PlayVoice, claim your channel, and never miss a squad session again.
 
 ### 1. 当前版本主要内容 (What's New / Version Highlights)
 
-This is the initial release of PlayVoice (Version 1.0). Core features included:
+This is the initial release of GameVoice (Version 1.0). Core features included:
 
 - **Sign-In**: Google Sign-In and Apple Sign-In. New users auto-create an account and a personal voice channel on first login.
 - **Home Screen**: Displays the user's own channel card and a list of channels they follow, sorted by most recently active.
@@ -205,7 +205,7 @@ For reviewer convenience, a demo video showing two-user voice communication is a
 **No third-party copyrighted content** is used in the app:
 
 - All icons are from Apple's SF Symbols system library (licensed for use in Apple platform apps).
-- The app logo/icon is original artwork created for PlayVoice.
+- The app logo/icon is original artwork created for GameVoice.
 - Audio processing uses WebRTC open-source library (BSD license). No music, no stock imagery, no licensed characters.
 
 ---
