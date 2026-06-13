@@ -7,6 +7,26 @@ ios 客户端开发优先使用系统原生控件
 
 ---
 
+## 工程文件管理
+
+本项目使用 **XcodeGen** 管理 Xcode 工程文件。
+
+- **禁止直接修改** `PlayVoice.xcodeproj/project.pbxproj`
+- 需要添加/删除文件、修改 Build Settings、添加依赖等操作，请编辑 `Project.yml`，然后执行：
+
+```bash
+xcodegen generate
+```
+
+- 添加新 Swift 文件后**不需要**手动修改 `Project.yml`，xcodegen 会自动扫描 `GoogleSignInDemo/` 目录下的所有文件
+- 只有以下情况才需要修改 `Project.yml`：
+  - 新增/删除外部依赖（SPM package、xcframework）
+  - 修改 Build Settings
+  - 添加 Build Phase
+  - 修改 `excludes` 规则
+
+---
+
 ## 整体分层
 
 ```

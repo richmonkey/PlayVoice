@@ -69,8 +69,9 @@ final class AppCoordinator {
     }
 
     func showHome() {
-        let viewModel = AppDI.shared.makeHomeViewModel()
-        let vc = HomeViewController(viewModel: viewModel, coordinator: self)
+        let viewModel       = AppDI.shared.makeHomeViewModel()
+        let searchViewModel = AppDI.shared.makeSearchViewModel()
+        let vc = HomeViewController(viewModel: viewModel, searchViewModel: searchViewModel, coordinator: self)
         let nav = UINavigationController(rootViewController: vc)
         navigationController = nav
         window.rootViewController = nav
@@ -79,12 +80,6 @@ final class AppCoordinator {
 
     func showSettings() {
         let vc = SettingsViewController()
-        navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func showSearch() {
-        let viewModel = AppDI.shared.makeSearchViewModel()
-        let vc = SearchViewController(viewModel: viewModel)
         navigationController?.pushViewController(vc, animated: true)
     }
 

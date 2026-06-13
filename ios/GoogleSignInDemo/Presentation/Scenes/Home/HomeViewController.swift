@@ -7,19 +7,20 @@ final class HomeViewController: UIViewController {
     // MARK: - Dependencies
 
     private let viewModel: HomeViewModel
+    private let searchViewModel: SearchViewModel
     weak var coordinator: AppCoordinator?
     private var cancellables = Set<AnyCancellable>()
+    private var searchCancellables = Set<AnyCancellable>()
 
-    // MARK: - Top bar
+    // MARK: - Header subviews
 
-    private let topBarView              = UIView()
-    private let myChannelCard           = UIControl()
-    private let myAvatarView            = UIView()
-    private let myAvatarLabel           = UILabel()
-    private let myAvatarImageView       = UIImageView()
-    private let myChannelTitleLabel     = UILabel()
-    private let myChannelSubtitleLabel  = UILabel()
-    private let searchButton            = UIButton(type: .system)
+    private let myChannelCard          = UIControl()
+    private let myAvatarView           = UIView()
+    private let myAvatarLabel          = UILabel()
+    private let myAvatarImageView      = UIImageView()
+    private let myChannelTitleLabel    = UILabel()
+    private let myChannelSubtitleLabel = UILabel()
+    private let searchBar              = UISearchBar()
     private var myAvatarGradient: CAGradientLayer?
 
     // MARK: - Content
@@ -29,6 +30,8 @@ final class HomeViewController: UIViewController {
         tv.backgroundColor  = .clear
         tv.separatorStyle   = .none
         tv.register(ChannelCell.self, forCellReuseIdentifier: ChannelCell.reuseID)
+        tv.register(SearchResultCell.self, forCellReuseIdentifier: SearchResultCell.reuseID)
+        tv.register(UITableViewCell.self, forCellReuseIdentifier: "emptyCell")
         tv.dataSource       = self
         tv.delegate         = self
         tv.refreshControl   = refreshControl
@@ -36,24 +39,6 @@ final class HomeViewController: UIViewController {
     }()
 
     private let refreshControl = UIRefreshControl()
-
-    private let emptyView: UIView = {
-        let v = UIView()
-        v.backgroundColor        = AppTheme.Color.cardAlt
-        v.layer.cornerRadius     = AppTheme.Radius.card
-        v.layer.borderWidth      = 1
-        v.layer.borderColor      = AppTheme.Color.border.cgColor
-
-        let label = UILabel()
-        label.text          = "No followed channels yet.\nTap \"Search\" to discover users."
-        label.numberOfLines = 0
-        label.font          = AppTheme.Font.subheadline()
-        label.textColor     = AppTheme.Color.textSecondary
-        label.textAlignment = .center
-        v.addSubview(label)
-        label.snp.makeConstraints { make in make.edges.equalToSuperview().inset(18) }
-        return v
-    }()
 
     private let loadingIndicator: UIActivityIndicatorView = {
         let v = UIActivityIndicatorView(style: .medium)
@@ -63,14 +48,19 @@ final class HomeViewController: UIViewController {
 
     // MARK: - State
 
-    private var channels:  [Channel] = []
-    private var myChannel: Channel?
+    private var channels:      [Channel] = []
+    private var myChannel:     Channel?
+    private var isSearchActive = false
+    private var searchResults: [SearchUser] = []
+    private var searchState:   SearchViewState = .idle
+    private var emptyMessage:  String? = nil  // non-nil → show inline empty cell
 
     // MARK: - Init
 
-    init(viewModel: HomeViewModel, coordinator: AppCoordinator) {
-        self.viewModel   = viewModel
-        self.coordinator = coordinator
+    init(viewModel: HomeViewModel, searchViewModel: SearchViewModel, coordinator: AppCoordinator) {
+        self.viewModel       = viewModel
+        self.searchViewModel = searchViewModel
+        self.coordinator     = coordinator
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -81,9 +71,9 @@ final class HomeViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupBackground()
-        setupTopBar()
-        setupContent()
+        setupTableView()
         bindViewModel()
+        bindSearchViewModel()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -94,6 +84,7 @@ final class HomeViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         myAvatarGradient?.frame = myAvatarView.bounds
+        sizeHeaderToFit()
     }
 
     // MARK: - Setup
@@ -109,18 +100,25 @@ final class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItems = [profileBtn]
     }
 
-    private func setupTopBar() {
-        topBarView.backgroundColor       = AppTheme.Color.card
-        topBarView.layer.cornerRadius    = 18
-        topBarView.layer.borderWidth     = 1
-        topBarView.layer.borderColor     = AppTheme.Color.border.cgColor
-        AppTheme.Shadow.card(on: topBarView)
-        view.addSubview(topBarView)
+    private func setupTableView() {
+        view.addSubview(tableView)
+        view.addSubview(loadingIndicator)
 
-        topBarView.snp.makeConstraints { make in
-            make.top.equalTo(view.safeAreaLayoutGuide).offset(10)
-            make.leading.trailing.equalToSuperview().inset(16)
-        }
+        tableView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
+        loadingIndicator.snp.makeConstraints { $0.center.equalTo(tableView) }
+
+        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+        setupTableHeader()
+    }
+
+    private func setupTableHeader() {
+        let header = UIView()
+
+        // Search bar
+        searchBar.placeholder    = "Search users & channels"
+        searchBar.searchBarStyle = .minimal
+        searchBar.delegate       = self
+        header.addSubview(searchBar)
 
         // My channel card
         myChannelCard.backgroundColor    = AppTheme.Color.brandLight
@@ -128,7 +126,7 @@ final class HomeViewController: UIViewController {
         myChannelCard.layer.borderWidth  = 1
         myChannelCard.layer.borderColor  = AppTheme.Color.brand.withAlphaComponent(0.2).cgColor
         myChannelCard.addTarget(self, action: #selector(myChannelTapped), for: .touchUpInside)
-        topBarView.addSubview(myChannelCard)
+        header.addSubview(myChannelCard)
 
         // Avatar
         myAvatarView.layer.cornerRadius = AppTheme.Radius.avatar
@@ -136,9 +134,9 @@ final class HomeViewController: UIViewController {
         myChannelCard.addSubview(myAvatarView)
 
         let g = CAGradientLayer()
-        g.colors      = [AppTheme.Color.brand.cgColor, AppTheme.Color.brandMid.cgColor]
-        g.startPoint  = CGPoint(x: 0, y: 0)
-        g.endPoint    = CGPoint(x: 1, y: 1)
+        g.colors       = [AppTheme.Color.brand.cgColor, AppTheme.Color.brandMid.cgColor]
+        g.startPoint   = CGPoint(x: 0, y: 0)
+        g.endPoint     = CGPoint(x: 1, y: 1)
         g.cornerRadius = AppTheme.Radius.avatar
         myAvatarView.layer.insertSublayer(g, at: 0)
         myAvatarGradient = g
@@ -164,33 +162,16 @@ final class HomeViewController: UIViewController {
         myChannelSubtitleLabel.textColor = AppTheme.Color.textTertiary
         myChannelCard.addSubview(myChannelSubtitleLabel)
 
-        // Search button
-        var cfg = UIButton.Configuration.plain()
-        cfg.title              = "Search"
-        cfg.image              = UIImage(systemName: "magnifyingglass")
-        cfg.imagePadding       = 6
-        cfg.baseForegroundColor = AppTheme.Color.brand
-        cfg.contentInsets      = NSDirectionalEdgeInsets(top: 0, leading: 14, bottom: 0, trailing: 14)
-        searchButton.configuration     = cfg
-        searchButton.layer.cornerRadius = 14
-        searchButton.layer.borderWidth  = 1
-        searchButton.layer.borderColor  = AppTheme.Color.brand.withAlphaComponent(0.3).cgColor
-        searchButton.backgroundColor    = AppTheme.Color.brandLight
-        searchButton.addTarget(self, action: #selector(searchTapped), for: .touchUpInside)
-        topBarView.addSubview(searchButton)
-
-        // Layout
-        myChannelCard.snp.makeConstraints { make in
-            make.top.leading.equalToSuperview().inset(12)
-            make.bottom.equalToSuperview().inset(12)
-            make.height.equalTo(62)
+        // Header constraints
+        searchBar.snp.makeConstraints { make in
+            make.top.equalToSuperview().offset(8)
+            make.leading.trailing.equalToSuperview()
         }
-        searchButton.snp.makeConstraints { make in
-            make.leading.equalTo(myChannelCard.snp.trailing).offset(12)
-            make.trailing.equalToSuperview().inset(12)
-            make.centerY.equalTo(myChannelCard)
+        myChannelCard.snp.makeConstraints { make in
+            make.top.equalTo(searchBar.snp.bottom).offset(8)
+            make.leading.trailing.equalToSuperview().inset(12)
             make.height.equalTo(62)
-            make.width.equalTo(112)
+            make.bottom.equalToSuperview().inset(4)
         }
         myAvatarView.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(10)
@@ -208,25 +189,22 @@ final class HomeViewController: UIViewController {
             make.leading.trailing.equalTo(myChannelTitleLabel)
             make.top.equalTo(myChannelTitleLabel.snp.bottom).offset(3)
         }
+
+        tableView.tableHeaderView = header
     }
 
-    private func setupContent() {
-        view.addSubview(tableView)
-        view.addSubview(emptyView)
-        view.addSubview(loadingIndicator)
-
-        tableView.snp.makeConstraints { make in
-            make.top.equalTo(topBarView.snp.bottom).offset(4)
-            make.leading.trailing.bottom.equalToSuperview()
-        }
-        emptyView.snp.makeConstraints { make in
-            make.top.equalTo(topBarView.snp.bottom).offset(72)
-            make.leading.trailing.equalToSuperview().inset(16)
-        }
-        loadingIndicator.snp.makeConstraints { $0.center.equalTo(tableView) }
-
-        emptyView.isHidden = true
-        refreshControl.addTarget(self, action: #selector(refresh), for: .valueChanged)
+    private func sizeHeaderToFit() {
+        guard let header = tableView.tableHeaderView else { return }
+        let targetSize = CGSize(width: tableView.bounds.width,
+                                height: UIView.layoutFittingCompressedSize.height)
+        let height = header.systemLayoutSizeFitting(
+            targetSize,
+            withHorizontalFittingPriority: .required,
+            verticalFittingPriority: .fittingSizeLevel
+        ).height
+        guard abs(header.frame.height - height) > 1 else { return }
+        header.frame.size.height = height
+        tableView.tableHeaderView = header
     }
 
     // MARK: - Binding
@@ -238,30 +216,90 @@ final class HomeViewController: UIViewController {
             .store(in: &cancellables)
     }
 
+    private func bindSearchViewModel() {
+        searchViewModel.$viewState
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in self?.renderSearch($0) }
+            .store(in: &searchCancellables)
+
+        searchViewModel.followStatusChanged
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] in self?.viewModel.load() }
+            .store(in: &searchCancellables)
+    }
+
     private func render(_ state: HomeViewState) {
         refreshControl.endRefreshing()
         switch state {
         case .loading:
-            loadingIndicator.startAnimating()
-            emptyView.isHidden = true
+            if !isSearchActive {
+                loadingIndicator.startAnimating()
+                emptyMessage = nil
+                tableView.reloadData()
+            }
 
         case .loaded(let my, let followed):
-            loadingIndicator.stopAnimating()
             myChannel = my
             channels  = followed
             updateMyChannelCard(with: my)
-            tableView.reloadData()
-            emptyView.isHidden = !followed.isEmpty
-            showGuideIfNeeded()
+            if !isSearchActive {
+                loadingIndicator.stopAnimating()
+                emptyMessage = followed.isEmpty
+                    ? "No followed channels yet.\nUse the search bar above to discover users."
+                    : nil
+                tableView.reloadData()
+                showGuideIfNeeded()
+            }
 
         case .failure(let msg):
-            loadingIndicator.stopAnimating()
             myChannelSubtitleLabel.text = "Load failed"
             channels = []
+            if !isSearchActive {
+                loadingIndicator.stopAnimating()
+                emptyMessage = "Failed to load: \(msg)\nPull to refresh"
+                tableView.reloadData()
+            }
+        }
+    }
+
+    private func renderSearch(_ state: SearchViewState) {
+        searchState = state
+        switch state {
+        case .idle:
+            isSearchActive = false
+            searchResults  = []
+            loadingIndicator.stopAnimating()
+            emptyMessage = channels.isEmpty
+                ? "No followed channels yet.\nUse the search bar above to discover users."
+                : nil
             tableView.reloadData()
-            emptyView.isHidden = false
-            let label = emptyView.subviews.first as? UILabel
-            label?.text = "Failed to load: \(msg)\nPull to refresh"
+
+        case .searching:
+            isSearchActive = true
+            emptyMessage   = nil
+            loadingIndicator.startAnimating()
+            tableView.reloadData()
+
+        case .loaded(let users):
+            isSearchActive = true
+            searchResults  = users
+            emptyMessage   = nil
+            loadingIndicator.stopAnimating()
+            tableView.reloadData()
+
+        case .empty:
+            isSearchActive = true
+            searchResults  = []
+            emptyMessage   = "No users found"
+            loadingIndicator.stopAnimating()
+            tableView.reloadData()
+
+        case .failure(let msg):
+            isSearchActive = true
+            searchResults  = []
+            emptyMessage   = "Search failed: \(msg)"
+            loadingIndicator.stopAnimating()
+            tableView.reloadData()
         }
     }
 
@@ -270,14 +308,14 @@ final class HomeViewController: UIViewController {
         myChannelSubtitleLabel.text = channel?.channelName ?? "My Channel"
 
         if let url = channel?.ownerAvatarURL {
-            myAvatarLabel.isHidden    = true
+            myAvatarLabel.isHidden     = true
             myAvatarImageView.isHidden = false
             myAvatarImageView.loadImage(from: url)
         } else {
-            myAvatarLabel.isHidden    = false
-            myAvatarLabel.text        = initials(from: name)
+            myAvatarLabel.isHidden     = false
+            myAvatarLabel.text         = initials(from: name)
             myAvatarImageView.isHidden = true
-            myAvatarImageView.image   = nil
+            myAvatarImageView.image    = nil
         }
     }
 
@@ -298,24 +336,24 @@ final class HomeViewController: UIViewController {
     private func presentGuide() {
         view.layoutIfNeeded()
 
+        let searchFrame = view.convert(searchBar.bounds, from: searchBar)
         let cardFrame   = view.convert(myChannelCard.bounds, from: myChannelCard)
-        let searchFrame = view.convert(searchButton.bounds, from: searchButton)
         let listFrame   = CGRect(
-            x: 16, y: tableView.frame.minY + 4,
+            x: 16, y: cardFrame.maxY + 52,
             width: view.bounds.width - 32,
             height: min(tableView.frame.height * 0.4, 200)
         )
 
         let steps: [HomeOverlayGuideView.Step] = [
             HomeOverlayGuideView.Step(
-                targetFrame: cardFrame,
-                title: "Your Channel",
-                description: "Tap here to enter your own voice room and invite others to join."
-            ),
-            HomeOverlayGuideView.Step(
                 targetFrame: searchFrame,
                 title: "Search",
                 description: "Find other players by name or channel, then follow them to see them here."
+            ),
+            HomeOverlayGuideView.Step(
+                targetFrame: cardFrame,
+                title: "Your Channel",
+                description: "Tap here to enter your own voice room and invite others to join."
             ),
             HomeOverlayGuideView.Step(
                 targetFrame: listFrame,
@@ -335,7 +373,6 @@ final class HomeViewController: UIViewController {
         coordinator?.showVoiceRoom(channel: channel)
     }
 
-    @objc private func searchTapped()  { coordinator?.showSearch() }
     @objc private func profileTapped() { coordinator?.showProfile() }
 
     @objc private func refresh() { viewModel.load() }
@@ -351,37 +388,113 @@ final class HomeViewController: UIViewController {
     }
 }
 
+// MARK: - UISearchBarDelegate
+
+extension HomeViewController: UISearchBarDelegate {
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        searchViewModel.search(query: searchText)
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = ""
+        searchBar.resignFirstResponder()
+        searchViewModel.search(query: "")
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(true, animated: true)
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        if searchBar.text?.isEmpty ?? true {
+            searchBar.setShowsCancelButton(false, animated: true)
+        }
+    }
+}
+
 // MARK: - UITableViewDataSource & Delegate
 
 extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        channels.count
+        if emptyMessage != nil { return 1 }
+        return isSearchActive ? searchResults.count : channels.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ChannelCell.reuseID, for: indexPath) as! ChannelCell
-        cell.configure(with: channels[indexPath.row], colorIndex: indexPath.row)
-        return cell
+        if let msg = emptyMessage {
+            let cell = tableView.dequeueReusableCell(withIdentifier: "emptyCell", for: indexPath)
+            var config = cell.defaultContentConfiguration()
+            config.text = msg
+            config.textProperties.color     = AppTheme.Color.textSecondary
+            config.textProperties.font      = AppTheme.Font.subheadline()
+            config.textProperties.alignment = .center
+            config.textProperties.numberOfLines = 0
+            cell.contentConfiguration = config
+            cell.backgroundColor  = AppTheme.Color.cardAlt
+            cell.layer.cornerRadius = AppTheme.Radius.card
+            cell.layer.borderWidth  = 1
+            cell.layer.borderColor  = AppTheme.Color.border.cgColor
+            cell.selectionStyle     = .none
+            return cell
+        }
+
+        if isSearchActive {
+            let cell = tableView.dequeueReusableCell(withIdentifier: SearchResultCell.reuseID,
+                                                     for: indexPath) as! SearchResultCell
+            let user = searchResults[indexPath.row]
+            cell.configure(with: user, colorIndex: indexPath.row)
+            cell.onFollowTapped = { [weak self] in
+                self?.searchViewModel.toggleFollow(userId: user.userId)
+            }
+            return cell
+        } else {
+            let cell = tableView.dequeueReusableCell(withIdentifier: ChannelCell.reuseID,
+                                                     for: indexPath) as! ChannelCell
+            cell.configure(with: channels[indexPath.row], colorIndex: indexPath.row)
+            return cell
+        }
     }
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat { 80 }
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        if emptyMessage != nil { return UITableView.automaticDimension }
+        return isSearchActive ? 72 : 80
+    }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let header = UIView()
         header.backgroundColor = .clear
 
         let titleLabel = UILabel()
-        titleLabel.text      = "Followed Channels"
         titleLabel.font      = AppTheme.Font.title1()
         titleLabel.textColor = AppTheme.Color.textPrimary
         header.addSubview(titleLabel)
 
         let countLabel = UILabel()
-        countLabel.text      = "\(channels.count) channel\(channels.count == 1 ? "" : "s")"
         countLabel.font      = AppTheme.Font.subheadline()
         countLabel.textColor = AppTheme.Color.textTertiary
         header.addSubview(countLabel)
+
+        if isSearchActive {
+            switch searchState {
+            case .searching:
+                titleLabel.text = "Searching…"
+                countLabel.text = ""
+            case .loaded(let users):
+                titleLabel.text = "Search Results"
+                countLabel.text = "\(users.count) found"
+            case .empty:
+                titleLabel.text = "Search Results"
+                countLabel.text = "0 found"
+            default:
+                titleLabel.text = "Search Results"
+                countLabel.text = ""
+            }
+        } else {
+            titleLabel.text = "Followed Channels"
+            countLabel.text = "\(channels.count) channel\(channels.count == 1 ? "" : "s")"
+        }
 
         titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().offset(16)
@@ -394,9 +507,23 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
         return header
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 52 }
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat { 40 }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard !isSearchActive, emptyMessage == nil else { return }
         coordinator?.showVoiceRoom(channel: channels[indexPath.row])
+    }
+
+    func tableView(_ tableView: UITableView,
+                   trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
+        -> UISwipeActionsConfiguration? {
+        guard !isSearchActive, emptyMessage == nil else { return nil }
+        let channel = channels[indexPath.row]
+        let action = UIContextualAction(style: .destructive, title: "Unfollow") { [weak self] _, _, done in
+            self?.searchViewModel.unfollowUser(userId: channel.ownerUserId)
+            done(true)
+        }
+        action.image = UIImage(systemName: "person.badge.minus")
+        return UISwipeActionsConfiguration(actions: [action])
     }
 }

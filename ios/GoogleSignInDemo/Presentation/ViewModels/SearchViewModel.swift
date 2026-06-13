@@ -11,6 +11,7 @@ enum SearchViewState {
 
 final class SearchViewModel: ObservableObject {
     @Published private(set) var viewState: SearchViewState = .idle
+    let followStatusChanged = PassthroughSubject<Void, Never>()
 
     private let userRepository: UserRepositoryProtocol
     private var searchTask: Task<Void, Never>?
@@ -44,6 +45,15 @@ final class SearchViewModel: ObservableObject {
         }
     }
 
+    func unfollowUser(userId: Int) {
+        Task {
+            do {
+                try await userRepository.unfollowUser(userId: userId)
+                await MainActor.run { self.followStatusChanged.send() }
+            } catch {}
+        }
+    }
+
     func toggleFollow(userId: Int) {
         guard case .loaded(let users) = viewState,
               let user = users.first(where: { $0.userId == userId }) else { return }
@@ -60,6 +70,7 @@ final class SearchViewModel: ObservableObject {
                        let idx = list.firstIndex(where: { $0.userId == userId }) {
                         list[idx].isFollowed.toggle()
                         self.viewState = .loaded(list)
+                        self.followStatusChanged.send()
                     }
                 }
             } catch {
