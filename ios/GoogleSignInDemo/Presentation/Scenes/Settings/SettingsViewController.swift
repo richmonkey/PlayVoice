@@ -77,15 +77,15 @@ final class SettingsViewController: UIViewController {
             subtitle: "Guides & FAQs",
             icon: "questionmark.circle.fill",
             iconColor: UIColor(hex: 0x00C48C),
-            action: { [weak self] in self?.openURL("https://playvoice.app/help") },
+            action: { [weak self] in self?.openURL("https://daibou007.github.io/PrivacyAndSupport/GameVoice/support.html") },
             accessory: .disclosure
         )
         let support = Row(
             title: "Contact Support",
-            subtitle: "support@playvoice.app",
+            subtitle: "daibou007@gmail.com",
             icon: "envelope.fill",
             iconColor: UIColor(hex: 0xFF9500),
-            action: { [weak self] in self?.openURL("mailto:support@playvoice.app") },
+            action: { [weak self] in self?.openURL("mailto:daibou007@gmail.com") },
             accessory: .disclosure
         )
         let rate = Row(
@@ -105,7 +105,7 @@ final class SettingsViewController: UIViewController {
             subtitle: "How we handle your data",
             icon: "lock.shield.fill",
             iconColor: UIColor(hex: 0x7A62FF),
-            action: { [weak self] in self?.openURL("https://playvoice.app/privacy") },
+            action: { [weak self] in self?.openURL("https://daibou007.github.io/PrivacyAndSupport/GameVoice/privacy.html") },
             accessory: .disclosure
         )
         let terms = Row(
@@ -113,7 +113,7 @@ final class SettingsViewController: UIViewController {
             subtitle: "Usage rules & conditions",
             icon: "doc.text.fill",
             iconColor: UIColor(hex: 0x86909C),
-            action: { [weak self] in self?.openURL("https://playvoice.app/terms") },
+            action: { [weak self] in self?.openURL("https://daibou007.github.io/PrivacyAndSupport/GameVoice/terms.html") },
             accessory: .disclosure
         )
         return Section(title: "Legal", rows: [privacy, terms])
