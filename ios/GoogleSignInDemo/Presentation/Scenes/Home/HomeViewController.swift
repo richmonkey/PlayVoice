@@ -16,6 +16,7 @@ final class HomeViewController: UIViewController {
     private let myChannelCard = UIControl()
     private let myAvatarView = UIView()
     private let myAvatarLabel = UILabel()
+    private let myAvatarImageView = UIImageView()
     private let myChannelTitleLabel = UILabel()
     private let myChannelSubtitleLabel = UILabel()
     private let searchButton = UIButton(type: .system)
@@ -153,6 +154,12 @@ final class HomeViewController: UIViewController {
         myAvatarLabel.textAlignment = .center
         myAvatarView.addSubview(myAvatarLabel)
 
+        myAvatarImageView.contentMode = .scaleAspectFill
+        myAvatarImageView.clipsToBounds = true
+        myAvatarImageView.layer.cornerRadius = 19
+        myAvatarImageView.isHidden = true
+        myAvatarView.addSubview(myAvatarImageView)
+
         myChannelTitleLabel.text = "我的频道"
         myChannelTitleLabel.font = .systemFont(ofSize: 14, weight: .semibold)
         myChannelTitleLabel.textColor = UIColor(hex: 0x0F1F2E)
@@ -198,6 +205,9 @@ final class HomeViewController: UIViewController {
         }
         myAvatarLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        myAvatarImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         myChannelTitleLabel.snp.makeConstraints { make in
             make.leading.equalTo(myAvatarView.snp.trailing).offset(12)
@@ -268,8 +278,18 @@ final class HomeViewController: UIViewController {
 
     private func updateMyChannelCard(with channel: Channel?) {
         let name = UserDefaults.standard.string(forKey: "user_name") ?? ""
-        myAvatarLabel.text = initials(from: name)
         myChannelSubtitleLabel.text = channel?.channelName ?? "我的频道"
+
+        if let url = channel?.ownerAvatarURL {
+            myAvatarLabel.isHidden = true
+            myAvatarImageView.isHidden = false
+            myAvatarImageView.loadImage(from: url)
+        } else {
+            myAvatarLabel.isHidden = false
+            myAvatarLabel.text = initials(from: name)
+            myAvatarImageView.isHidden = true
+            myAvatarImageView.image = nil
+        }
     }
 
     // MARK: - Actions

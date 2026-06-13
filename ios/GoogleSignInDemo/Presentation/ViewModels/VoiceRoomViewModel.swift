@@ -71,7 +71,7 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
             }
         }
     }
-
+    
     func stop() {
         stopSpeakerDetection()
         roomClient.stop()

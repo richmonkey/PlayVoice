@@ -18,6 +18,7 @@ final class APIClient {
 
     func request<T: Decodable>(_ endpoint: Endpoint) async throws -> T {
         let urlRequest = try buildRequest(for: endpoint)
+        logRequest(urlRequest)
         let (data, response): (Data, URLResponse)
         do {
             (data, response) = try await session.data(for: urlRequest)
@@ -27,6 +28,7 @@ final class APIClient {
         guard let http = response as? HTTPURLResponse else {
             throw AppError.invalidResponse
         }
+        logResponse(http, data: data)
         guard (200..<300).contains(http.statusCode) else {
             if http.statusCode == 401 {
                 NotificationCenter.default.post(name: .unauthorized, object: nil)
@@ -42,21 +44,39 @@ final class APIClient {
 
     func requestEmpty(_ endpoint: Endpoint) async throws {
         let urlRequest = try buildRequest(for: endpoint)
-        let (_, response): (Data, URLResponse)
+        logRequest(urlRequest)
+        let (data, response): (Data, URLResponse)
         do {
-            (_, response) = try await session.data(for: urlRequest)
+            (data, response) = try await session.data(for: urlRequest)
         } catch {
             throw AppError.network(error)
         }
         guard let http = response as? HTTPURLResponse else {
             throw AppError.invalidResponse
         }
+        logResponse(http, data: data)
         guard (200..<300).contains(http.statusCode) else {
             if http.statusCode == 401 {
                 NotificationCenter.default.post(name: .unauthorized, object: nil)
             }
             throw AppError.httpError(statusCode: http.statusCode)
         }
+    }
+
+    private func logRequest(_ request: URLRequest) {
+        guard AppConfig.logNetworkRequests else { return }
+        var lines = ["→ \(request.httpMethod ?? "?") \(request.url?.absoluteString ?? "")"]
+        if let body = request.httpBody,
+           let str = String(data: body, encoding: .utf8) {
+            lines.append("  body: \(str)")
+        }
+        print(lines.joined(separator: "\n"))
+    }
+
+    private func logResponse(_ response: HTTPURLResponse, data: Data) {
+        guard AppConfig.logNetworkRequests else { return }
+        let body = String(data: data, encoding: .utf8) ?? "<binary \(data.count) bytes>"
+        print("← \(response.statusCode) \(response.url?.absoluteString ?? "")\n  body: \(body)")
     }
 
     private func buildRequest(for endpoint: Endpoint) throws -> URLRequest {

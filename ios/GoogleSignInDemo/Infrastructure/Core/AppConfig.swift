@@ -7,4 +7,6 @@ final class AppConfig: NSObject {
     
     static let apiBaseURL = "https://gobelieve.xyz"
     static let roomServerBaseURL = "wss://gobelieve.xyz/room"
+
+    static let logNetworkRequests = true
 }

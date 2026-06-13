@@ -6,6 +6,7 @@ final class ChannelCell: UITableViewCell {
 
     private let avatarView = UIView()
     private let initialsLabel = UILabel()
+    private let avatarImageView = UIImageView()
     private let channelNameLabel = UILabel()
     private let ownerInfoLabel = UILabel()
     private var avatarGradient: CAGradientLayer?
@@ -43,6 +44,11 @@ final class ChannelCell: UITableViewCell {
         initialsLabel.textAlignment = .center
         avatarView.addSubview(initialsLabel)
 
+        avatarImageView.contentMode = .scaleAspectFill
+        avatarImageView.clipsToBounds = true
+        avatarImageView.layer.cornerRadius = 12
+        avatarView.addSubview(avatarImageView)
+
         channelNameLabel.font = .systemFont(ofSize: 15, weight: .semibold)
         channelNameLabel.textColor = UIColor(hex: 0x0F1F2E)
         card.addSubview(channelNameLabel)
@@ -64,6 +70,9 @@ final class ChannelCell: UITableViewCell {
         }
         initialsLabel.snp.makeConstraints { make in
             make.center.equalToSuperview()
+        }
+        avatarImageView.snp.makeConstraints { make in
+            make.edges.equalToSuperview()
         }
         channelNameLabel.snp.makeConstraints { make in
             make.leading.equalTo(avatarView.snp.trailing).offset(12)
@@ -94,9 +103,19 @@ final class ChannelCell: UITableViewCell {
         avatarView.layer.insertSublayer(g, at: 0)
         avatarGradient = g
 
-        initialsLabel.text = initials(from: channel.ownerName)
         channelNameLabel.text = channel.channelName
         ownerInfoLabel.text = "\(channel.ownerName) · \(relativeTime(from: channel.updatedAt))"
+
+        if let url = channel.ownerAvatarURL {
+            initialsLabel.isHidden = true
+            avatarImageView.isHidden = false
+            avatarImageView.loadImage(from: url)
+        } else {
+            initialsLabel.isHidden = false
+            initialsLabel.text = initials(from: channel.ownerName)
+            avatarImageView.isHidden = true
+            avatarImageView.image = nil
+        }
     }
 
     override func layoutSubviews() {
