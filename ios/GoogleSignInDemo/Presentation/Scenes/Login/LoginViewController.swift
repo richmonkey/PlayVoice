@@ -24,15 +24,17 @@ final class LoginViewController: UIViewController {
 
     private let gradientLayer: CAGradientLayer = {
         let l = CAGradientLayer()
-        l.colors = [AppTheme.Color.brandLight.cgColor,
-                    AppTheme.Color.background.cgColor]
         l.startPoint = CGPoint(x: 0, y: 0)
         l.endPoint   = CGPoint(x: 1, y: 1)
         return l
     }()
 
-    private lazy var orbA = makeOrb(size: 200, color: UIColor(hex: 0xCCE9FF, alpha: 0.55))
-    private lazy var orbB = makeOrb(size: 220, color: UIColor(hex: 0xD8EEFF, alpha: 0.55))
+    private lazy var orbA = makeOrb(size: 200, color: UIColor {
+        $0.userInterfaceStyle == .dark ? UIColor(hex: 0x1A2D40, alpha: 0.45) : UIColor(hex: 0xCCE9FF, alpha: 0.55)
+    })
+    private lazy var orbB = makeOrb(size: 220, color: UIColor {
+        $0.userInterfaceStyle == .dark ? UIColor(hex: 0x1C3040, alpha: 0.45) : UIColor(hex: 0xD8EEFF, alpha: 0.55)
+    })
 
     // MARK: - Panel
 
@@ -161,6 +163,20 @@ final class LoginViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         gradientLayer.frame = view.bounds
+        applyGradientColors()
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        applyGradientColors()
+    }
+
+    private func applyGradientColors() {
+        gradientLayer.colors = [
+            AppTheme.Color.brandLight.resolvedColor(with: traitCollection).cgColor,
+            AppTheme.Color.background.resolvedColor(with: traitCollection).cgColor
+        ]
     }
 
     // MARK: - Binding

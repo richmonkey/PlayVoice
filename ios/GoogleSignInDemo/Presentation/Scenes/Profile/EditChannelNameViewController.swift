@@ -30,7 +30,7 @@ final class EditChannelNameViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "Edit Channel Name"
-        view.backgroundColor = UIColor(hex: 0xF2F7FC)
+        view.backgroundColor = AppTheme.Color.background
 
         let save = UIBarButtonItem(title: "Save", style: .done,
                                    target: self, action: #selector(saveTapped))
@@ -39,7 +39,7 @@ final class EditChannelNameViewController: UIViewController {
 
         tableView.dataSource = self
         tableView.register(TextFieldCell.self, forCellReuseIdentifier: TextFieldCell.reuseID)
-        tableView.backgroundColor = UIColor(hex: 0xF2F7FC)
+        tableView.backgroundColor = AppTheme.Color.background
         tableView.keyboardDismissMode = .onDrag
         view.addSubview(tableView)
         tableView.snp.makeConstraints { $0.edges.equalTo(view.safeAreaLayoutGuide) }
@@ -99,11 +99,13 @@ private final class TextFieldCell: UITableViewCell {
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        backgroundColor = AppTheme.Color.card
         selectionStyle = .none
         textField.clearButtonMode = .whileEditing
         textField.autocorrectionType = .no
         textField.returnKeyType = .done
         textField.font = .systemFont(ofSize: 16)
+        textField.textColor = AppTheme.Color.textPrimary
         contentView.addSubview(textField)
         textField.snp.makeConstraints { make in
             make.leading.trailing.equalToSuperview().inset(16)

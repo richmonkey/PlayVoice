@@ -27,6 +27,13 @@ final class MemberCell: UICollectionViewCell {
         (UIColor(hex: 0xFF5E8F), UIColor(hex: 0xFF92B2)),
     ]
 
+    private static let avatarBorderDefault = UIColor {
+        $0.userInterfaceStyle == .dark ? UIColor(hex: 0x2A4A6A) : UIColor(hex: 0xB7D8F2)
+    }
+    private static let avatarBorderSpeaking = UIColor(hex: 0x0B84FF)
+
+    private var currentMemberIsSpeaking = false
+
     // MARK: - Init
 
     override init(frame: CGRect) {
@@ -41,6 +48,16 @@ final class MemberCell: UICollectionViewCell {
         avatarGradient?.frame = avatarClipView.bounds
     }
 
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        let bg = AppTheme.Color.background.resolvedColor(with: traitCollection)
+        ownerBadge.layer.borderColor = bg.cgColor
+        onlineDot.layer.borderColor = bg.cgColor
+        let border = currentMemberIsSpeaking ? Self.avatarBorderSpeaking : Self.avatarBorderDefault
+        avatarClipView.layer.borderColor = border.resolvedColor(with: traitCollection).cgColor
+    }
+
     // MARK: - Setup
 
     private func setupViews() {
@@ -50,7 +67,7 @@ final class MemberCell: UICollectionViewCell {
         avatarClipView.layer.cornerRadius = 48
         avatarClipView.clipsToBounds = true
         avatarClipView.layer.borderWidth = 3
-        avatarClipView.layer.borderColor = UIColor(hex: 0xB7D8F2).cgColor
+        avatarClipView.layer.borderColor = Self.avatarBorderDefault.cgColor
         contentView.addSubview(avatarClipView)
 
         let g = CAGradientLayer()
@@ -80,7 +97,7 @@ final class MemberCell: UICollectionViewCell {
         ownerBadge.layer.cornerRadius = 9
         ownerBadge.backgroundColor = UIColor(hex: 0x8B73DA)
         ownerBadge.layer.borderWidth = 2
-        ownerBadge.layer.borderColor = UIColor(hex: 0xF0F4FF).cgColor
+        ownerBadge.layer.borderColor = AppTheme.Color.background.cgColor
         contentView.addSubview(ownerBadge)
         ownerBadge.snp.makeConstraints { make in
             make.leading.equalTo(avatarClipView).offset(-2)
@@ -98,7 +115,7 @@ final class MemberCell: UICollectionViewCell {
         onlineDot.layer.cornerRadius = 9
         onlineDot.backgroundColor = UIColor(hex: 0x06A561)
         onlineDot.layer.borderWidth = 2
-        onlineDot.layer.borderColor = UIColor(hex: 0xF0F9FF).cgColor
+        onlineDot.layer.borderColor = AppTheme.Color.background.cgColor
         contentView.addSubview(onlineDot)
         onlineDot.snp.makeConstraints { make in
             make.trailing.equalTo(avatarClipView).offset(2)
@@ -108,7 +125,7 @@ final class MemberCell: UICollectionViewCell {
 
         // Name label
         nameLabel.font = .systemFont(ofSize: 14, weight: .semibold)
-        nameLabel.textColor = UIColor(hex: 0x0F1F2E)
+        nameLabel.textColor = AppTheme.Color.textPrimary
         nameLabel.textAlignment = .center
         nameLabel.adjustsFontSizeToFitWidth = true
         contentView.addSubview(nameLabel)
@@ -141,30 +158,44 @@ final class MemberCell: UICollectionViewCell {
         avatarGradient?.colors = [c1.cgColor, c2.cgColor]
         avatarLabel.text = member.initials
         nameLabel.text = member.displayName
-        nameLabel.textColor = UIColor(hex: 0x0F1F2E)
 
-        // Speaking border
-        avatarClipView.layer.borderColor = member.isSpeaking
-            ? UIColor(hex: 0x0B84FF).cgColor
-            : UIColor(hex: 0xB7D8F2).cgColor
+        currentMemberIsSpeaking = member.isSpeaking
+        let border = member.isSpeaking ? Self.avatarBorderSpeaking : Self.avatarBorderDefault
+        avatarClipView.layer.borderColor = border.resolvedColor(with: traitCollection).cgColor
 
         ownerBadge.isHidden = !member.isOwner
 
         onlinePill.configure(
             icon: "circle.fill",
             active: true,
-            activeColors: (UIColor(hex: 0xBFE7D0), UIColor(hex: 0xEFFCF5), UIColor(hex: 0x06A561))
+            activeColors: (
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x1A4A30) : UIColor(hex: 0xBFE7D0) },
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x0D2418) : UIColor(hex: 0xEFFCF5) },
+                UIColor(hex: 0x06A561)
+            )
         )
         micPill.configure(
             icon: member.isMuted ? "mic.slash.fill" : "mic.fill",
             active: !member.isMuted,
-            activeColors: (UIColor(hex: 0xB9D8F0), UIColor(hex: 0xEEF6FF), UIColor(hex: 0x4F7CA4)),
-            inactiveColors: (UIColor(hex: 0xEAD4AD), UIColor(hex: 0xFFF7E9), UIColor(hex: 0xC0862B))
+            activeColors: (
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x1A3550) : UIColor(hex: 0xB9D8F0) },
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x0D1E30) : UIColor(hex: 0xEEF6FF) },
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x5BAAD4) : UIColor(hex: 0x4F7CA4) }
+            ),
+            inactiveColors: (
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x3D2E14) : UIColor(hex: 0xEAD4AD) },
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x1F1708) : UIColor(hex: 0xFFF7E9) },
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0xD4A042) : UIColor(hex: 0xC0862B) }
+            )
         )
         speakingPill.configure(
             icon: "waveform",
             active: member.isSpeaking,
-            activeColors: (UIColor(hex: 0xB8E3FA), UIColor(hex: 0xEEF8FF), UIColor(hex: 0x1187FF))
+            activeColors: (
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x1A3D50) : UIColor(hex: 0xB8E3FA) },
+                UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x0D2130) : UIColor(hex: 0xEEF8FF) },
+                UIColor(hex: 0x1187FF)
+            )
         )
     }
 }
@@ -173,6 +204,7 @@ final class MemberCell: UICollectionViewCell {
 
 private final class StatusPill: UIView {
     private let imageView = UIImageView()
+    private var currentBorderColor: UIColor = .clear
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -185,10 +217,10 @@ private final class StatusPill: UIView {
 
     required init?(coder: NSCoder) { fatalError() }
 
-    struct Colors {
-        let border: UIColor
-        let background: UIColor
-        let icon: UIColor
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        guard traitCollection.hasDifferentColorAppearance(comparedTo: previousTraitCollection) else { return }
+        layer.borderColor = currentBorderColor.resolvedColor(with: traitCollection).cgColor
     }
 
     func configure(icon: String,
@@ -196,8 +228,14 @@ private final class StatusPill: UIView {
                    activeColors: (UIColor, UIColor, UIColor),
                    inactiveColors: (UIColor, UIColor, UIColor)? = nil) {
         imageView.image = UIImage(systemName: icon)
-        let colors = active ? activeColors : (inactiveColors ?? (UIColor(hex: 0xCFE2F2), UIColor(hex: 0xF7FBFF), UIColor(hex: 0x99BAD4)))
-        layer.borderColor = colors.0.cgColor
+        let defaultInactive: (UIColor, UIColor, UIColor) = (
+            UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x1E2D3C) : UIColor(hex: 0xCFE2F2) },
+            UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x131D26) : UIColor(hex: 0xF7FBFF) },
+            UIColor { $0.userInterfaceStyle == .dark ? UIColor(hex: 0x4A6A7D) : UIColor(hex: 0x99BAD4) }
+        )
+        let colors = active ? activeColors : (inactiveColors ?? defaultInactive)
+        currentBorderColor = colors.0
+        layer.borderColor = colors.0.resolvedColor(with: traitCollection).cgColor
         backgroundColor = colors.1
         imageView.tintColor = colors.2
     }
