@@ -339,9 +339,9 @@ final class HomeViewController: UIViewController {
         let searchFrame = view.convert(searchBar.bounds, from: searchBar)
         let cardFrame   = view.convert(myChannelCard.bounds, from: myChannelCard)
         let listFrame   = CGRect(
-            x: 16, y: cardFrame.maxY + 52,
+            x: 16, y: cardFrame.maxY + 36,
             width: view.bounds.width - 32,
-            height: min(tableView.frame.height * 0.4, 200)
+            height: min(tableView.frame.height * 0.4, 210)
         )
 
         let steps: [HomeOverlayGuideView.Step] = [

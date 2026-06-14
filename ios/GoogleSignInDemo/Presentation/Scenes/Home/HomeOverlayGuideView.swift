@@ -124,8 +124,6 @@ final class HomeOverlayGuideView: UIView {
         let step = steps[currentStep]
 
         let apply = {
-            self.updateOverlay(for: step.targetFrame)
-            self.positionTooltip(relativeTo: step.targetFrame)
             self.stepLabel.text  = "Step \(self.currentStep + 1) / \(self.steps.count)"
             self.titleLabel.text = step.title
             self.bodyLabel.text  = step.description
@@ -133,6 +131,8 @@ final class HomeOverlayGuideView: UIView {
             var cfg = self.nextButton.configuration ?? .filled()
             cfg.title = isLast ? "Got it!" : "Next"
             self.nextButton.configuration = cfg
+            self.updateOverlay(for: step.targetFrame)
+            self.positionTooltip(relativeTo: step.targetFrame)
         }
 
         if animated {

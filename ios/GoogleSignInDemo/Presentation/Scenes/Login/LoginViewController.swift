@@ -113,7 +113,7 @@ final class LoginViewController: UIViewController {
 
     private let dividerLabel: UILabel = {
         let l = UILabel()
-        l.text      = "或"
+        l.text      = "or"
         l.font      = .systemFont(ofSize: 13)
         l.textColor = UIColor(hex: 0x9EB3C4)
         l.backgroundColor = .white

@@ -40,7 +40,7 @@ targets:
       BUNDLE_ID: com.daibou007.playvoice
       INFOPLIST_FILE: GoogleSignInDemo/Info.plist
       CODE_SIGN_ENTITLEMENTS: GoogleSignInDemo/PlayVoice.entitlements
-      SWIFT_OBJC_BRIDGING_HEADER: GoogleSignInDemo/Bridging-Header.h
+      SWIFT_OBJC_BRIDGING_HEADER: GoogleSignInDemo/PlayVoice-Bridging-Header.h
       TARGETED_DEVICE_FAMILY: "1"
       CFBundleDisplayName: GameVoice
       CFBundleName: GameVoice
