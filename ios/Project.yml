@@ -12,8 +12,8 @@ settings:
   CODE_SIGN_STYLE: Automatic
   SWIFT_VERSION: "5.9"
   IPHONEOS_DEPLOYMENT_TARGET: "17.6"
-  MARKETING_VERSION: "1.0.0"
-  CURRENT_PROJECT_VERSION: "1"
+  MARKETING_VERSION: "1.0"
+  CURRENT_PROJECT_VERSION: "2"
   # ── App Store Connect Metadata (set in ASC, not in binary) ──────────────
   # App Name (30 chars max):    PlayVoice - Game Voice Chat
   # Subtitle (30 chars max):    Real-Time Squad Voice Rooms
