@@ -49,9 +49,9 @@ voice chat,gaming,squad,team talk,game voice,voice room,channel,follow,walkie,vo
 > Promotional Text can be updated any time without a new app version submission.
 
 ```
-Low-latency voice rooms for your gaming squad. Follow players, join their channels, and talk in real time — one purchase, no subscriptions.
+Low-latency voice rooms for your gaming squad. Follow players, join their channels, and talk in real time — completely free.
 ```
-**Character count: 139**
+**Character count: 120**
 
 ---
 
@@ -96,8 +96,8 @@ Mute/unmute yourself in one tap. Switch between speaker and earpiece without lea
 🌗 Light & Dark Mode
 Automatically follows your system appearance. A clean, minimal interface that stays out of your way.
 
-🔒 One-Time Purchase
-Pay once, use forever. No subscriptions. No recurring charges. No in-app ads. Everything is unlocked permanently after a single purchase.
+🆓 Free to Use
+Download and use everything for free. No subscriptions. No in-app purchases. No ads. All features are available to every user at no cost.
 
 ──────────────────────────────────────
  PRIVACY & PERMISSIONS
@@ -143,7 +143,7 @@ This is the initial release of GameVoice (Version 1.0). Core features included:
 - **Profile Editing**: Users can update their display name and channel name from the Profile screen.
 - **Settings**: Appearance (Light/Dark/System), Help Center, Contact Support, Privacy Policy, and app version info.
 - **Onboarding**: First-launch carousel (3 slides) and a home-screen usage guide overlay (step-by-step spotlight tutorial).
-- **Monetization**: One-time purchase activation (Apple IAP, non-consumable). No subscriptions. No ads.
+- **Monetization**: Free app. No in-app purchases, no subscriptions, no ads. All features are available to all users at no cost.
 
 ---
 
@@ -193,7 +193,7 @@ For reviewer convenience, a demo video showing two-user voice communication is a
 ### 4. 产品亮点 (Product Highlights)
 
 - **WebRTC-powered audio** — uses a native `WebRTC.xcframework` for sub-200 ms audio latency, identical stack to professional voice tools.
-- **No subscription fatigue** — single one-time IAP unlocks everything permanently; no upsells, no trial expiry.
+- **Completely free** — no IAP, no subscriptions, no ads; every feature is available to all users at no cost.
 - **Minimal permission footprint** — only microphone, only when needed.
 - **Apple Sign-In support** — fully compliant with Apple's requirement that apps offering third-party login must also offer Apple Sign-In.
 - **Light/Dark theme engine** — dynamic `UIColor` providers respect system appearance automatically; user can also override per-preference in Settings.
