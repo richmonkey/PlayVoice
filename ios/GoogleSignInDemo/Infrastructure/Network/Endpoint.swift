@@ -17,6 +17,7 @@ enum Endpoint {
     case searchUsers(query: String)
     case followUser(userId: Int)
     case unfollowUser(userId: Int)
+    case deleteAccount
 }
 
 extension Endpoint {
@@ -31,6 +32,7 @@ extension Endpoint {
         case .searchUsers:             return "users/search"
         case .followUser(let id):      return "follows/\(id)"
         case .unfollowUser(let id):    return "follows/\(id)"
+        case .deleteAccount:           return "users/me"
         }
     }
 
@@ -45,6 +47,7 @@ extension Endpoint {
         case .searchUsers:       return .get
         case .followUser:        return .post
         case .unfollowUser:      return .delete
+        case .deleteAccount:     return .delete
         }
     }
 

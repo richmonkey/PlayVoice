@@ -3,4 +3,5 @@ protocol UserRepositoryProtocol {
     func followUser(userId: Int) async throws
     func unfollowUser(userId: Int) async throws
     func updateDisplayName(_ name: String) async throws
+    func deleteAccount() async throws
 }

@@ -244,7 +244,7 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
         case 0: return 2
         case 1: return 1
         case 2: return 1
-        default: return 1
+        default: return 2
         }
     }
 
@@ -286,8 +286,14 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             config.prefersSideBySideTextAndSecondaryText = false
             cell.accessoryType = .disclosureIndicator
             cell.selectionStyle = .default
-        default:
+        case (3, 0):
             config.text = "Logout"
+            config.textProperties.color = .systemRed
+            config.prefersSideBySideTextAndSecondaryText = false
+            cell.accessoryType = .none
+            cell.selectionStyle = .default
+        default:
+            config.text = "Delete Account"
             config.textProperties.color = .systemRed
             config.prefersSideBySideTextAndSecondaryText = false
             cell.accessoryType = .none
@@ -318,8 +324,10 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             navigationController?.pushViewController(editVC, animated: true)
         case (2, _):
             coordinator?.showSettings()
-        case (3, _):
+        case (3, 0):
             confirmLogout()
+        case (3, 1):
+            confirmDeleteAccount()
         default:
             break
         }
@@ -332,5 +340,37 @@ extension ProfileViewController: UITableViewDataSource, UITableViewDelegate {
             self?.coordinator?.logout()
         })
         present(alert, animated: true)
+    }
+
+    private func confirmDeleteAccount() {
+        let alert = UIAlertController(
+            title: "Delete Account",
+            message: "This will permanently delete your account, channel, and follow relationships. This action cannot be undone.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Delete", style: .destructive) { [weak self] _ in
+            self?.performDeleteAccount()
+        })
+        present(alert, animated: true)
+    }
+
+    private func performDeleteAccount() {
+        loadingIndicator.startAnimating()
+        viewModel.deleteAccount { [weak self] success, errorMessage in
+            guard let self else { return }
+            self.loadingIndicator.stopAnimating()
+            if success {
+                self.coordinator?.logout()
+            } else {
+                let alert = UIAlertController(
+                    title: "Delete Failed",
+                    message: errorMessage ?? "Something went wrong. Please try again.",
+                    preferredStyle: .alert
+                )
+                alert.addAction(UIAlertAction(title: "OK", style: .default))
+                self.present(alert, animated: true)
+            }
+        }
     }
 }

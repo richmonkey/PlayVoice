@@ -81,4 +81,22 @@ final class ProfileViewModel: ObservableObject {
             }
         }
     }
+
+    func deleteAccount(completion: @escaping (Bool, String?) -> Void) {
+        isSaving = true
+        Task {
+            do {
+                try await userRepository.deleteAccount()
+                await MainActor.run {
+                    self.isSaving = false
+                    completion(true, nil)
+                }
+            } catch {
+                await MainActor.run {
+                    self.isSaving = false
+                    completion(false, error.localizedDescription)
+                }
+            }
+        }
+    }
 }

@@ -89,6 +89,15 @@ def update_name(user_id: int, name: str) -> None:
          .execute())
 
 
+def delete_user(user_id: int) -> None:
+    with db.atomic():
+        Follow.delete().where(
+            (Follow.follower == user_id) | (Follow.followee == user_id)
+        ).execute()
+        Channel.delete().where(Channel.owner == user_id).execute()
+        User.delete().where(User.id == user_id).execute()
+
+
 def search_users(keyword: str, current_user_id: int) -> list[UserSearchItem]:
     keyword = keyword.strip()
     if not keyword:

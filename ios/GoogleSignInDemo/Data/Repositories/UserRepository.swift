@@ -31,4 +31,8 @@ final class UserRepository: UserRepositoryProtocol {
     func updateDisplayName(_ name: String) async throws {
         try await apiClient.requestEmpty(.updateDisplayName(name: name))
     }
+
+    func deleteAccount() async throws {
+        try await apiClient.requestEmpty(.deleteAccount)
+    }
 }

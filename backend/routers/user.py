@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, field_validator
 
 from deps import get_current_user_id
-from user_service import search_users, update_name
+from user_service import search_users, update_name, delete_user
 
 router = APIRouter(prefix="/users", tags=["users"])
 
@@ -38,3 +38,8 @@ def update_display_name(
 @router.get("/search", response_model=list[UserSearchResponse])
 def search(q: str, user_id: int = Depends(get_current_user_id)):
     return search_users(q, user_id)
+
+
+@router.delete("/me", status_code=204)
+def delete_account(user_id: int = Depends(get_current_user_id)):
+    delete_user(user_id)
