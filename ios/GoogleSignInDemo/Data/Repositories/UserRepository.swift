@@ -35,4 +35,27 @@ final class UserRepository: UserRepositoryProtocol {
     func deleteAccount() async throws {
         try await apiClient.requestEmpty(.deleteAccount)
     }
+
+    func reportUser(userId: Int, reason: String) async throws {
+        try await apiClient.requestEmpty(.reportUser(userId: userId, reason: reason))
+    }
+
+    func blockUser(userId: Int, reason: String?) async throws {
+        try await apiClient.requestEmpty(.blockUser(userId: userId, reason: reason))
+    }
+
+    func unblockUser(userId: Int) async throws {
+        try await apiClient.requestEmpty(.unblockUser(userId: userId))
+    }
+
+    func fetchBlockedUsers() async throws -> [BlockedUser] {
+        let dtos: [BlockedUserDTO] = try await apiClient.request(.blockedUsers)
+        return dtos.map { dto in
+            BlockedUser(
+                userId: dto.userId,
+                name: dto.name ?? "Unknown User",
+                avatarURL: dto.avatarUrl.flatMap(URL.init)
+            )
+        }
+    }
 }

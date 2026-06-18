@@ -53,10 +53,23 @@ final class SettingsViewController: UIViewController {
     private func buildSections() {
         sections = [
             makeAppearanceSection(),
+            makeSafetySection(),
             makeCommunitySection(),
             makeLegalSection(),
             makeAboutSection()
         ]
+    }
+
+    private func makeSafetySection() -> Section {
+        let blocked = Row(
+            title: "Blocked Users",
+            subtitle: "Manage users you've blocked",
+            icon: "hand.raised.fill",
+            iconColor: UIColor(hex: 0xFF5247),
+            action: { [weak self] in self?.showBlockedUsers() },
+            accessory: .disclosure
+        )
+        return Section(title: "Privacy & Safety", rows: [blocked])
     }
 
     private func makeAppearanceSection() -> Section {
@@ -189,6 +202,11 @@ final class SettingsViewController: UIViewController {
             popover.permittedArrowDirections = []
         }
         present(vc, animated: true)
+    }
+
+    private func showBlockedUsers() {
+        let vc = BlockedUsersViewController(viewModel: AppDI.shared.makeBlockedUsersViewModel())
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     private func openURL(_ string: String) {

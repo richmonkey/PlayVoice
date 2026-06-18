@@ -517,13 +517,91 @@ extension HomeViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath)
         -> UISwipeActionsConfiguration? {
-        guard !isSearchActive, emptyMessage == nil else { return nil }
-        let channel = channels[indexPath.row]
-        let action = UIContextualAction(style: .destructive, title: "Unfollow") { [weak self] _, _, done in
-            self?.searchViewModel.unfollowUser(userId: channel.ownerUserId)
+        guard emptyMessage == nil else { return nil }
+
+        let userId: Int
+        let displayName: String
+        var actions: [UIContextualAction] = []
+
+        if isSearchActive {
+            let user = searchResults[indexPath.row]
+            userId = user.userId
+            displayName = user.name
+        } else {
+            let channel = channels[indexPath.row]
+            userId = channel.ownerUserId
+            displayName = channel.ownerName
+            let unfollow = UIContextualAction(style: .destructive, title: "Unfollow") { [weak self] _, _, done in
+                self?.searchViewModel.unfollowUser(userId: userId)
+                done(true)
+            }
+            unfollow.image = UIImage(systemName: "person.badge.minus")
+            actions.append(unfollow)
+        }
+
+        let block = UIContextualAction(style: .destructive, title: "Block") { [weak self] _, _, done in
+            self?.presentBlockConfirmation(userId: userId, displayName: displayName)
             done(true)
         }
-        action.image = UIImage(systemName: "person.badge.minus")
-        return UISwipeActionsConfiguration(actions: [action])
+        block.image = UIImage(systemName: "hand.raised.fill")
+        block.backgroundColor = AppTheme.Color.danger
+
+        let report = UIContextualAction(style: .normal, title: "Report") { [weak self] _, _, done in
+            self?.presentReportSheet(userId: userId, displayName: displayName)
+            done(true)
+        }
+        report.image = UIImage(systemName: "flag.fill")
+        report.backgroundColor = AppTheme.Color.warning
+
+        actions.append(contentsOf: [report, block])
+        return UISwipeActionsConfiguration(actions: actions)
+    }
+
+    // MARK: - Moderation
+
+    private func presentReportSheet(userId: Int, displayName: String) {
+        let alert = UIAlertController(
+            title: "Report \(displayName)",
+            message: "Tell us what's wrong. Our team reviews reports and acts within 24 hours.",
+            preferredStyle: .alert
+        )
+        alert.addTextField { $0.placeholder = "Reason (e.g. harassment, hate speech)" }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Submit", style: .destructive) { [weak self, weak alert] _ in
+            let reason = alert?.textFields?.first?.text?.trimmingCharacters(in: .whitespaces) ?? ""
+            guard !reason.isEmpty else { return }
+            self?.searchViewModel.reportUser(userId: userId, reason: reason) { success, error in
+                DispatchQueue.main.async {
+                    let result = UIAlertController(
+                        title: success ? "Report Submitted" : "Failed",
+                        message: success ? "Thanks — our team will review this within 24 hours." : error,
+                        preferredStyle: .alert
+                    )
+                    result.addAction(UIAlertAction(title: "OK", style: .default))
+                    self?.present(result, animated: true)
+                }
+            }
+        })
+        present(alert, animated: true)
+    }
+
+    private func presentBlockConfirmation(userId: Int, displayName: String) {
+        let alert = UIAlertController(
+            title: "Block \(displayName)?",
+            message: "You won't see their channel anymore. This also reports them to our moderation team for review.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Block", style: .destructive) { [weak self] _ in
+            self?.searchViewModel.blockUser(userId: userId, reason: nil) { success, error in
+                guard !success else { return }
+                DispatchQueue.main.async {
+                    let err = UIAlertController(title: "Failed", message: error, preferredStyle: .alert)
+                    err.addAction(UIAlertAction(title: "OK", style: .default))
+                    self?.present(err, animated: true)
+                }
+            }
+        })
+        present(alert, animated: true)
     }
 }

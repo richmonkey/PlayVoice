@@ -1,6 +1,9 @@
 import dataclasses
 
-from models import db, User, Channel, Follow, _utcnow
+from fastapi import HTTPException, status
+
+from models import db, User, Channel, Follow, Block, Report, _utcnow
+from content_filter import contains_banned_word
 
 
 @dataclasses.dataclass
@@ -84,6 +87,8 @@ class UserSearchItem:
 
 
 def update_name(user_id: int, name: str) -> None:
+    if contains_banned_word(name):
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="Name contains disallowed words")
     (User.update(name=name, updated_at=_utcnow())
          .where(User.id == user_id)
          .execute())
@@ -93,6 +98,12 @@ def delete_user(user_id: int) -> None:
     with db.atomic():
         Follow.delete().where(
             (Follow.follower == user_id) | (Follow.followee == user_id)
+        ).execute()
+        Block.delete().where(
+            (Block.blocker == user_id) | (Block.blocked == user_id)
+        ).execute()
+        Report.delete().where(
+            (Report.reporter == user_id) | (Report.reported == user_id)
         ).execute()
         Channel.delete().where(Channel.owner == user_id).execute()
         User.delete().where(User.id == user_id).execute()
@@ -107,8 +118,12 @@ def search_users(keyword: str, current_user_id: int) -> list[UserSearchItem]:
         f.followee_id
         for f in Follow.select(Follow.followee).where(Follow.follower == current_user_id)
     }
+    blocked_ids = {
+        b.blocked_id
+        for b in Block.select(Block.blocked).where(Block.blocker == current_user_id)
+    }
 
-    rows = (
+    query = (
         Channel
         .select(Channel, User)
         .join(User)
@@ -117,6 +132,9 @@ def search_users(keyword: str, current_user_id: int) -> list[UserSearchItem]:
             (User.name.contains(keyword) | Channel.channel_name.contains(keyword))
         )
     )
+    if blocked_ids:
+        query = query.where(User.id.not_in(blocked_ids))
+    rows = query
 
     return [
         UserSearchItem(

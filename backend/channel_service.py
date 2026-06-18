@@ -3,7 +3,8 @@ import datetime
 
 from fastapi import HTTPException, status
 
-from models import Channel, User, Follow, _utcnow
+from models import Channel, User, Follow, Block, _utcnow
+from content_filter import contains_banned_word
 
 
 @dataclasses.dataclass
@@ -17,7 +18,12 @@ class ChannelItem:
 
 
 def get_followed_channels(user_id: int) -> list[ChannelItem]:
-    rows = (
+    blocked_ids = {
+        b.blocked_id
+        for b in Block.select(Block.blocked).where(Block.blocker == user_id)
+    }
+
+    query = (
         Channel
         .select(Channel, User)
         .join(User)
@@ -26,6 +32,9 @@ def get_followed_channels(user_id: int) -> list[ChannelItem]:
         .where(Follow.follower == user_id)
         .order_by(Channel.updated_at.desc())
     )
+    if blocked_ids:
+        query = query.where(User.id.not_in(blocked_ids))
+    rows = query
 
     return [
         ChannelItem(
@@ -64,6 +73,8 @@ def update_channel_name(user_id: int, channel_name: str) -> ChannelItem:
     channel_name = channel_name.strip()
     if not (2 <= len(channel_name) <= 30):
         raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="频道名称长度须在 2-30 字符之间")
+    if contains_banned_word(channel_name):
+        raise HTTPException(status_code=status.HTTP_422_UNPROCESSABLE_ENTITY, detail="频道名称包含禁用词")
 
     updated = (
         Channel.update(channel_name=channel_name, updated_at=_utcnow())

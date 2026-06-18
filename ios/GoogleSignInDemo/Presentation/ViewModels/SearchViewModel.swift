@@ -54,6 +54,35 @@ final class SearchViewModel: ObservableObject {
         }
     }
 
+    func reportUser(userId: Int, reason: String, completion: @escaping (Bool, String?) -> Void) {
+        Task {
+            do {
+                try await userRepository.reportUser(userId: userId, reason: reason)
+                await MainActor.run { completion(true, nil) }
+            } catch {
+                await MainActor.run { completion(false, error.localizedDescription) }
+            }
+        }
+    }
+
+    func blockUser(userId: Int, reason: String?, completion: @escaping (Bool, String?) -> Void) {
+        Task {
+            do {
+                try await userRepository.blockUser(userId: userId, reason: reason)
+                await MainActor.run {
+                    if case .loaded(var list) = self.viewState {
+                        list.removeAll { $0.userId == userId }
+                        self.viewState = list.isEmpty ? .empty : .loaded(list)
+                    }
+                    self.followStatusChanged.send()
+                    completion(true, nil)
+                }
+            } catch {
+                await MainActor.run { completion(false, error.localizedDescription) }
+            }
+        }
+    }
+
     func toggleFollow(userId: Int) {
         guard case .loaded(let users) = viewState,
               let user = users.first(where: { $0.userId == userId }) else { return }

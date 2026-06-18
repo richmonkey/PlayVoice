@@ -149,6 +149,50 @@ final class LoginViewController: UIViewController {
         return l
     }()
 
+    // MARK: - Terms agreement
+
+    private let termsCheckbox: UIButton = {
+        let btn = UIButton(type: .system)
+        btn.setImage(UIImage(systemName: "square"), for: .normal)
+        btn.setImage(UIImage(systemName: "checkmark.square.fill"), for: .selected)
+        btn.tintColor = AppTheme.Color.brand
+        return btn
+    }()
+
+    private lazy var termsTextView: UITextView = {
+        let tv = UITextView()
+        tv.isEditable = false
+        tv.isScrollEnabled = false
+        tv.backgroundColor = .clear
+        tv.textContainerInset = .zero
+        tv.textContainer.lineFragmentPadding = 0
+        tv.delegate = self
+        tv.linkTextAttributes = [.foregroundColor: AppTheme.Color.brand]
+
+        let full = "I agree to the Terms of Service and Community Guidelines, including zero tolerance for objectionable content and abusive behavior."
+        let attributed = NSMutableAttributedString(
+            string: full,
+            attributes: [
+                .font: AppTheme.Font.caption(),
+                .foregroundColor: AppTheme.Color.textSecondary
+            ]
+        )
+        if let termsRange = full.range(of: "Terms of Service"),
+           let url = URL(string: "https://daibou007.github.io/PrivacyAndSupport/GameVoice/terms.html") {
+            attributed.addAttribute(.link, value: url, range: NSRange(termsRange, in: full))
+        }
+        if let guidelinesRange = full.range(of: "Community Guidelines"),
+           let url = URL(string: "https://daibou007.github.io/PrivacyAndSupport/GameVoice/terms.html#community-guidelines") {
+            attributed.addAttribute(.link, value: url, range: NSRange(guidelinesRange, in: full))
+        }
+        tv.attributedText = attributed
+        return tv
+    }()
+
+    private var hasAcceptedTerms = false {
+        didSet { updateSignInAvailability() }
+    }
+
     // MARK: - Lifecycle
 
     override func viewDidLoad() {
@@ -157,6 +201,7 @@ final class LoginViewController: UIViewController {
         setupPanel()
         animatePanelEntrance()
         bindViewModel()
+        updateSignInAvailability()
         //restorePreviousSignIn()
     }
 
@@ -191,9 +236,8 @@ final class LoginViewController: UIViewController {
     private func render(_ state: AuthViewState) {
         switch state {
         case .idle:
-          statusLabel.text             = "Choose a sign-in method to continue."
-            googleSignInButton.isEnabled  = true
-            appleSignInButton.isEnabled   = true
+            statusLabel.text = "Choose a sign-in method to continue."
+            updateSignInAvailability()
         case .loading:
             statusLabel.text             = "Signing in…"
             googleSignInButton.isEnabled  = false
@@ -202,10 +246,16 @@ final class LoginViewController: UIViewController {
             statusLabel.text = isNewUser ? "Account created. Welcome!" : "Signed in. Welcome back!"
             coordinator.showHome()
         case .failure(let message):
-            statusLabel.text              = message
-            googleSignInButton.isEnabled  = true
-            appleSignInButton.isEnabled   = true
+            statusLabel.text = message
+            updateSignInAvailability()
         }
+    }
+
+    private func updateSignInAvailability() {
+        googleSignInButton.isEnabled = hasAcceptedTerms
+        appleSignInButton.isEnabled  = hasAcceptedTerms
+        googleButtonWrapper.alpha    = hasAcceptedTerms ? 1.0 : 0.5
+        appleSignInButton.alpha      = hasAcceptedTerms ? 1.0 : 0.5
     }
 
     // MARK: - Layout
@@ -242,9 +292,11 @@ final class LoginViewController: UIViewController {
             make.edges.equalToSuperview().inset(UIEdgeInsets(top: 12, left: 14, bottom: 12, right: 14))
         }
 
+        termsCheckbox.addTarget(self, action: #selector(termsCheckboxTapped), for: .touchUpInside)
+
         [tagLabel, titleLabel, subtitleLabel,
          googleButtonWrapper, dividerView, dividerLabel, appleSignInButton,
-         statusWrapper].forEach { panelView.addSubview($0) }
+         termsCheckbox, termsTextView, statusWrapper].forEach { panelView.addSubview($0) }
 
         tagLabel.snp.makeConstraints { make in
             make.top.leading.equalToSuperview().inset(28)
@@ -278,11 +330,27 @@ final class LoginViewController: UIViewController {
             make.height.equalTo(44)
             make.width.equalTo(248)
         }
-        statusWrapper.snp.makeConstraints { make in
+        termsCheckbox.snp.makeConstraints { make in
             make.top.equalTo(appleSignInButton.snp.bottom).offset(18)
+            make.leading.equalToSuperview().inset(28)
+            make.width.height.equalTo(20)
+        }
+        termsTextView.snp.makeConstraints { make in
+            make.leading.equalTo(termsCheckbox.snp.trailing).offset(8)
+            make.trailing.equalToSuperview().inset(28)
+            make.centerY.equalTo(termsCheckbox).priority(.high)
+            make.top.greaterThanOrEqualTo(termsCheckbox)
+        }
+        statusWrapper.snp.makeConstraints { make in
+            make.top.equalTo(termsTextView.snp.bottom).offset(18)
             make.leading.trailing.equalToSuperview().inset(28)
             make.bottom.equalToSuperview().inset(28)
         }
+    }
+
+    @objc private func termsCheckboxTapped() {
+        hasAcceptedTerms.toggle()
+        termsCheckbox.isSelected = hasAcceptedTerms
     }
 
     private func animatePanelEntrance() {
@@ -395,4 +463,14 @@ extension LoginViewController: ASAuthorizationControllerPresentationContextProvi
 
 private extension String {
     var nilIfEmpty: String? { isEmpty ? nil : self }
+}
+
+// MARK: - UITextViewDelegate
+
+extension LoginViewController: UITextViewDelegate {
+    func textView(_ textView: UITextView, shouldInteractWith URL: URL,
+                  in characterRange: NSRange, interaction: UITextItemInteraction) -> Bool {
+        UIApplication.shared.open(URL)
+        return false
+    }
 }

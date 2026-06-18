@@ -18,14 +18,16 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
 
     let channelName: String
     private let ownerUserId: Int
-    private let currentUserId: Int
+    let currentUserId: Int
     let roomClient: RoomClient
+    private let userRepository: UserRepositoryProtocol
     private var speakerDetectionTimer: Timer?
 
-    init(channel: Channel) {
+    init(channel: Channel, userRepository: UserRepositoryProtocol) {
         channelName = channel.channelName
         ownerUserId = channel.ownerUserId
         currentUserId = UserDefaults.standard.integer(forKey: "user_id")
+        self.userRepository = userRepository
 
         let client = RoomClient()
         client.currentUID = Int64(UserDefaults.standard.integer(forKey: "user_id"))
@@ -118,6 +120,31 @@ final class VoiceRoomViewModel: NSObject, ObservableObject {
 //        DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) { [weak self] in
 //            self?.roomClient.start()
 //        }
+    }
+
+    func reportMember(userId: Int, reason: String, completion: @escaping (Bool, String?) -> Void) {
+        Task {
+            do {
+                try await userRepository.reportUser(userId: userId, reason: reason)
+                await MainActor.run { completion(true, nil) }
+            } catch {
+                await MainActor.run { completion(false, error.localizedDescription) }
+            }
+        }
+    }
+
+    func blockMember(userId: Int, completion: @escaping (Bool, String?) -> Void) {
+        Task {
+            do {
+                try await userRepository.blockUser(userId: userId, reason: nil)
+                await MainActor.run {
+                    self.members.removeAll { $0.id == String(userId) }
+                    completion(true, nil)
+                }
+            } catch {
+                await MainActor.run { completion(false, error.localizedDescription) }
+            }
+        }
     }
 
     private func mutateMember(id: String, _ mutate: (inout RoomMember) -> Void) {

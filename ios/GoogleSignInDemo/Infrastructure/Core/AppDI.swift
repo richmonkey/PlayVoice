@@ -26,6 +26,10 @@ final class AppDI {
     }
 
     func makeVoiceRoomViewModel(channel: Channel) -> VoiceRoomViewModel {
-        VoiceRoomViewModel(channel: channel)
+        VoiceRoomViewModel(channel: channel, userRepository: userRepository)
+    }
+
+    func makeBlockedUsersViewModel() -> BlockedUsersViewModel {
+        BlockedUsersViewModel(userRepository: userRepository)
     }
 }

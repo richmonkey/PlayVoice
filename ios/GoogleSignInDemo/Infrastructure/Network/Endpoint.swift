@@ -18,6 +18,10 @@ enum Endpoint {
     case followUser(userId: Int)
     case unfollowUser(userId: Int)
     case deleteAccount
+    case reportUser(userId: Int, reason: String)
+    case blockUser(userId: Int, reason: String?)
+    case unblockUser(userId: Int)
+    case blockedUsers
 }
 
 extension Endpoint {
@@ -33,6 +37,10 @@ extension Endpoint {
         case .followUser(let id):      return "follows/\(id)"
         case .unfollowUser(let id):    return "follows/\(id)"
         case .deleteAccount:           return "users/me"
+        case .reportUser:              return "reports"
+        case .blockUser(let id, _):    return "blocks/\(id)"
+        case .unblockUser(let id):     return "blocks/\(id)"
+        case .blockedUsers:            return "blocks"
         }
     }
 
@@ -48,6 +56,10 @@ extension Endpoint {
         case .followUser:        return .post
         case .unfollowUser:      return .delete
         case .deleteAccount:     return .delete
+        case .reportUser:        return .post
+        case .blockUser:         return .post
+        case .unblockUser:       return .delete
+        case .blockedUsers:      return .get
         }
     }
 
@@ -75,6 +87,13 @@ extension Endpoint {
             return try JSONEncoder().encode(["channel_name": name])
         case .updateDisplayName(let name):
             return try JSONEncoder().encode(["name": name])
+        case .reportUser(let userId, let reason):
+            struct ReportBody: Encodable { let reportedUserId: Int; let reason: String
+                enum CodingKeys: String, CodingKey { case reportedUserId = "reported_user_id"; case reason }
+            }
+            return try JSONEncoder().encode(ReportBody(reportedUserId: userId, reason: reason))
+        case .blockUser(_, let reason):
+            return try JSONEncoder().encode(["reason": reason])
         default:
             return nil
         }

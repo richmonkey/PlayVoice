@@ -6,11 +6,12 @@ from fastapi import FastAPI, Request, Response
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.types import Message
 
-from models import db, User, Channel, Follow
+from models import db, User, Channel, Follow, Block, Report
 from routers.auth import router as auth_router
 from routers.channel import router as channel_router
 from routers.user import router as user_router
 from routers.follow import router as follow_router
+from routers.moderation import router as moderation_router
 
 logging.basicConfig(
     level=logging.DEBUG,
@@ -66,7 +67,7 @@ class LoggingMiddleware(BaseHTTPMiddleware):
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     db.connect(reuse_if_open=True)
-    db.create_tables([User, Channel, Follow], safe=True)
+    db.create_tables([User, Channel, Follow, Block, Report], safe=True)
 
     yield
     if not db.is_closed():
@@ -81,6 +82,7 @@ app.include_router(auth_router)
 app.include_router(channel_router)
 app.include_router(user_router)
 app.include_router(follow_router)
+app.include_router(moderation_router)
 
 
 @app.get("/health")

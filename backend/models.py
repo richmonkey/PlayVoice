@@ -50,3 +50,26 @@ class Follow(_Base):
         indexes = (
             (("follower", "followee"), True),
         )
+
+
+class Block(_Base):
+    blocker = pw.ForeignKeyField(User, backref="blocking")
+    blocked = pw.ForeignKeyField(User, backref="blocked_by")
+    created_at = pw.DateTimeField(default=_utcnow)
+
+    class Meta:  # pyright: ignore[reportIncompatibleVariableOverride]
+        table_name = "blocks"
+        indexes = (
+            (("blocker", "blocked"), True),
+        )
+
+
+class Report(_Base):
+    reporter = pw.ForeignKeyField(User, backref="reports_made")
+    reported = pw.ForeignKeyField(User, backref="reports_received")
+    reason = pw.CharField()
+    status = pw.CharField(default="open")
+    created_at = pw.DateTimeField(default=_utcnow)
+
+    class Meta:  # pyright: ignore[reportIncompatibleVariableOverride]
+        table_name = "reports"

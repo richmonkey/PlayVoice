@@ -114,6 +114,78 @@ final class VoiceRoomViewController: UIViewController {
             make.bottom.equalTo(view.safeAreaLayoutGuide).inset(96)
         }
         collectionView.contentInset = UIEdgeInsets(top: 8, left: 0, bottom: 8, right: 0)
+
+        let longPress = UILongPressGestureRecognizer(target: self, action: #selector(handleMemberLongPress(_:)))
+        collectionView.addGestureRecognizer(longPress)
+    }
+
+    @objc private func handleMemberLongPress(_ gesture: UILongPressGestureRecognizer) {
+        guard gesture.state == .began,
+              let indexPath = collectionView.indexPathForItem(at: gesture.location(in: collectionView))
+        else { return }
+
+        let member = viewModel.members[indexPath.item]
+        guard let userId = Int(member.id), userId != viewModel.currentUserId else { return }
+
+        let alert = UIAlertController(title: member.displayName, message: nil, preferredStyle: .actionSheet)
+        alert.addAction(UIAlertAction(title: "Report User", style: .default) { [weak self] _ in
+            self?.presentReportSheet(userId: userId, displayName: member.displayName)
+        })
+        alert.addAction(UIAlertAction(title: "Block User", style: .destructive) { [weak self] _ in
+            self?.presentBlockConfirmation(userId: userId, displayName: member.displayName)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        if let cell = collectionView.cellForItem(at: indexPath), let popover = alert.popoverPresentationController {
+            popover.sourceView = cell
+            popover.sourceRect = cell.bounds
+        }
+        present(alert, animated: true)
+    }
+
+    private func presentReportSheet(userId: Int, displayName: String) {
+        let alert = UIAlertController(
+            title: "Report \(displayName)",
+            message: "Tell us what's wrong. Our team reviews reports and acts within 24 hours.",
+            preferredStyle: .alert
+        )
+        alert.addTextField { $0.placeholder = "Reason (e.g. harassment, hate speech)" }
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Submit", style: .destructive) { [weak self, weak alert] _ in
+            let reason = alert?.textFields?.first?.text?.trimmingCharacters(in: .whitespaces) ?? ""
+            guard !reason.isEmpty else { return }
+            self?.viewModel.reportMember(userId: userId, reason: reason) { success, error in
+                DispatchQueue.main.async {
+                    let result = UIAlertController(
+                        title: success ? "Report Submitted" : "Failed",
+                        message: success ? "Thanks — our team will review this within 24 hours." : error,
+                        preferredStyle: .alert
+                    )
+                    result.addAction(UIAlertAction(title: "OK", style: .default))
+                    self?.present(result, animated: true)
+                }
+            }
+        })
+        present(alert, animated: true)
+    }
+
+    private func presentBlockConfirmation(userId: Int, displayName: String) {
+        let alert = UIAlertController(
+            title: "Block \(displayName)?",
+            message: "They'll be removed from your list immediately. This also reports them to our moderation team for review.",
+            preferredStyle: .alert
+        )
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+        alert.addAction(UIAlertAction(title: "Block", style: .destructive) { [weak self] _ in
+            self?.viewModel.blockMember(userId: userId) { success, error in
+                guard !success else { return }
+                DispatchQueue.main.async {
+                    let err = UIAlertController(title: "Failed", message: error, preferredStyle: .alert)
+                    err.addAction(UIAlertAction(title: "OK", style: .default))
+                    self?.present(err, animated: true)
+                }
+            }
+        })
+        present(alert, animated: true)
     }
 
     private func setupControlBar() {
