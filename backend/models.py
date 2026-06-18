@@ -8,7 +8,7 @@ def _utcnow() -> datetime.datetime:
     return datetime.datetime.now(datetime.timezone.utc)
 
 
-db = pw.SqliteDatabase(DB_PATH)
+db = pw.SqliteDatabase(DB_PATH, pragmas={"journal_mode": "wal"})
 
 
 class _Base(pw.Model):
