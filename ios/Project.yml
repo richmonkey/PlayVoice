@@ -13,7 +13,7 @@ settings:
   SWIFT_VERSION: "5.9"
   IPHONEOS_DEPLOYMENT_TARGET: "17.6"
   MARKETING_VERSION: "1.0"
-  CURRENT_PROJECT_VERSION: "2"
+  CURRENT_PROJECT_VERSION: "3"
   # ── App Store Connect Metadata (set in ASC, not in binary) ──────────────
   # App Name (30 chars max):    PlayVoice - Game Voice Chat
   # Subtitle (30 chars max):    Real-Time Squad Voice Rooms
@@ -27,20 +27,18 @@ targets:
     deploymentTarget: "17.6"
 
     sources:
-      - path: GoogleSignInDemo
-        excludes:
-          - "Info.plist"
+      - path: PlayVoice
 
     resources:
-      - path: GoogleSignInDemo/Resources
+      - path: PlayVoice/Resources
         type: directory
 
     settings:
       PRODUCT_NAME: GameVoice
       BUNDLE_ID: com.daibou007.playvoice
-      INFOPLIST_FILE: GoogleSignInDemo/Info.plist
-      CODE_SIGN_ENTITLEMENTS: GoogleSignInDemo/PlayVoice.entitlements
-      SWIFT_OBJC_BRIDGING_HEADER: GoogleSignInDemo/PlayVoice-Bridging-Header.h
+      INFOPLIST_FILE: PlayVoice/Info.plist
+      CODE_SIGN_ENTITLEMENTS: PlayVoice/PlayVoice.entitlements
+      SWIFT_OBJC_BRIDGING_HEADER: PlayVoice/PlayVoice-Bridging-Header.h
       TARGETED_DEVICE_FAMILY: "1"
       CFBundleDisplayName: GameVoice
       CFBundleName: GameVoice
@@ -53,7 +51,7 @@ targets:
       LINKER_SEARCH_PATHS: $(inherited)
       HEADER_SEARCH_PATHS:
         - $(SRCROOT)/Frameworks
-        - $(SRCROOT)/GoogleSignInDemo/Infrastructure/Room
+        - $(SRCROOT)/PlayVoice/Infrastructure/Room
         - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64/WebRTC.framework/Headers
         - $(SRCROOT)/Frameworks/WebRTC.xcframework/ios-arm64_x86_64-simulator/WebRTC.framework/Headers
       USER_HEADER_SEARCH_PATHS:
@@ -132,7 +130,7 @@ packages:
 # 4. 重新运行 `xcodegen generate`
 
 # 项目结构说明：
-# GoogleSignInDemo/
+# PlayVoice/
 # ├── Presentation/         # UI 层（UIViewController, SwiftUI）
 # ├── Domain/              # 业务层（UseCase, Entity, Protocol）
 # ├── Data/                # 数据层（Repository, DTO, Mapper）
