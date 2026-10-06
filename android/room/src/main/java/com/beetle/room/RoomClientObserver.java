@@ -13,7 +13,7 @@ public interface RoomClientObserver {
 
     //连接被主动关闭，不会自动重连
     void onClose();
-    void onJoined(List<String> peers);
-    void onPeer(String peerId);
+    void onJoined(List<RoomProtocol.Peer> peers);
+    void onPeer(String peerId, String displayName);
     void onPeerClosed(String peerId);
 }

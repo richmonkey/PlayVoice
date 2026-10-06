@@ -486,10 +486,7 @@ public class RoomClient {
                         //Consume all producers from other peers.
                         RoomProtocol.JoinResponse joinResponse = RoomProtocol.JoinResponse.fromJson(resp.getData());
 
-                        ArrayList<String> peerIds = new ArrayList<>();
-                        for (RoomProtocol.Peer peer : joinResponse.peers) peerIds.add(peer.id);
-
-                        observer.onJoined(peerIds);
+                        observer.onJoined(joinResponse.peers);
 
                         for (RoomProtocol.Peer peer : joinResponse.peers) {
                             for (String producerId : peer.producerIds) consumeProducer(producerId, peer.id);

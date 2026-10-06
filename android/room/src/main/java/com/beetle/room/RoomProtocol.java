@@ -132,10 +132,14 @@ public final class RoomProtocol {
 
     public static final class Peer {
         public final String id;
+        public final String displayName;
         public final List<String> producerIds;
 
-        private Peer(String id, List<String> producerIds) {
+        private Peer(String id, String displayName, List<String> producerIds) {
             this.id = id;
+            this.displayName = displayName == null || displayName.trim().isEmpty()
+                    ? id
+                    : displayName;
             this.producerIds = Collections.unmodifiableList(producerIds);
         }
 
@@ -144,7 +148,7 @@ public final class RoomProtocol {
             List<String> ids = new ArrayList<>();
             for (int i = 0; i < producers.length(); i++)
                 ids.add(producers.getJSONObject(i).getString("id"));
-            return new Peer(json.getString("id"), ids);
+            return new Peer(json.getString("id"), json.optString("displayName", null), ids);
         }
     }
 

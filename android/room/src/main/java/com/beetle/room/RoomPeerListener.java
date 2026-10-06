@@ -40,10 +40,13 @@ class RoomPeerListener implements PeerListener {
 
             if (method.equals("newPeer")) {
                 JSONObject object = new JSONObject(notification.getData());
-                String peerId = object.getString("peerId");
-                String displayName = object.getString("displayName");
+                String peerId = object.has("peerId")
+                        ? object.getString("peerId")
+                        : object.getString("id");
+                String name = object.optString("displayName", peerId);
+                String displayName = name.trim().isEmpty() ? peerId : name;
                 Log.i(RoomClient.TAG, "new peer id:" + peerId + " name:" + displayName);
-                roomClient.handler.post(() -> roomClient.observer.onPeer(peerId));
+                roomClient.handler.post(() -> roomClient.observer.onPeer(peerId, displayName));
             } else if (method.equals("peerClosed")) {
                 JSONObject object = new JSONObject(notification.getData());
                 String peerId = object.getString("peerId");
