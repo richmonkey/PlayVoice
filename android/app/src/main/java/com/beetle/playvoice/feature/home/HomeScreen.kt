@@ -19,11 +19,10 @@ fun HomeRoute(
     onChannel: (Long) -> Unit,
     onSearch: () -> Unit,
     onProfile: () -> Unit,
-    onSettings: () -> Unit,
     onUserActions: (User) -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    HomeScreen(state, viewModel::load, onChannel, onSearch, onProfile, onSettings, onUserActions)
+    HomeScreen(state, viewModel::load, onChannel, onSearch, onProfile, onUserActions)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -34,14 +33,13 @@ fun HomeScreen(
     onChannel: (Long) -> Unit,
     onSearch: () -> Unit,
     onProfile: () -> Unit,
-    onSettings: () -> Unit,
     onUserActions: (User) -> Unit,
 ) {
     Page(
         "Home",
         actions = {
+            IconButton(onClick = onSearch) { Icon(Icons.Default.Search, "Search") }
             IconButton(onClick = onProfile) { Icon(Icons.Default.Person, "Profile") }
-            IconButton(onClick = onSettings) { Icon(Icons.Default.Settings, "Settings") }
         },
     ) { padding ->
         androidx.compose.material3.pulltorefresh.PullToRefreshBox(
@@ -55,15 +53,14 @@ fun HomeScreen(
             ) {
                 item {
                     Text("My Channel", style = MaterialTheme.typography.titleLarge)
+                }
+                item {
                     state.mine?.let { channel -> ChannelCard(channel, onChannel, null) }
                         ?: Text(if (state.loading) "Loading…" else "Load failed")
                 }
-                item {
-                    FilledTonalButton(onClick = onSearch, modifier = Modifier.fillMaxWidth()) {
-                        Text("Search")
-                    }
+                if (state.error != null) {
+                    item { ErrorMessage(state.error, onRefresh) }
                 }
-                item { ErrorMessage(state.error, onRefresh) }
                 item { Text("Followed Channels", style = MaterialTheme.typography.titleLarge) }
                 if (!state.loading && state.followed.isEmpty() && state.error == null) {
                     item { Text("No followed channels yet. Tap Search to discover users.") }

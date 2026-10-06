@@ -28,12 +28,13 @@ class VoiceRoomViewModel(
 
     private var joining: Job? = null
     private var blocked: Set<Long> = emptySet()
+    private var joinAttempted = false
 
     init {
         load()
     }
 
-    fun load() {
+    private fun load() {
         joining?.cancel()
         joining =
             viewModelScope.launch {
@@ -60,8 +61,10 @@ class VoiceRoomViewModel(
     }
 
     fun join() {
+        if (joinAttempted) return
         val channel = state.value.channel ?: return
         val session = account.preferences.value.session ?: return
+        joinAttempted = true
         if (
             voiceState.value.connection in
                 listOf(Connection.CONNECTING, Connection.CONNECTED, Connection.RECONNECTING)

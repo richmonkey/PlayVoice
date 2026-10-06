@@ -28,7 +28,7 @@ class VoiceRepositoryImpl(
         audio.onRouteChanged = { speaker, route ->
             mutableState.update { it.copy(speaker = speaker, route = route) }
         }
-        audio.onFocusLost = { fail("Audio focus was lost. Rejoin when you are ready.") }
+        audio.onFocusLost = { fail("Audio focus was lost. You have left the room.") }
     }
 
     override fun join(channel: Channel, session: Session) {
@@ -66,11 +66,11 @@ class VoiceRepositoryImpl(
                     }
 
                     override fun onError() {
-                        if (active()) fail("Connection failed. Check your network and rejoin.")
+                        if (active()) fail("Unable to join the room. Check your network connection.")
                     }
 
                     override fun onClose() {
-                        if (active()) fail("The room connection was closed. Please rejoin.")
+                        if (active()) fail("The room connection was closed.")
                     }
 
                     override fun onJoined(peers: List<RoomProtocol.Peer>) {
@@ -106,7 +106,7 @@ class VoiceRepositoryImpl(
 
                                 override fun onError() {
                                     if (active())
-                                        fail("Unable to start your microphone. Please rejoin.")
+                                        fail("Unable to start your microphone.")
                                 }
                             },
                         )

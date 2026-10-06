@@ -3,6 +3,8 @@ package com.beetle.playvoice.feature.profile
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
@@ -11,9 +13,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.beetle.playvoice.core.ui.*
 
 @Composable
-fun ProfileRoute(viewModel: ProfileViewModel, onBack: () -> Unit, onEdit: (String) -> Unit) {
+fun ProfileRoute(
+    viewModel: ProfileViewModel,
+    onBack: () -> Unit,
+    onEdit: (String) -> Unit,
+    onSettings: () -> Unit,
+) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    ProfileScreen(state, onBack, onEdit, viewModel::load)
+    ProfileScreen(state, onBack, onEdit, viewModel::load, onSettings)
 }
 
 @Composable
@@ -22,8 +29,17 @@ fun ProfileScreen(
     onBack: () -> Unit,
     onEdit: (String) -> Unit,
     onRetry: () -> Unit,
+    onSettings: () -> Unit,
 ) {
-    Page("Profile", onBack) { padding ->
+    Page(
+        "Profile",
+        onBack,
+        actions = {
+            IconButton(onClick = onSettings) {
+                Icon(Icons.Default.Settings, "Settings")
+            }
+        },
+    ) { padding ->
         Column(
             Modifier.padding(padding).padding(24.dp).verticalScroll(rememberScrollState()),
             verticalArrangement = Arrangement.spacedBy(20.dp),

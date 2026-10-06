@@ -59,7 +59,7 @@ class AppFlowTest {
     fun searchFollowAndHomeSynchronization() {
         val community = FakeCommunity().apply { users = listOf(User(2, "Friend", null, "Squad")) }
         start(community)
-        compose.onNodeWithText("Search").performClick()
+        compose.onNodeWithContentDescription("Search").performClick()
         compose.onNodeWithText("Search by name or channel").performTextInput("Friend")
         compose.waitUntil(5000) {
             compose.onAllNodesWithText("Follow").fetchSemanticsNodes().isNotEmpty()
@@ -89,6 +89,7 @@ class AppFlowTest {
     fun deleteConfirmationFailureAndSuccess() {
         account.deleteFailure = true
         start()
+        compose.onNodeWithContentDescription("Profile").performClick()
         compose.onNodeWithContentDescription("Settings").performClick()
         settingsClick("Delete Account")
         compose.onNodeWithText("Delete Account?").assertIsDisplayed()
@@ -116,6 +117,7 @@ class AppFlowTest {
                 }
             }
         start(community)
+        compose.onNodeWithContentDescription("Profile").performClick()
         compose.onNodeWithContentDescription("Settings").performClick()
         compose.onNodeWithText("Blocked Users").performScrollTo().performClick()
         compose.onNodeWithText("Blocked Player").assertIsDisplayed()
@@ -126,6 +128,7 @@ class AppFlowTest {
     @Test
     fun themeSwitchAndSignOut() {
         start()
+        compose.onNodeWithContentDescription("Profile").performClick()
         compose.onNodeWithContentDescription("Settings").performClick()
         compose.onNodeWithText("Dark").performClick()
         compose.runOnIdle { assertEquals(ThemeMode.DARK, account.preferences.value.theme) }

@@ -31,7 +31,6 @@ fun AppNavHost(
                 onChannel = { navigation.navigate(VoiceRoom(it)) },
                 onSearch = { navigation.navigate(Search) },
                 onProfile = { navigation.navigate(Profile) },
-                onSettings = { navigation.navigate(Settings) },
                 onUserActions = moderation::select,
             )
         }
@@ -47,6 +46,7 @@ fun AppNavHost(
                 injectedViewModel { ProfileViewModel(account, community) },
                 onBack = { navigation.popBackStack() },
                 onEdit = { navigation.navigate(EditName(it)) },
+                onSettings = { navigation.navigate(Settings) },
             )
         }
         composable<EditName> { entry ->

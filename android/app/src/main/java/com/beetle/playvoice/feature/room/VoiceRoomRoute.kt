@@ -12,7 +12,6 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
 import androidx.core.net.toUri
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.withResumed
@@ -37,22 +36,19 @@ fun VoiceRoomRoute(
             denied = !granted
             if (granted) scope.launch { lifecycle.withResumed { viewModel.join() } }
         }
-    val join: () -> Unit = {
-        if (
-            ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) ==
-                PackageManager.PERMISSION_GRANTED
-        ) {
-            denied = false
-            viewModel.join()
-        } else {
-            asked = true
-            permission.launch(Manifest.permission.RECORD_AUDIO)
-        }
-    }
-    LaunchedEffect(state.channel) {
+    LaunchedEffect(state.channel, lifecycle) {
         if (state.channel != null && !asked) {
-            asked = true
-            if (lifecycle.currentState.isAtLeast(Lifecycle.State.RESUMED)) join()
+            lifecycle.withResumed {
+                asked = true
+                if (
+                    ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) ==
+                        PackageManager.PERMISSION_GRANTED
+                ) {
+                    viewModel.join()
+                } else {
+                    permission.launch(Manifest.permission.RECORD_AUDIO)
+                }
+            }
         }
     }
     val leave: () -> Unit = {
@@ -66,8 +62,6 @@ fun VoiceRoomRoute(
         denied = denied,
         currentUserId = viewModel.currentUserId,
         onBack = leave,
-        onJoin = join,
-        onReload = viewModel::load,
         onMute = viewModel::toggleMute,
         onSpeaker = viewModel::toggleSpeaker,
         onSettings = {
