@@ -822,7 +822,8 @@ public class RoomClient {
             Request req = new Request(generateNextId(), method, data);
             peer.request(req);
             pendingRequests.put(req.getId(), new PendingRequest(req, handler));
-            Log.i(TAG, "Post request:" + req.getId() + " method:" + method + " data: " + data);
+            String loggedData = "auth".equals(method) ? "[redacted]" : data;
+            Log.i(TAG, "Post request:" + req.getId() + " method:" + method + " data: " + loggedData);
         } catch (Exception e) {
             e.printStackTrace();
         }
